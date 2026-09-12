@@ -11,7 +11,7 @@
     "weightUnit": "كغ",
     "fixedCageWeight": 8,
     "purchaseMarginPercent": 20,
-    "invoicePrefix": "INV-2026-",
+    "invoicePrefix": "SL",
     "debtReminderDays": 7,
     "invoiceFooterNote": "شكراً لتعاملكم معنا — مؤسسة الأمل لتوزيع الدواجن",
     "alertSlaughterhouseDebtEnabled": true,

@@ -7,14 +7,14 @@ function escapeRegex(value) {
 
 async function nextInvoiceNumber(items) {
   const settingsArr = await readJSON("settings");
-  const prefix = settingsArr[0]?.invoicePrefix || "SI-2026-";
+  const prefix = settingsArr[0]?.invoicePrefix || "SL";
   const pattern = new RegExp(`^${escapeRegex(prefix)}(\\d+)$`);
   const max = items.reduce((acc, item) => {
     const match = pattern.exec(item.invoiceNumber || "");
     if (!match) return acc;
     return Math.max(acc, Number(match[1]));
-  }, 1099);
-  return `${prefix}${max + 1}`;
+  }, 0);
+  return `${prefix}${String(max + 1).padStart(3, "0")}`;
 }
 
 const router = buildCrudRouter({

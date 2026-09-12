@@ -5,16 +5,15 @@ import Card from "../../components/Card/Card";
 import StatCard from "../../components/StatCard/StatCard";
 import { Table, Td } from "../../components/DataTable/DataTable";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
-import ActionLink from "../../components/ActionLink/ActionLink";
 import IconButton from "../../components/IconButton/IconButton";
 import { EyeIcon, TrashIcon, PlusIcon } from "../../components/Icons/Icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import Modal from "../../components/Modal/Modal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { printVoucher } from "../../utils/printDocument";
 import { useSettings } from "../../context/SettingsContext";
 import { useCollection } from "../../api/useCollection";
-import { salesInvoicesApi, dailyPricingApi } from "../../api/resources";
+import { salesInvoicesApi, slaughterhousesApi, dailyPricingApi } from "../../api/resources";
+import "./SalesInvoices.css";
 
 function latestKgPrice(prices) {
   const sorted = [...prices].sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -27,20 +26,29 @@ function statusForInvoice(total, paid) {
   return "غير مدفوع";
 }
 
-function AddInvoiceForm({ nextRef, kgPrice, settings, onClose, onCreate }) {
-  const [customer, setCustomer] = useState("");
+function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate, onCreated, onBackToList }) {
+  const [slaughterhouse, setSlaughterhouse] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [packages, setPackages] = useState([]);
   const [packageInput, setPackageInput] = useState("");
-  const [priceInput, setPriceInput] = useState(kgPrice ? kgPrice.toFixed(2) : "3");
-  const [paid, setPaid] = useState("0");
+  const [priceInput, setPriceInput] = useState(kgPrice ? kgPrice.toFixed(2) : "5");
+  const [discount, setDiscount] = useState("0");
+  const [payStatus, setPayStatus] = useState("مدفوع");
+  const [partialPaid, setPartialPaid] = useState("");
+  const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
   const totalWeight = packages.reduce((sum, p) => sum + p, 0);
   const packageCount = packages.length;
   const netWeight = Math.max(0, totalWeight - packageCount * 8);
-  const total = Math.round(netWeight * (Number(priceInput) || 0));
+  const discountPercent = Number(discount) || 0;
+  const rawTotal = Math.round(netWeight * (Number(priceInput) || 0));
+  const total = discountPercent ? Math.round(rawTotal * (1 - discountPercent / 100)) : rawTotal;
+
+  let paid = 0;
+  if (payStatus === "مدفوع") paid = total;
+  else if (payStatus === "جزئي") paid = Number(partialPaid) || 0;
 
   function addPackage() {
     const w = Number(packageInput);
@@ -63,15 +71,17 @@ function AddInvoiceForm({ nextRef, kgPrice, settings, onClose, onCreate }) {
     setError("");
     try {
       await onCreate({
-        slaughterhouse: customer,
+        slaughterhouse,
         date,
         weightKg: netWeight,
         cages: packageCount,
         kgPrice: Number(priceInput) || 0,
+        discount: discountPercent ? `${discountPercent}%` : null,
         total,
-        paid: Number(paid) || 0,
+        paid,
+        notes: notes || null,
       });
-      onClose();
+      onCreated();
     } catch {
       setError("تعذر إنشاء الفاتورة");
     } finally {
@@ -80,197 +90,327 @@ function AddInvoiceForm({ nextRef, kgPrice, settings, onClose, onCreate }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="modal-field">
-        <label>رقم الفاتورة</label>
-        <input value={nextRef} disabled />
+    <div>
+      <div className="section-heading">
+        <h2>بيانات الفاتورة</h2>
       </div>
-      <div className="modal-field">
-        <label>اسم العميل / المحل</label>
-        <input value={customer} onChange={(e) => setCustomer(e.target.value)} placeholder="سوبرماركت الأمل" required />
-      </div>
-      <div className="modal-field">
-        <label>التاريخ</label>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+      <div className="page-head-actions invoice-toggle-actions">
+        <button className="btn-outline" onClick={onBackToList}>
+          سجل الفواتير
+        </button>
+        <button className="btn-primary">
+          <PlusIcon /> فاتورة بيع جديدة
+        </button>
       </div>
 
-      <div className="modal-field">
-        <label>وزن الاجمالي (كغ)</label>
-        <div className="package-add-row">
-          <input
-            type="number"
-            value={packageInput}
-            onChange={(e) => setPackageInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                addPackage();
-              }
-            }}
-            placeholder="الوزن الاجمالي (كغ)"
-          />
-          <button type="button" className="btn-outline" onClick={addPackage}>
-            + إضافة 
-          </button>
-        </div>
-        {packages.length > 0 && (
-          <div className="package-list">
-            {packages.map((w, i) => (
-              <div key={i} className="package-list-item">
-                <span>قفص {i + 1}: {w} {settings.weightUnit}</span>
-                <button type="button" onClick={() => removePackage(i)}>×</button>
+      <div className="invoice-create-layout">
+        <Card className="invoice-form-panel">
+          <form onSubmit={handleSubmit}>
+            <div className="modal-field">
+              <label>التاريخ</label>
+              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+            </div>
+            <div className="modal-field">
+              <label>اختيار مسلخ</label>
+              <select value={slaughterhouse} onChange={(e) => setSlaughterhouse(e.target.value)} required>
+                <option value="">— اختر —</option>
+                {slaughterhouses.map((s) => (
+                  <option key={s.id} value={s.name}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="modal-field">
+              <label>العبوات (كغ)</label>
+              <div className="package-add-row">
+                <input
+                  type="number"
+                  value={packageInput}
+                  onChange={(e) => setPackageInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addPackage();
+                    }
+                  }}
+                  placeholder="وزن العبوة"
+                />
+                <button type="button" className="btn-outline" onClick={addPackage}>
+                  + إضافة عبوة
+                </button>
               </div>
-            ))}
-          </div>
-        )}
-        <p className="section-hint">
-          الوزن الإجمالي: {packageCount} — الوزن الإجمالي: {totalWeight} {settings.weightUnit} — الوزن الصافي (بعد خصم {packageCount}×8): {netWeight} {settings.weightUnit}
-        </p>
-      </div>
+              {packages.length > 0 && (
+                <div className="package-list">
+                  {packages.map((w, i) => (
+                    <div key={i} className="package-list-item">
+                      <span>عبوة {i + 1}: {w} {settings.weightUnit}</span>
+                      <button type="button" onClick={() => removePackage(i)}>×</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-      <div className="modal-field">
-        <label>سعر الكيلو ({settings.currency})</label>
-        <input type="number" step="0.1" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} required />
+            <div className="field-row">
+              <div className="modal-field">
+                <label>الوزن الاجمالي ({settings.weightUnit})</label>
+                <input value={totalWeight} disabled />
+              </div>
+              <div className="modal-field">
+                <label>عدد الأقفاص</label>
+                <input value={packageCount} disabled />
+              </div>
+            </div>
+
+            <div className="field-row">
+              <div className="modal-field">
+                <label>سعر الكيلو ({settings.currency})</label>
+                <input type="number" step="0.01" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} required />
+              </div>
+              <div className="modal-field">
+                <label>الخصم (%)</label>
+                <input type="number" value={discount} onChange={(e) => setDiscount(e.target.value)} />
+              </div>
+            </div>
+
+            <div className="modal-field">
+              <label>الوزن الصافي ({settings.weightUnit})</label>
+              <input value={netWeight} disabled />
+            </div>
+
+            <div className="modal-field">
+              <label>حالة الدفع</label>
+              <div className="pay-status-toggle">
+                <button
+                  type="button"
+                  className={payStatus === "غير مدفوع" ? "active-unpaid" : ""}
+                  onClick={() => setPayStatus("غير مدفوع")}
+                >
+                  غير مدفوع
+                </button>
+                <button
+                  type="button"
+                  className={payStatus === "جزئي" ? "active-partial" : ""}
+                  onClick={() => setPayStatus("جزئي")}
+                >
+                  جزئي
+                </button>
+                <button
+                  type="button"
+                  className={payStatus === "مدفوع" ? "active-paid" : ""}
+                  onClick={() => setPayStatus("مدفوع")}
+                >
+                  مدفوع
+                </button>
+              </div>
+            </div>
+
+            {payStatus === "جزئي" && (
+              <div className="modal-field">
+                <label>المبلغ المدفوع ({settings.currency})</label>
+                <input type="number" value={partialPaid} onChange={(e) => setPartialPaid(e.target.value)} required />
+              </div>
+            )}
+
+            <div className="modal-field">
+              <label>ملاحظات</label>
+              <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+            </div>
+
+            {error && <p className="modal-error">{error}</p>}
+
+            <div className="modal-actions">
+              <button type="submit" className="btn-primary" disabled={saving || !slaughterhouse || packageCount === 0}>
+                {saving ? "جارٍ الحفظ..." : "حفظ"}
+              </button>
+              <button type="button" className="btn-outline" onClick={onBackToList}>
+                إلغاء
+              </button>
+            </div>
+          </form>
+        </Card>
+
+        <Card className="invoice-summary-panel">
+          <div className="invoice-preview-head">
+            <span>SL-NEW</span>
+            <div className="invoice-preview-brand">
+              <b>{slaughterhouse || "—"}</b>
+            </div>
+          </div>
+          <div className="invoice-rows">
+            <div className="detail-row">
+              <span>المسلخ</span>
+              <span>{slaughterhouse || "—"}</span>
+            </div>
+            <div className="detail-row">
+              <span>الوزن الاجمالي</span>
+              <span>{totalWeight} {settings.weightUnit}</span>
+            </div>
+            <div className="detail-row">
+              <span>عدد الأقفاص</span>
+              <span>{packageCount}</span>
+            </div>
+            <div className="detail-row">
+              <span>الوزن الصافي</span>
+              <span>{netWeight} {settings.weightUnit}</span>
+            </div>
+            <div className="detail-row">
+              <span>سعر الكيلو</span>
+              <span>{Number(priceInput || 0).toFixed(2)}{settings.currency}</span>
+            </div>
+            <div className="detail-row">
+              <span>الخصومات</span>
+              <span>{discountPercent ? `${discountPercent}%` : "—"}</span>
+            </div>
+            <div className="detail-row">
+              <span>حالة الدفع</span>
+              <span>
+                <StatusBadge status={payStatus} />
+              </span>
+            </div>
+          </div>
+          <div className="invoice-summary-total">
+            <span>المبلغ الاجمالي</span>
+            <span>{fmtMoney(total)}</span>
+          </div>
+        </Card>
       </div>
-      <div className="field-row">
-        <div className="modal-field">
-          <label>المبلغ الإجمالي ({settings.currency})</label>
-          <input value={total} disabled />
-        </div>
-        <div className="modal-field">
-          <label>المبلغ المدفوع ({settings.currency})</label>
-          <input type="number" step="50" value={paid} onChange={(e) => setPaid(e.target.value)} required />
-        </div>
-      </div>
-      {error && <p className="modal-error">{error}</p>}
-      <div className="modal-actions">
-        <button type="submit" className="btn-primary" disabled={saving || !customer || packageCount === 0}>
-          {saving ? "جارٍ الحفظ..." : "حفظ الفاتورة"}
-        </button>
-        <button type="button" className="btn-outline" onClick={onClose}>
-          إلغاء
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }
 
-function InvoiceViewModal({ invoice, settings, fmtMoney, fmtWeight, onClose, onDelete }) {
-  const remaining = Math.max(0, invoice.total - (invoice.paid || 0));
+function ViewInvoiceView({ invoice, settings, fmtMoney, fmtWeight, onBack, onDelete }) {
   return (
-    <Modal title="عرض الفاتورة" subtitle={invoice.invoiceNumber} onClose={onClose}>
-      <div className="invoice-rows">
-        <div className="detail-row">
-          <span>العميل</span>
-          <span>{invoice.slaughterhouse}</span>
+    <div>
+      <div className="section-heading">
+        <h2>عرض الفاتورة</h2>
+      </div>
+      <Card className="invoice-view-card">
+        <div className="invoice-preview-head">
+          <div>
+            <span className="invoice-preview-ref">{invoice.invoiceNumber}</span>
+            <span className="invoice-preview-date">{invoice.date}</span>
+          </div>
+          <div className="invoice-preview-brand">
+            <b>{invoice.slaughterhouse}</b>
+          </div>
         </div>
-        <div className="detail-row">
-          <span>التاريخ</span>
-          <span dir="ltr">{invoice.date}</span>
+        <div className="invoice-rows">
+          <div className="detail-row">
+            <span>المسلخ</span>
+            <span>{invoice.slaughterhouse}</span>
+          </div>
+          <div className="detail-row">
+            <span>الوزن الاجمالي</span>
+            <span>{fmtWeight((invoice.weightKg || 0) + (invoice.cages || 0) * 8)}</span>
+          </div>
+          <div className="detail-row">
+            <span>عدد الأقفاص</span>
+            <span>{invoice.cages}</span>
+          </div>
+          <div className="detail-row">
+            <span>الوزن الصافي</span>
+            <span>{fmtWeight(invoice.weightKg)}</span>
+          </div>
+          <div className="detail-row">
+            <span>سعر الكيلو</span>
+            <span>{Number(invoice.kgPrice).toFixed(2)}{settings.currency}</span>
+          </div>
+          <div className="detail-row">
+            <span>الخصومات</span>
+            <span>{invoice.discount || "—"}</span>
+          </div>
+          <div className="detail-row">
+            <span>حالة الدفع</span>
+            <span>
+              <StatusBadge status={statusForInvoice(invoice.total, invoice.paid || 0)} />
+            </span>
+          </div>
         </div>
-        <div className="detail-row">
-          <span>الكمية</span>
-          <span>{fmtWeight(invoice.weightKg)}</span>
-        </div>
-        <div className="detail-row">
-          <span>سعر الكيلو</span>
-          <span>{Number(invoice.kgPrice).toFixed(2)} {settings.currency}</span>
-        </div>
-        <div className="detail-row">
-          <span>المبلغ المدفوع</span>
-          <span>{fmtMoney(invoice.paid || 0)}</span>
-        </div>
-        <div className="detail-row">
-          <span>المبلغ المتبقي</span>
-          <span>{fmtMoney(remaining)}</span>
-        </div>
-        <div className="detail-row detail-row-strong">
-          <span>المبلغ الإجمالي</span>
+        <div className="invoice-summary-total">
+          <span>المبلغ الاجمالي</span>
           <span>{fmtMoney(invoice.total)}</span>
         </div>
-      </div>
-      <div className="modal-actions">
-        <button className="btn-primary" onClick={() => printVoucher({ settings, invoice })}>
-          🖨️ طباعة
-        </button>
-        <ActionLink tone="danger" onClick={() => onDelete(invoice)}>حذف الفاتورة</ActionLink>
-      </div>
-    </Modal>
+        <div className="modal-actions">
+          <button className="btn-primary" onClick={() => printVoucher({ settings, invoice })}>
+            🖨️ طباعة
+          </button>
+          <button className="btn-outline" onClick={onBack}>
+            إغلاق
+          </button>
+          <button className="btn-outline invoice-delete-link" onClick={() => onDelete(invoice)}>
+            حذف الفاتورة
+          </button>
+        </div>
+      </Card>
+    </div>
   );
 }
 
 export default function SalesInvoices() {
   const location = useLocation();
   const { items: invoices, loading, error, create, remove } = useCollection(salesInvoicesApi);
+  const { items: slaughterhouses } = useCollection(slaughterhousesApi);
   const { items: prices } = useCollection(dailyPricingApi);
   const { settings, fmtMoney, fmtWeight } = useSettings();
-  const [showAdd, setShowAdd] = useState(false);
-  const [viewingInvoice, setViewingInvoice] = useState(null);
+  const [tab, setTab] = useState("سجل الفواتير");
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [deletingInvoice, setDeletingInvoice] = useState(null);
   const [invoiceQuery, setInvoiceQuery] = useState("");
 
   useEffect(() => {
     if (location.state?.viewInvoiceId) {
-      const inv = invoices.find((i) => i.id === location.state.viewInvoiceId);
-      if (inv) setViewingInvoice(inv);
+      setSelectedInvoiceId(location.state.viewInvoiceId);
+      setTab("عرض الفاتورة");
     }
-  }, [location.state, invoices]);
+  }, [location.state]);
 
   const kgPrice = latestKgPrice(prices);
-  const uncollected = invoices.reduce((sum, i) => sum + Math.max(0, (i.total || 0) - (i.paid || 0)), 0);
+  const selectedInvoice = invoices.find((i) => i.id === selectedInvoiceId) || null;
   const filteredInvoiceList = invoices.filter(
     (i) => !invoiceQuery || i.invoiceNumber?.toLowerCase().includes(invoiceQuery.toLowerCase()) || i.slaughterhouse?.includes(invoiceQuery),
   );
-  const nextRef = `SI-2026-${1100 + invoices.length}`;
 
   async function handleDeleteInvoice() {
     await remove(deletingInvoice.id);
     setDeletingInvoice(null);
-    setViewingInvoice(null);
+    setSelectedInvoiceId(null);
+    setTab("سجل الفواتير");
   }
 
   return (
     <div>
-      <PageHeader
-        title="فواتير البيع"
-        actions={
-          <button className="btn-primary" onClick={() => setShowAdd(true)}>
-            <PlusIcon /> إضافة فاتورة بيع
-          </button>
-        }
-      />
-
-      <div className="page-grid page-grid-3 suppliers-stats">
-        <StatCard label="عدد الفواتير" value={`${invoices.length} فاتورة`} />
-        <StatCard label="إجمالي المبيعات" value={fmtMoney(invoices.reduce((s, i) => s + (i.total || 0), 0))} />
-        <StatCard valueTone="red" label="مبالغ غير محصّلة" value={fmtMoney(uncollected)} />
-      </div>
+      <PageHeader title="فواتير البيع" subtitle={`${invoices.length} فواتير مسجلة`} />
 
       {loading && <p className="state-message">جارٍ التحميل...</p>}
       {error && <p className="state-message state-message-error">{error}</p>}
 
-      {!loading && !error && (
-        <Card>
-          <div className="card-head">
-            <div>
-              <div className="card-title">قائمة فواتير البيع</div>
-              <div className="card-sub">فواتير بيع الدجاج للعملاء والمحلات</div>
-            </div>
-            <SearchBar placeholder="بحث برقم الفاتورة أو اسم العميل" value={invoiceQuery} onChange={setInvoiceQuery} />
+      {tab === "سجل الفواتير" && !loading && !error && (
+        <>
+          <div className="page-head-actions invoice-toggle-actions">
+            <button className="btn-primary" onClick={() => setTab("فاتورة بيع جديدة")}>
+              <PlusIcon /> فاتورة بيع جديدة
+            </button>
+            <span className="btn-outline invoice-toggle-current">سجل الفواتير</span>
           </div>
-          <Table
-            columns={["رقم الفاتورة", "العميل", "التاريخ", "الكمية", "المبلغ الإجمالي", "المبلغ المتبقي", "الحالة", "الإجراءات"]}
-            rows={filteredInvoiceList}
-            renderRow={(inv) => {
-              const remaining = Math.max(0, (inv.total || 0) - (inv.paid || 0));
-              return (
+          <Card>
+            <div className="card-head">
+              <div className="card-title">فواتير</div>
+              <SearchBar placeholder="بحث باسم المسلخ" value={invoiceQuery} onChange={setInvoiceQuery} />
+            </div>
+            <Table
+              columns={["رقم الفاتورة", "اسم المسلخ", "التاريخ", "الوزن", "الخصم", "الاجمالي", "الحالة", "الإجراءات"]}
+              rows={filteredInvoiceList}
+              renderRow={(inv) => (
                 <>
                   <Td className="td-brand" dir="ltr">{inv.invoiceNumber}</Td>
                   <Td>{inv.slaughterhouse}</Td>
                   <Td className="td-muted" dir="ltr">{inv.date}</Td>
                   <Td dir="ltr">{fmtWeight(inv.weightKg)}</Td>
+                  <Td>{inv.discount || "—"}</Td>
                   <Td className="td-strong">{fmtMoney(inv.total)}</Td>
-                  <Td className={remaining > 0 ? "td-negative" : "td-faint"}>{remaining > 0 ? fmtMoney(remaining) : "—"}</Td>
                   <Td>
                     <StatusBadge status={statusForInvoice(inv.total, inv.paid || 0)} />
                   </Td>
@@ -279,31 +419,46 @@ export default function SalesInvoices() {
                       <IconButton label="حذف" tone="danger" onClick={() => setDeletingInvoice(inv)}>
                         <TrashIcon />
                       </IconButton>
-                      <IconButton label="عرض" onClick={() => setViewingInvoice(inv)}>
+                      <IconButton
+                        label="عرض"
+                        onClick={() => {
+                          setSelectedInvoiceId(inv.id);
+                          setTab("عرض الفاتورة");
+                        }}
+                      >
                         <EyeIcon />
                       </IconButton>
                     </div>
                   </Td>
                 </>
-              );
-            }}
-          />
-        </Card>
+              )}
+            />
+          </Card>
+        </>
       )}
 
-      {showAdd && (
-        <Modal title="إضافة فاتورة بيع" onClose={() => setShowAdd(false)}>
-          <AddInvoiceForm nextRef={nextRef} kgPrice={kgPrice} settings={settings} onClose={() => setShowAdd(false)} onCreate={create} />
-        </Modal>
+      {tab === "فاتورة بيع جديدة" && !loading && (
+        <AddInvoiceView
+          slaughterhouses={slaughterhouses}
+          kgPrice={kgPrice}
+          settings={settings}
+          fmtMoney={fmtMoney}
+          onCreate={create}
+          onCreated={() => setTab("سجل الفواتير")}
+          onBackToList={() => setTab("سجل الفواتير")}
+        />
       )}
 
-      {viewingInvoice && (
-        <InvoiceViewModal
-          invoice={viewingInvoice}
+      {tab === "عرض الفاتورة" && selectedInvoice && (
+        <ViewInvoiceView
+          invoice={selectedInvoice}
           settings={settings}
           fmtMoney={fmtMoney}
           fmtWeight={fmtWeight}
-          onClose={() => setViewingInvoice(null)}
+          onBack={() => {
+            setSelectedInvoiceId(null);
+            setTab("سجل الفواتير");
+          }}
           onDelete={setDeletingInvoice}
         />
       )}

@@ -69,7 +69,7 @@ async function seedSettings() {
       weightUnit: "كغ",
       fixedCageWeight: 8,
       purchaseMarginPercent: 20,
-      invoicePrefix: "INV-2026-",
+      invoicePrefix: "SL",
       debtReminderDays: 7,
       invoiceFooterNote: "شكراً لتعاملكم معنا — مؤسسة الأمل لتوزيع الدواجن",
       alertSlaughterhouseDebtEnabled: true,
@@ -242,7 +242,7 @@ async function seedSalesInvoices(dailyPrices, slaughterhouses) {
       const paid = Math.round(total * paidRatio);
       invoices.push(
         record({
-          invoiceNumber: `SI-2026-${1100 + counter}`,
+          invoiceNumber: `SL${String(counter + 1).padStart(3, "0")}`,
           slaughterhouse: pick(slaughterhouses, counter).name,
           date,
           cages,

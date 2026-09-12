@@ -1,13 +1,13 @@
 [
   {
-    "id": "f93d8f81-8fc9-407f-b9b1-cf329c92f41c",
+    "id": "46066091-9940-40e5-94fe-57a95b4e8833",
     "username": "admin",
     "role": "IT",
     "permissions": {},
     "active": true,
-    "passwordSalt": "0e607e01a3388b45617f0e1a671ad69b",
-    "passwordHash": "beceea168887dbf5546bfc18b13ede67048b2796a141084ba295c98c206e51d0e8642abeedfa1d1522b5e3b866dd21a8aa8b2fd4cb440c775d769f907c579d6a",
-    "createdAt": "2026-09-12T17:19:50.203Z",
+    "passwordSalt": "6f3e20f3b995c66ae64be661a5825c8c",
+    "passwordHash": "2a37c752db58fdcab7cec021cc13e679d597b29351c71e5fc9aa27ae0419b536c61268f2fe068df5cdf01a57e3fc3c48f9f03fb9d941c7bb4a759669c8e66d5f",
+    "createdAt": "2026-09-12T23:26:23.586Z",
     "createdBy": "seed",
     "_version": 1
   }
