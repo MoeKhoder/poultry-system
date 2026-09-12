@@ -1,0 +1,170 @@
+.accounts-tabs {
+  margin-bottom: 20px;
+}
+
+.debt-alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-red-bg);
+  color: var(--color-red-text);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.payment-form-party {
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.payment-form-party-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--color-ink-900);
+}
+
+.payment-form-party-balance {
+  font-size: 13px;
+  color: var(--color-red-text);
+  margin-top: 2px;
+}
+
+.ledger-subtitle {
+  font-size: 13px;
+  color: var(--color-ink-500);
+  margin-bottom: 16px;
+}
+
+.ledger-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.ledger-stat {
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.ledger-stat-red {
+  background: var(--color-red-bg);
+}
+
+.ledger-stat-red .ledger-stat-value {
+  color: var(--color-red-text);
+}
+
+.ledger-stat-green {
+  background: var(--color-green-bg);
+}
+
+.ledger-stat-green .ledger-stat-value {
+  color: var(--color-green-text);
+}
+
+.ledger-stat-gray {
+  background: var(--color-gray-bg);
+}
+
+.ledger-stat-gray .ledger-stat-value {
+  color: var(--color-ink-900);
+}
+
+.ledger-stat-label {
+  font-size: 12px;
+  color: var(--color-ink-500);
+  margin-bottom: 4px;
+}
+
+.ledger-stat-value {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ledger-progress {
+  margin-bottom: 20px;
+}
+
+.ledger-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-ink-500);
+  margin-bottom: 6px;
+}
+
+.ledger-progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-gray-bg);
+  overflow: hidden;
+}
+
+.ledger-progress-fill {
+  height: 100%;
+  background: var(--color-red-text);
+  border-radius: 999px;
+}
+
+.ledger-progress-fill-full {
+  background: var(--color-green-text);
+}
+
+.ledger-movements-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-ink-900);
+  margin-bottom: 10px;
+}
+
+.ledger-table-scroll {
+  overflow-x: auto;
+  margin-bottom: 8px;
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 560px;
+}
+
+.ledger-table th {
+  text-align: right;
+  padding: 8px 10px;
+  color: var(--color-ink-500);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ledger-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.ledger-td-muted {
+  color: var(--color-ink-500);
+}
+
+.ledger-td-debit {
+  color: var(--color-red-text);
+  font-weight: 600;
+}
+
+.ledger-td-credit {
+  color: var(--color-green-text);
+  font-weight: 600;
+}
+
+.ledger-actions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}

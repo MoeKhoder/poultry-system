@@ -1,0 +1,19 @@
+.action-link {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0;
+}
+
+.action-link-default {
+  color: var(--color-brand);
+}
+
+.action-link-danger {
+  color: var(--color-red-text);
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}

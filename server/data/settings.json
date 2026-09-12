@@ -1,0 +1,25 @@
+[
+  {
+    "companyName": "مؤسسة الأمل لتوزيع الدواجن",
+    "vatNumber": "300123456789012",
+    "commercialRegister": "1010234567",
+    "phone": "0112345678",
+    "city": "الرياض",
+    "address": "حي العليا، شارع التخصصي، الرياض",
+    "email": "info@alamal-poultry.com",
+    "currency": "$",
+    "weightUnit": "كغ",
+    "fixedCageWeight": 8,
+    "purchaseMarginPercent": 20,
+    "invoicePrefix": "INV-2026-",
+    "debtReminderDays": 7,
+    "invoiceFooterNote": "شكراً لتعاملكم معنا — مؤسسة الأمل لتوزيع الدواجن",
+    "alertSlaughterhouseDebtEnabled": true,
+    "alertSlaughterhouseDebtThreshold": 50000,
+    "alertDriverLicenseEnabled": true,
+    "alertDriverLicenseDays": 30,
+    "dailyEmailReportEnabled": false,
+    "alertMissingDailyPriceEnabled": true,
+    "_version": 1
+  }
+]

@@ -1,0 +1,46 @@
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap select {
+  appearance: none;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 8px 32px 8px 34px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12.8px;
+  color: var(--color-ink-900);
+  font-family: var(--font-body);
+}
+
+.select-wrap-leading {
+  position: absolute;
+  inset-inline-start: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-ink-400);
+  pointer-events: none;
+  display: flex;
+}
+
+.select-wrap-leading svg {
+  width: 14px;
+  height: 14px;
+}
+
+.select-wrap-chev {
+  position: absolute;
+  inset-inline-end: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-ink-400);
+  pointer-events: none;
+  display: flex;
+}
+
+.select-wrap-chev svg {
+  width: 14px;
+  height: 14px;
+}

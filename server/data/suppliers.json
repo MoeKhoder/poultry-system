@@ -1,0 +1,32 @@
+[
+  {
+    "name": "baker",
+    "region": "Akkar",
+    "contact": "baker",
+    "phone": "81361789",
+    "photo": null,
+    "code": "S001",
+    "totalPurchases": 0,
+    "balance": 0,
+    "status": "مسدّد",
+    "id": "4712c8aa-f16e-41f0-8bb9-0034f570adf7",
+    "createdAt": "2026-09-12T18:14:00.807Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "name": "saad",
+    "region": "chekka",
+    "contact": "saad",
+    "phone": "03000000",
+    "photo": null,
+    "code": "S002",
+    "totalPurchases": 0,
+    "balance": 0,
+    "status": "مسدّد",
+    "id": "7ea070be-4144-404a-bafb-477e0437de95",
+    "createdAt": "2026-09-12T18:14:24.545Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

@@ -1,0 +1,143 @@
+.supplier-detail-stats {
+  margin-bottom: 20px;
+}
+
+.detail-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.detail-filter-select {
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--color-ink-700);
+}
+
+.supplier-detail-computed-total {
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--color-ink-500);
+}
+
+.supplier-detail-field-note {
+  font-size: 11px;
+  color: var(--color-ink-400);
+  margin-top: 4px;
+}
+
+.purchase-voucher-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: var(--color-sidebar);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+
+.purchase-voucher-banner-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 2px;
+}
+
+.purchase-voucher-banner-code {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.purchase-voucher-banner-date {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+.purchase-voucher-banner-title {
+  text-align: left;
+}
+
+.purchase-voucher-banner-title p:first-child {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.purchase-voucher-banner-sub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+}
+
+.purchase-voucher-section-label {
+  font-size: 12px;
+  color: var(--color-ink-500);
+  margin-bottom: 2px;
+}
+
+.purchase-voucher-supplier-name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-ink-900);
+}
+
+.purchase-voucher-supplier-meta {
+  font-size: 12px;
+  color: var(--color-ink-500);
+  margin-bottom: 16px;
+}
+
+.purchase-voucher-list {
+  margin-bottom: 14px;
+}
+
+.purchase-voucher-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-green-bg);
+  color: var(--color-green-text);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.purchase-voucher-section-label-spaced {
+  margin-top: 14px;
+}
+
+.payment-status-picker {
+  display: flex;
+  gap: 10px;
+}
+
+.payment-status-btn {
+  flex: 1;
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink-500);
+}
+
+.payment-status-btn:hover {
+  background: var(--color-bg);
+}
+
+.payment-status-btn-active {
+  border-color: var(--color-brand);
+  background: var(--color-green-bg);
+  color: var(--color-green-text);
+  font-weight: 700;
+}

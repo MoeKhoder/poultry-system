@@ -1,0 +1,44 @@
+.data-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.td-muted {
+  color: var(--color-ink-500);
+  font-size: 13px;
+}
+
+.td-faint {
+  color: var(--color-ink-400);
+}
+
+.td-strong {
+  font-weight: 600;
+}
+
+.td-brand {
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.td-negative {
+  font-weight: 600;
+  color: var(--color-red-text);
+}
+
+.td-warning {
+  font-weight: 600;
+  color: var(--color-yellow-text);
+}
+
+.data-table tfoot td {
+  padding: 14px 16px;
+  font-weight: 800;
+  font-size: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.data-table tfoot td:first-child {
+  color: var(--color-ink-900);
+  font-weight: 700;
+}

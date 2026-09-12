@@ -1,0 +1,44 @@
+[
+  {
+    "slaughterhouse": "kih",
+    "date": "2026-09-12",
+    "weightKg": 107,
+    "cages": 4,
+    "kgPrice": 10,
+    "total": 1070,
+    "paid": 0,
+    "invoiceNumber": "INV-2026-1100",
+    "id": "1cc43441-52ec-49d4-8cea-093cb2b30ab8",
+    "createdAt": "2026-09-12T18:19:46.371Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "date": "2026-09-12",
+    "cages": 20,
+    "weightKg": 240,
+    "kgPrice": 12,
+    "total": 2880,
+    "paid": 0,
+    "slaughterhouse": "al cheikh",
+    "invoiceNumber": "INV-2026-1101",
+    "id": "863892ac-c5e1-4ed9-9ba1-124870edf052",
+    "createdAt": "2026-09-12T18:24:42.259Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "date": "2026-09-12",
+    "cages": 0,
+    "weightKg": 1,
+    "kgPrice": 10000,
+    "total": 10000,
+    "paid": 0,
+    "slaughterhouse": "al cheikh",
+    "invoiceNumber": "INV-2026-1102",
+    "id": "f1e5ac0e-6394-4ab3-9a29-ee07bd3b424c",
+    "createdAt": "2026-09-12T18:26:00.801Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

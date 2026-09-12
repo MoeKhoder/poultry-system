@@ -1,0 +1,66 @@
+.confirm-delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.confirm-delete-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-red-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 18px;
+}
+
+.confirm-delete-message {
+  font-size: 14px;
+  color: var(--color-ink-900);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.confirm-delete-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-yellow-bg);
+  color: var(--color-yellow-text);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.confirm-delete-actions {
+  width: 100%;
+  justify-content: center;
+}
+
+.confirm-delete-btn {
+  border: none;
+  background: var(--color-red-text);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+}
+
+.confirm-delete-btn:hover {
+  opacity: 0.9;
+}
+
+.confirm-delete-btn:disabled,
+.confirm-delete-actions .btn-outline:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

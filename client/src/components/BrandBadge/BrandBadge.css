@@ -1,0 +1,47 @@
+.brand-badge {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f0f0f;
+  border-radius: 999px;
+  padding: 6px 14px 6px 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brand-badge-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.brand-badge-text {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 640px) {
+  .brand-badge {
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px 4px 4px;
+  }
+
+  .brand-badge-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-badge-text {
+    font-size: 11px;
+  }
+}

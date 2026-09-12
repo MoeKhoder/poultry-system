@@ -1,0 +1,17 @@
+[
+  {
+    "plateNumber": "123456",
+    "type": "بيك أب",
+    "model": "ftydytdky",
+    "capacity": 4667,
+    "assignedDriverId": "83d2bb6e-a032-459c-9e48-f6141d64ed97",
+    "assignedDriverName": "fcytukkytd",
+    "status": "متاح",
+    "tripsCount": 0,
+    "id": "35af24ab-5188-4a9f-9b8d-145056da08e6",
+    "createdAt": "2026-09-12T18:57:11.067Z",
+    "createdBy": "admin",
+    "_version": 2,
+    "_expectedVersion": 1
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "date": "2026-09-12",
+    "cages": 44,
+    "weightKg": 450,
+    "kgPrice": 9,
+    "total": 4050,
+    "paid": 0,
+    "supplierId": "4712c8aa-f16e-41f0-8bb9-0034f570adf7",
+    "supplierName": "baker",
+    "code": "S2026001",
+    "id": "7409852a-91be-489c-aba1-b0466e814cad",
+    "createdAt": "2026-09-12T18:14:57.745Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "date": "2026-09-12",
+    "cages": 60,
+    "weightKg": 540,
+    "kgPrice": 4,
+    "total": 2160,
+    "paid": 0,
+    "supplierId": "4712c8aa-f16e-41f0-8bb9-0034f570adf7",
+    "supplierName": "baker",
+    "code": "S2026002",
+    "id": "a52fe19d-ec11-47e5-8b50-df9d787fbd82",
+    "createdAt": "2026-09-12T18:22:23.684Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "name": "al cheikh",
+    "region": "halba",
+    "contact": "al cheikh",
+    "phone": "02000000",
+    "capacityPerDay": 0,
+    "photo": null,
+    "code": "SL001",
+    "totalSales": 0,
+    "dueBalance": 0,
+    "remainingBalance": 0,
+    "id": "d0094ff9-f787-4529-8261-127e23557cc6",
+    "createdAt": "2026-09-12T18:24:09.200Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

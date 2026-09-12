@@ -1,0 +1,22 @@
+.icon-btn {
+  background: none;
+  border: 0;
+  color: var(--color-ink-500);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-btn-default:hover {
+  color: var(--color-brand);
+}
+
+.icon-btn-danger:hover {
+  color: var(--color-red-text);
+}

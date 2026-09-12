@@ -1,0 +1,67 @@
+[
+  {
+    "partyType": "supplier",
+    "partyId": "240945b5-72fd-412c-9258-92dabcb1840e",
+    "partyName": "1",
+    "amount": 1500000,
+    "method": "نقدي",
+    "date": "2026-09-10",
+    "note": null,
+    "id": "7792b3d8-b84d-43c8-a7f9-6d733bc99d1b",
+    "createdAt": "2026-09-10T12:56:46.211Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "supplier",
+    "partyId": "240945b5-72fd-412c-9258-92dabcb1840e",
+    "partyName": "1",
+    "amount": 1600000,
+    "method": "نقدي",
+    "date": "2026-09-10",
+    "note": null,
+    "id": "6c05cfd5-ecef-4b1b-81f7-2f4944f12dc8",
+    "createdAt": "2026-09-10T12:58:29.224Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "supplier",
+    "partyId": "240945b5-72fd-412c-9258-92dabcb1840e",
+    "partyName": "1",
+    "amount": 2871900000,
+    "method": "نقدي",
+    "date": "2026-09-10",
+    "note": null,
+    "id": "2ba977ae-d0b7-4fe4-9c64-24599d7b487e",
+    "createdAt": "2026-09-10T13:00:10.481Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "supplier",
+    "partyId": "240945b5-72fd-412c-9258-92dabcb1840e",
+    "partyName": "1",
+    "amount": 5000000,
+    "method": "نقدي",
+    "date": "2026-09-10",
+    "note": null,
+    "id": "21586358-ada0-40bd-ac92-cdd29349be9a",
+    "createdAt": "2026-09-10T13:00:36.465Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "5c9b2467-46de-4b5f-b210-d311d851c937",
+    "partyName": "11",
+    "amount": 124800000,
+    "method": "نقدي",
+    "date": "2026-09-10",
+    "note": null,
+    "id": "caa55800-ab3d-427b-b5f1-7b1702d7b63a",
+    "createdAt": "2026-09-10T13:01:02.404Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

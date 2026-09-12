@@ -1,0 +1,29 @@
+.status-select {
+  border: none;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.status-select-green {
+  background: var(--color-green-bg);
+  color: var(--color-green-text);
+}
+
+.status-select-yellow {
+  background: var(--color-yellow-bg);
+  color: var(--color-yellow-text);
+}
+
+.status-select-red {
+  background: var(--color-red-bg);
+  color: var(--color-red-text);
+}
+
+.status-select-gray {
+  background: var(--color-gray-bg);
+  color: var(--color-gray-text);
+}

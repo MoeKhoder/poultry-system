@@ -1,0 +1,31 @@
+.expenses-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-border);
+  margin-top: 8px;
+  padding-top: 12px;
+}
+
+.expenses-total-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-ink-900);
+}
+
+.expenses-total-value {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-red-text);
+}
+
+.expense-category-badge {
+  display: inline-flex;
+  border-radius: 999px;
+  background: var(--color-border);
+  color: var(--color-ink-500);
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
