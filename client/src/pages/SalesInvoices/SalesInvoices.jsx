@@ -29,8 +29,9 @@ function statusForInvoice(total, paid) {
 function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate, onCreated, onBackToList }) {
   const [slaughterhouse, setSlaughterhouse] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [packages, setPackages] = useState([]);
-  const [packageInput, setPackageInput] = useState("");
+  const [cages, setCages] = useState([]);
+  const [cageInput, setCageInput] = useState("");
+  const [emptyCageWeight, setEmptyCageWeight] = useState("8");
   const [priceInput, setPriceInput] = useState(kgPrice ? kgPrice.toFixed(2) : "5");
   const [discount, setDiscount] = useState("0");
   const [payStatus, setPayStatus] = useState("مدفوع");
@@ -39,9 +40,9 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const totalWeight = packages.reduce((sum, p) => sum + p, 0);
-  const packageCount = packages.length;
-  const netWeight = Math.max(0, totalWeight - packageCount * 8);
+  const totalWeight = cages.reduce((sum, c) => sum + c, 0);
+  const cageCount = cages.length;
+  const netWeight = Math.max(0, totalWeight - cageCount * (Number(emptyCageWeight) || 0));
   const discountPercent = Number(discount) || 0;
   const rawTotal = Math.round(netWeight * (Number(priceInput) || 0));
   const total = discountPercent ? Math.round(rawTotal * (1 - discountPercent / 100)) : rawTotal;
@@ -50,21 +51,21 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
   if (payStatus === "مدفوع") paid = total;
   else if (payStatus === "جزئي") paid = Number(partialPaid) || 0;
 
-  function addPackage() {
-    const w = Number(packageInput);
+  function addCage() {
+    const w = Number(cageInput);
     if (!w || w <= 0) return;
-    setPackages((prev) => [...prev, w]);
-    setPackageInput("");
+    setCages((prev) => [...prev, w]);
+    setCageInput("");
   }
 
-  function removePackage(index) {
-    setPackages((prev) => prev.filter((_, i) => i !== index));
+  function removeCage(index) {
+    setCages((prev) => prev.filter((_, i) => i !== index));
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (packageCount === 0) {
-      setError("أضف عبوة واحدة على الأقل");
+    if (cageCount === 0) {
+      setError("أضف قفص واحد على الأقل");
       return;
     }
     setSaving(true);
@@ -74,7 +75,8 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
         slaughterhouse,
         date,
         weightKg: netWeight,
-        cages: packageCount,
+        cages: cageCount,
+        cageWeight: Number(emptyCageWeight) || 0,
         kgPrice: Number(priceInput) || 0,
         discount: discountPercent ? `${discountPercent}%` : null,
         total,
@@ -123,30 +125,30 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             </div>
 
             <div className="modal-field">
-              <label>العبوات (كغ)</label>
+              <label>الأقفاص (كغ)</label>
               <div className="package-add-row">
                 <input
                   type="number"
-                  value={packageInput}
-                  onChange={(e) => setPackageInput(e.target.value)}
+                  value={cageInput}
+                  onChange={(e) => setCageInput(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      addPackage();
+                      addCage();
                     }
                   }}
-                  placeholder="وزن العبوة"
+                  placeholder="وزن القفص"
                 />
-                <button type="button" className="btn-outline" onClick={addPackage}>
-                  + إضافة عبوة
+                <button type="button" className="btn-outline" onClick={addCage}>
+                  + إضافة قفص
                 </button>
               </div>
-              {packages.length > 0 && (
+              {cages.length > 0 && (
                 <div className="package-list">
-                  {packages.map((w, i) => (
+                  {cages.map((w, i) => (
                     <div key={i} className="package-list-item">
-                      <span>عبوة {i + 1}: {w} {settings.weightUnit}</span>
-                      <button type="button" onClick={() => removePackage(i)}>×</button>
+                      <span>قفص {i + 1}: {w} {settings.weightUnit}</span>
+                      <button type="button" onClick={() => removeCage(i)}>×</button>
                     </div>
                   ))}
                 </div>
@@ -160,7 +162,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
               </div>
               <div className="modal-field">
                 <label>عدد الأقفاص</label>
-                <input value={packageCount} disabled />
+                <input value={cageCount} disabled />
               </div>
             </div>
 
@@ -170,9 +172,14 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
                 <input type="number" step="0.01" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} required />
               </div>
               <div className="modal-field">
-                <label>الخصم (%)</label>
-                <input type="number" value={discount} onChange={(e) => setDiscount(e.target.value)} />
+                <label>وزن القفص الفارغ ({settings.weightUnit})</label>
+                <input type="number" step="0.1" value={emptyCageWeight} onChange={(e) => setEmptyCageWeight(e.target.value)} required />
               </div>
+            </div>
+
+            <div className="modal-field">
+              <label>الخصم (%)</label>
+              <input type="number" value={discount} onChange={(e) => setDiscount(e.target.value)} />
             </div>
 
             <div className="modal-field">
@@ -222,7 +229,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             {error && <p className="modal-error">{error}</p>}
 
             <div className="modal-actions">
-              <button type="submit" className="btn-primary" disabled={saving || !slaughterhouse || packageCount === 0}>
+              <button type="submit" className="btn-primary" disabled={saving || !slaughterhouse || cageCount === 0}>
                 {saving ? "جارٍ الحفظ..." : "حفظ"}
               </button>
               <button type="button" className="btn-outline" onClick={onBackToList}>
@@ -250,7 +257,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             </div>
             <div className="detail-row">
               <span>عدد الأقفاص</span>
-              <span>{packageCount}</span>
+              <span>{cageCount}</span>
             </div>
             <div className="detail-row">
               <span>الوزن الصافي</span>
@@ -304,7 +311,7 @@ function ViewInvoiceView({ invoice, settings, fmtMoney, fmtWeight, onBack, onDel
           </div>
           <div className="detail-row">
             <span>الوزن الاجمالي</span>
-            <span>{fmtWeight((invoice.weightKg || 0) + (invoice.cages || 0) * 8)}</span>
+            <span>{fmtWeight((invoice.weightKg || 0) + (invoice.cages || 0) * (invoice.cageWeight ?? 8))}</span>
           </div>
           <div className="detail-row">
             <span>عدد الأقفاص</span>

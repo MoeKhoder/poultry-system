@@ -8,8 +8,8 @@
     "totalPurchases": 145000,
     "balance": 46500,
     "status": "دائن",
-    "id": "e1395ee4-bf8b-4910-9aec-599b9f3e733c",
-    "createdAt": "2026-09-12T23:26:23.449Z",
+    "id": "e9e4cd79-e266-4e60-9aa9-204e6fa93a0d",
+    "createdAt": "2026-09-12T23:56:19.671Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -22,8 +22,8 @@
     "totalPurchases": 89000,
     "balance": 3000,
     "status": "دائن",
-    "id": "ad61afa7-c354-4f06-a2f0-aea82973dc0e",
-    "createdAt": "2026-09-12T23:26:23.449Z",
+    "id": "7ac1d56f-8bd3-4a67-8d96-40251e1e241a",
+    "createdAt": "2026-09-12T23:56:19.671Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -36,8 +36,8 @@
     "totalPurchases": 212000,
     "balance": 0,
     "status": "مسدّد",
-    "id": "bb2476e7-e803-4cf9-99e1-b4d7e6ff5288",
-    "createdAt": "2026-09-12T23:26:23.449Z",
+    "id": "3fab4c21-e1f2-43ce-a985-e6ad2f5f129d",
+    "createdAt": "2026-09-12T23:56:19.671Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -50,8 +50,8 @@
     "totalPurchases": 67000,
     "balance": 23000,
     "status": "دائن",
-    "id": "adb58f3f-3bb5-41a1-ba7e-9e854ba80721",
-    "createdAt": "2026-09-12T23:26:23.449Z",
+    "id": "713a9810-1c34-4a38-8f44-a942553637eb",
+    "createdAt": "2026-09-12T23:56:19.671Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -64,8 +64,8 @@
     "totalPurchases": 38000,
     "balance": 0,
     "status": "مسدّد",
-    "id": "14fe0f8d-f741-4d94-8aa4-03094fd6b780",
-    "createdAt": "2026-09-12T23:26:23.449Z",
+    "id": "172a578d-bf6e-4828-bd33-d0348b5c3f8d",
+    "createdAt": "2026-09-12T23:56:19.671Z",
     "createdBy": "seed",
     "_version": 1
   }

@@ -67,10 +67,6 @@
   font-weight: 700;
 }
 
-.trip-cost-total span:last-child {
-  color: var(--color-red-text);
-}
-
 .trip-detail-actions {
   justify-content: flex-start;
 }

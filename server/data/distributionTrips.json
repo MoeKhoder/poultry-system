@@ -4,39 +4,27 @@
     "date": "2026-07-28",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 332,
-    "pickupCost": 150,
-    "transportCost": 482,
+    "dieselCost": 183,
+    "pickupCost": 179,
+    "transportCost": 362,
     "stops": [
       {
         "id": "stop-1-0",
         "customerName": "محل الطازج",
-        "amountDue": 186,
+        "amountDue": 333,
         "collected": true
       },
       {
         "id": "stop-1-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 287,
+        "amountDue": 111,
         "collected": false
-      },
-      {
-        "id": "stop-1-2",
-        "customerName": "بقالة النور",
-        "amountDue": 188,
-        "collected": false
-      },
-      {
-        "id": "stop-1-3",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 139,
-        "collected": true
       }
     ],
-    "totalAmount": 800,
+    "totalAmount": 444,
     "status": "مكتملة",
-    "id": "5641968b-912d-4b28-96f0-b575b25aaf64",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "c305cb6d-2ca7-444c-b9dd-c605bdba1254",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -45,27 +33,45 @@
     "date": "2026-07-28",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 250,
-    "pickupCost": 65,
-    "transportCost": 315,
+    "dieselCost": 359,
+    "pickupCost": 182,
+    "transportCost": 541,
     "stops": [
       {
         "id": "stop-2-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 174,
+        "amountDue": 238,
         "collected": true
       },
       {
         "id": "stop-2-1",
         "customerName": "بقالة النور",
-        "amountDue": 195,
+        "amountDue": 265,
         "collected": true
+      },
+      {
+        "id": "stop-2-2",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 87,
+        "collected": false
+      },
+      {
+        "id": "stop-2-3",
+        "customerName": "محل الوادي",
+        "amountDue": 341,
+        "collected": true
+      },
+      {
+        "id": "stop-2-4",
+        "customerName": "مطعم البيت",
+        "amountDue": 295,
+        "collected": false
       }
     ],
-    "totalAmount": 369,
+    "totalAmount": 1226,
     "status": "مكتملة",
-    "id": "85959dd0-95cb-414f-8a05-66244f691b81",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "9e6c6393-7012-4a30-a97a-88e2aa43c6f9",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -74,33 +80,39 @@
     "date": "2026-07-29",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 233,
-    "pickupCost": 99,
-    "transportCost": 332,
+    "dieselCost": 285,
+    "pickupCost": 98,
+    "transportCost": 383,
     "stops": [
       {
         "id": "stop-3-0",
         "customerName": "بقالة النور",
-        "amountDue": 232,
+        "amountDue": 151,
         "collected": true
       },
       {
         "id": "stop-3-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 235,
-        "collected": false
+        "amountDue": 332,
+        "collected": true
       },
       {
         "id": "stop-3-2",
         "customerName": "محل الوادي",
-        "amountDue": 241,
+        "amountDue": 95,
+        "collected": true
+      },
+      {
+        "id": "stop-3-3",
+        "customerName": "مطعم البيت",
+        "amountDue": 341,
         "collected": true
       }
     ],
-    "totalAmount": 708,
+    "totalAmount": 919,
     "status": "مكتملة",
-    "id": "20feb174-e992-41f9-8841-ab04afd35e85",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "b70e4fb7-31a5-46dd-b54d-112ebe6f6986",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -109,45 +121,33 @@
     "date": "2026-07-30",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 390,
-    "pickupCost": 120,
-    "transportCost": 510,
+    "dieselCost": 194,
+    "pickupCost": 92,
+    "transportCost": 286,
     "stops": [
       {
         "id": "stop-4-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 144,
-        "collected": true
+        "amountDue": 210,
+        "collected": false
       },
       {
         "id": "stop-4-1",
         "customerName": "محل الوادي",
-        "amountDue": 219,
+        "amountDue": 298,
         "collected": true
       },
       {
         "id": "stop-4-2",
         "customerName": "مطعم البيت",
-        "amountDue": 273,
-        "collected": true
-      },
-      {
-        "id": "stop-4-3",
-        "customerName": "بقالة السلام",
-        "amountDue": 352,
-        "collected": false
-      },
-      {
-        "id": "stop-4-4",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 347,
+        "amountDue": 235,
         "collected": true
       }
     ],
-    "totalAmount": 1335,
+    "totalAmount": 743,
     "status": "مكتملة",
-    "id": "9018f9db-8659-482b-b63f-482825af5964",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "d1dbce97-bbec-4d9c-b8cb-6d47279f0cd9",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -156,56 +156,80 @@
     "date": "2026-07-31",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 343,
-    "pickupCost": 196,
-    "transportCost": 539,
+    "dieselCost": 303,
+    "pickupCost": 130,
+    "transportCost": 433,
     "stops": [
       {
         "id": "stop-5-0",
         "customerName": "محل الوادي",
-        "amountDue": 204,
+        "amountDue": 267,
         "collected": true
       },
       {
         "id": "stop-5-1",
         "customerName": "مطعم البيت",
-        "amountDue": 367,
+        "amountDue": 364,
+        "collected": true
+      },
+      {
+        "id": "stop-5-2",
+        "customerName": "بقالة السلام",
+        "amountDue": 142,
+        "collected": false
+      },
+      {
+        "id": "stop-5-3",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 108,
+        "collected": false
+      },
+      {
+        "id": "stop-5-4",
+        "customerName": "محل الزهراء",
+        "amountDue": 347,
         "collected": true
       }
     ],
-    "totalAmount": 571,
+    "totalAmount": 1228,
     "status": "مكتملة",
-    "id": "57d87660-a7a7-49d9-843f-869a5fc1c106",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "98dfe723-caec-44f9-893c-117a4f52db3e",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2806",
-    "date": "2026-07-31",
+    "date": "2026-08-01",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 261,
-    "pickupCost": 199,
-    "transportCost": 460,
+    "dieselCost": 170,
+    "pickupCost": 166,
+    "transportCost": 336,
     "stops": [
       {
         "id": "stop-6-0",
         "customerName": "مطعم البيت",
-        "amountDue": 195,
+        "amountDue": 163,
         "collected": true
       },
       {
         "id": "stop-6-1",
         "customerName": "بقالة السلام",
-        "amountDue": 212,
+        "amountDue": 101,
+        "collected": true
+      },
+      {
+        "id": "stop-6-2",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 222,
         "collected": true
       }
     ],
-    "totalAmount": 407,
+    "totalAmount": 486,
     "status": "مكتملة",
-    "id": "90d00d3d-3f5c-4a1b-8b58-ad320d4e31f2",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "a6ab57f8-9058-4440-a79b-c752797bdb0f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -214,33 +238,39 @@
     "date": "2026-08-01",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 277,
-    "pickupCost": 94,
-    "transportCost": 371,
+    "dieselCost": 198,
+    "pickupCost": 191,
+    "transportCost": 389,
     "stops": [
       {
         "id": "stop-7-0",
         "customerName": "بقالة السلام",
-        "amountDue": 281,
+        "amountDue": 129,
         "collected": true
       },
       {
         "id": "stop-7-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 193,
+        "amountDue": 201,
         "collected": true
       },
       {
         "id": "stop-7-2",
         "customerName": "محل الزهراء",
-        "amountDue": 264,
+        "amountDue": 250,
+        "collected": true
+      },
+      {
+        "id": "stop-7-3",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 360,
         "collected": true
       }
     ],
-    "totalAmount": 738,
+    "totalAmount": 940,
     "status": "مكتملة",
-    "id": "72f5b311-0512-4dbe-a683-9787b94945a5",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "1b5d8150-92e9-4135-9b6c-0ca909cc8f6c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -249,33 +279,27 @@
     "date": "2026-08-01",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 135,
-    "pickupCost": 155,
-    "transportCost": 290,
+    "dieselCost": 168,
+    "pickupCost": 139,
+    "transportCost": 307,
     "stops": [
       {
         "id": "stop-8-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 223,
+        "amountDue": 160,
         "collected": true
       },
       {
         "id": "stop-8-1",
         "customerName": "محل الزهراء",
-        "amountDue": 137,
-        "collected": true
-      },
-      {
-        "id": "stop-8-2",
-        "customerName": "سوبرماركت الأمل",
-        "amountDue": 120,
-        "collected": true
+        "amountDue": 105,
+        "collected": false
       }
     ],
-    "totalAmount": 480,
+    "totalAmount": 265,
     "status": "مكتملة",
-    "id": "c6f675ad-4dc1-486a-b7ff-0f5b1d1e5fee",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "836b27e6-cb88-4716-ab96-1fed3fcb6caf",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -284,33 +308,33 @@
     "date": "2026-08-02",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 312,
-    "pickupCost": 124,
-    "transportCost": 436,
+    "dieselCost": 281,
+    "pickupCost": 116,
+    "transportCost": 397,
     "stops": [
       {
         "id": "stop-9-0",
         "customerName": "محل الزهراء",
-        "amountDue": 240,
+        "amountDue": 132,
         "collected": false
       },
       {
         "id": "stop-9-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 282,
-        "collected": false
+        "amountDue": 276,
+        "collected": true
       },
       {
         "id": "stop-9-2",
         "customerName": "محل الطازج",
-        "amountDue": 354,
-        "collected": false
+        "amountDue": 221,
+        "collected": true
       }
     ],
-    "totalAmount": 876,
+    "totalAmount": 629,
     "status": "مكتملة",
-    "id": "f565950f-1ffa-40ab-ac98-33443f02e431",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "9da3b508-5424-4908-b21b-fd261bc6bb47",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -319,261 +343,249 @@
     "date": "2026-08-02",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 275,
-    "pickupCost": 108,
-    "transportCost": 383,
+    "dieselCost": 145,
+    "pickupCost": 99,
+    "transportCost": 244,
     "stops": [
       {
         "id": "stop-10-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 186,
+        "amountDue": 345,
         "collected": true
       },
       {
         "id": "stop-10-1",
         "customerName": "محل الطازج",
-        "amountDue": 167,
-        "collected": false
+        "amountDue": 120,
+        "collected": true
       }
     ],
-    "totalAmount": 353,
+    "totalAmount": 465,
     "status": "مكتملة",
-    "id": "360ff1b9-b619-4f4d-bcdc-e1b81ac85a8f",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "13cd91fa-bde2-4f2e-8ddc-005cb8bc0303",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2811",
-    "date": "2026-08-03",
+    "date": "2026-08-02",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 270,
-    "pickupCost": 87,
-    "transportCost": 357,
+    "dieselCost": 289,
+    "pickupCost": 166,
+    "transportCost": 455,
     "stops": [
       {
         "id": "stop-11-0",
         "customerName": "محل الطازج",
-        "amountDue": 263,
+        "amountDue": 363,
         "collected": true
       },
       {
         "id": "stop-11-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 363,
-        "collected": true
+        "amountDue": 348,
+        "collected": false
       },
       {
         "id": "stop-11-2",
         "customerName": "بقالة النور",
-        "amountDue": 280,
-        "collected": true
+        "amountDue": 230,
+        "collected": false
       },
       {
         "id": "stop-11-3",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 300,
-        "collected": true
-      },
-      {
-        "id": "stop-11-4",
-        "customerName": "محل الوادي",
-        "amountDue": 156,
+        "amountDue": 297,
         "collected": false
       }
     ],
-    "totalAmount": 1362,
+    "totalAmount": 1238,
     "status": "مكتملة",
-    "id": "a1366a04-69b9-43f8-9b3e-9d473db552f9",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "4e8549f1-1b61-44e0-b8ff-0a7ac6ac3360",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2812",
-    "date": "2026-08-04",
+    "date": "2026-08-03",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 232,
-    "pickupCost": 151,
-    "transportCost": 383,
+    "dieselCost": 263,
+    "pickupCost": 176,
+    "transportCost": 439,
     "stops": [
       {
         "id": "stop-12-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 209,
+        "amountDue": 258,
         "collected": true
       },
       {
         "id": "stop-12-1",
         "customerName": "بقالة النور",
-        "amountDue": 118,
+        "amountDue": 94,
         "collected": true
       },
       {
         "id": "stop-12-2",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 142,
-        "collected": false
+        "amountDue": 184,
+        "collected": true
       },
       {
         "id": "stop-12-3",
         "customerName": "محل الوادي",
-        "amountDue": 96,
+        "amountDue": 158,
         "collected": true
       },
       {
         "id": "stop-12-4",
         "customerName": "مطعم البيت",
-        "amountDue": 180,
+        "amountDue": 275,
         "collected": true
       }
     ],
-    "totalAmount": 745,
+    "totalAmount": 969,
     "status": "مكتملة",
-    "id": "fd6242cf-2671-41f1-8b5c-5e4cb770357b",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "0a06b318-cf17-4d2f-83c0-8cd590c505d4",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2813",
-    "date": "2026-08-04",
+    "date": "2026-08-03",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 240,
-    "pickupCost": 98,
-    "transportCost": 338,
+    "dieselCost": 296,
+    "pickupCost": 153,
+    "transportCost": 449,
     "stops": [
       {
         "id": "stop-13-0",
         "customerName": "بقالة النور",
-        "amountDue": 147,
-        "collected": true
+        "amountDue": 263,
+        "collected": false
       },
       {
         "id": "stop-13-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 179,
-        "collected": true
-      },
-      {
-        "id": "stop-13-2",
-        "customerName": "محل الوادي",
-        "amountDue": 265,
-        "collected": true
-      },
-      {
-        "id": "stop-13-3",
-        "customerName": "مطعم البيت",
-        "amountDue": 329,
-        "collected": true
-      },
-      {
-        "id": "stop-13-4",
-        "customerName": "بقالة السلام",
-        "amountDue": 197,
+        "amountDue": 258,
         "collected": true
       }
     ],
-    "totalAmount": 1117,
+    "totalAmount": 521,
     "status": "مكتملة",
-    "id": "a6ae304e-e5af-424a-864e-7188d7dab380",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "8d3e3312-4956-4245-80bb-f7612de31a34",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2814",
-    "date": "2026-08-05",
+    "date": "2026-08-03",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 198,
-    "pickupCost": 190,
-    "transportCost": 388,
+    "dieselCost": 222,
+    "pickupCost": 145,
+    "transportCost": 367,
     "stops": [
       {
         "id": "stop-14-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 284,
+        "amountDue": 353,
         "collected": true
       },
       {
         "id": "stop-14-1",
         "customerName": "محل الوادي",
-        "amountDue": 375,
-        "collected": false
+        "amountDue": 261,
+        "collected": true
       },
       {
         "id": "stop-14-2",
         "customerName": "مطعم البيت",
-        "amountDue": 150,
+        "amountDue": 264,
+        "collected": false
+      },
+      {
+        "id": "stop-14-3",
+        "customerName": "بقالة السلام",
+        "amountDue": 234,
+        "collected": false
+      },
+      {
+        "id": "stop-14-4",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 209,
         "collected": true
       }
     ],
-    "totalAmount": 809,
+    "totalAmount": 1321,
     "status": "مكتملة",
-    "id": "52cee024-2244-43d3-aef1-6484b17a36dc",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "f933486c-141f-46d2-8b78-11f6bbc78383",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2815",
-    "date": "2026-08-05",
+    "date": "2026-08-04",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 157,
-    "pickupCost": 85,
-    "transportCost": 242,
+    "dieselCost": 322,
+    "pickupCost": 131,
+    "transportCost": 453,
     "stops": [
       {
         "id": "stop-15-0",
         "customerName": "محل الوادي",
-        "amountDue": 132,
+        "amountDue": 248,
         "collected": true
       },
       {
         "id": "stop-15-1",
         "customerName": "مطعم البيت",
         "amountDue": 375,
-        "collected": false
+        "collected": true
       }
     ],
-    "totalAmount": 507,
+    "totalAmount": 623,
     "status": "مكتملة",
-    "id": "05a9aab7-4024-4030-9714-ed85eaeff03d",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "709509ec-cb1a-45bf-96b7-3ea68384cf79",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2816",
-    "date": "2026-08-06",
+    "date": "2026-08-05",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 138,
-    "pickupCost": 94,
-    "transportCost": 232,
+    "dieselCost": 279,
+    "pickupCost": 138,
+    "transportCost": 417,
     "stops": [
       {
         "id": "stop-16-0",
         "customerName": "مطعم البيت",
-        "amountDue": 149,
+        "amountDue": 226,
         "collected": true
       },
       {
         "id": "stop-16-1",
         "customerName": "بقالة السلام",
-        "amountDue": 221,
-        "collected": false
+        "amountDue": 399,
+        "collected": true
       }
     ],
-    "totalAmount": 370,
+    "totalAmount": 625,
     "status": "مكتملة",
-    "id": "8c831d81-0e9d-4ca5-b674-8993330fb529",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "fa8335f2-f54b-42ed-9a08-166f4bcce84f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -582,27 +594,33 @@
     "date": "2026-08-06",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 355,
-    "pickupCost": 85,
-    "transportCost": 440,
+    "dieselCost": 328,
+    "pickupCost": 162,
+    "transportCost": 490,
     "stops": [
       {
         "id": "stop-17-0",
         "customerName": "بقالة السلام",
-        "amountDue": 126,
+        "amountDue": 394,
         "collected": true
       },
       {
         "id": "stop-17-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 176,
+        "amountDue": 305,
         "collected": true
+      },
+      {
+        "id": "stop-17-2",
+        "customerName": "محل الزهراء",
+        "amountDue": 183,
+        "collected": false
       }
     ],
-    "totalAmount": 302,
+    "totalAmount": 882,
     "status": "مكتملة",
-    "id": "6e37c5c7-a673-4ef4-9bd7-8c3a5041d09c",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "0fbbe306-8d63-475b-9026-2a377d0e567a",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -611,1927 +629,2047 @@
     "date": "2026-08-06",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 301,
-    "pickupCost": 117,
-    "transportCost": 418,
+    "dieselCost": 340,
+    "pickupCost": 178,
+    "transportCost": 518,
     "stops": [
       {
         "id": "stop-18-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 356,
+        "amountDue": 349,
         "collected": true
       },
       {
         "id": "stop-18-1",
         "customerName": "محل الزهراء",
-        "amountDue": 212,
+        "amountDue": 149,
         "collected": true
       },
       {
         "id": "stop-18-2",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 127,
+        "amountDue": 153,
         "collected": true
       },
       {
         "id": "stop-18-3",
         "customerName": "محل الطازج",
-        "amountDue": 179,
+        "amountDue": 219,
         "collected": true
       }
     ],
-    "totalAmount": 874,
+    "totalAmount": 870,
     "status": "مكتملة",
-    "id": "96fa4f6e-1952-4fe8-9621-6b6792b1919f",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "f138eb70-0f8c-4a0f-b712-ed3e20267272",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2819",
-    "date": "2026-08-07",
+    "date": "2026-08-06",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 357,
+    "dieselCost": 251,
     "pickupCost": 138,
-    "transportCost": 495,
+    "transportCost": 389,
     "stops": [
       {
         "id": "stop-19-0",
         "customerName": "محل الزهراء",
-        "amountDue": 80,
+        "amountDue": 294,
         "collected": true
       },
       {
         "id": "stop-19-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 334,
+        "amountDue": 251,
+        "collected": true
+      },
+      {
+        "id": "stop-19-2",
+        "customerName": "محل الطازج",
+        "amountDue": 176,
+        "collected": true
+      },
+      {
+        "id": "stop-19-3",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 329,
+        "collected": false
+      },
+      {
+        "id": "stop-19-4",
+        "customerName": "بقالة النور",
+        "amountDue": 216,
         "collected": true
       }
     ],
-    "totalAmount": 414,
+    "totalAmount": 1266,
     "status": "مكتملة",
-    "id": "878e50d8-8adf-40e4-9710-98ec6be5a24d",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "70deb5d5-862d-4769-a7d9-35f6af93dcfc",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2820",
-    "date": "2026-08-08",
+    "date": "2026-08-07",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 240,
-    "pickupCost": 175,
-    "transportCost": 415,
+    "dieselCost": 214,
+    "pickupCost": 164,
+    "transportCost": 378,
     "stops": [
       {
         "id": "stop-20-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 371,
+        "amountDue": 187,
         "collected": true
       },
       {
         "id": "stop-20-1",
         "customerName": "محل الطازج",
-        "amountDue": 379,
+        "amountDue": 312,
         "collected": true
       },
       {
         "id": "stop-20-2",
         "customerName": "مطعم الذواقة",
-        "amountDue": 328,
+        "amountDue": 273,
         "collected": true
+      },
+      {
+        "id": "stop-20-3",
+        "customerName": "بقالة النور",
+        "amountDue": 179,
+        "collected": true
+      },
+      {
+        "id": "stop-20-4",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 205,
+        "collected": false
       }
     ],
-    "totalAmount": 1078,
+    "totalAmount": 1156,
     "status": "مكتملة",
-    "id": "8bcdd83d-dd03-4afe-8779-75acc4de67ca",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "23ed9992-64d1-40e4-a46b-84c5b0335b6a",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2821",
-    "date": "2026-08-08",
+    "date": "2026-08-07",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 122,
-    "pickupCost": 77,
-    "transportCost": 199,
+    "dieselCost": 295,
+    "pickupCost": 130,
+    "transportCost": 425,
     "stops": [
       {
         "id": "stop-21-0",
         "customerName": "محل الطازج",
-        "amountDue": 279,
+        "amountDue": 211,
         "collected": false
       },
       {
         "id": "stop-21-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 169,
+        "amountDue": 313,
         "collected": true
       }
     ],
-    "totalAmount": 448,
+    "totalAmount": 524,
     "status": "مكتملة",
-    "id": "b3fa21bd-3ad2-4014-96cf-827f0818142c",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "6f65ef87-c0f7-42aa-a1bb-77249e03e284",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2822",
-    "date": "2026-08-09",
+    "date": "2026-08-07",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 158,
-    "pickupCost": 115,
-    "transportCost": 273,
+    "dieselCost": 190,
+    "pickupCost": 113,
+    "transportCost": 303,
     "stops": [
       {
         "id": "stop-22-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 233,
-        "collected": false
+        "amountDue": 241,
+        "collected": true
       },
       {
         "id": "stop-22-1",
         "customerName": "بقالة النور",
-        "amountDue": 324,
+        "amountDue": 229,
         "collected": true
       },
       {
         "id": "stop-22-2",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 84,
+        "amountDue": 177,
         "collected": true
+      },
+      {
+        "id": "stop-22-3",
+        "customerName": "محل الوادي",
+        "amountDue": 290,
+        "collected": false
+      },
+      {
+        "id": "stop-22-4",
+        "customerName": "مطعم البيت",
+        "amountDue": 184,
+        "collected": false
       }
     ],
-    "totalAmount": 641,
+    "totalAmount": 1121,
     "status": "مكتملة",
-    "id": "4cfc767e-cab3-4d76-b4cd-d18c89245eff",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "968c66a4-ef5e-49fb-9725-f996e16600bc",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2823",
-    "date": "2026-08-10",
+    "date": "2026-08-08",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 251,
-    "pickupCost": 134,
-    "transportCost": 385,
+    "dieselCost": 128,
+    "pickupCost": 144,
+    "transportCost": 272,
     "stops": [
       {
         "id": "stop-23-0",
         "customerName": "بقالة النور",
-        "amountDue": 347,
-        "collected": true
+        "amountDue": 191,
+        "collected": false
       },
       {
         "id": "stop-23-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 82,
+        "amountDue": 289,
         "collected": true
       },
       {
         "id": "stop-23-2",
         "customerName": "محل الوادي",
-        "amountDue": 385,
-        "collected": true
-      },
-      {
-        "id": "stop-23-3",
-        "customerName": "مطعم البيت",
-        "amountDue": 175,
-        "collected": true
+        "amountDue": 335,
+        "collected": false
       }
     ],
-    "totalAmount": 989,
+    "totalAmount": 815,
     "status": "مكتملة",
-    "id": "a9f15389-7062-43c4-9684-f1f89d627029",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "70e403d1-9bb4-44b2-a5b0-bd61c0cdef49",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2824",
-    "date": "2026-08-11",
+    "date": "2026-08-09",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 158,
-    "pickupCost": 193,
-    "transportCost": 351,
+    "dieselCost": 274,
+    "pickupCost": 110,
+    "transportCost": 384,
     "stops": [
       {
         "id": "stop-24-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 256,
+        "amountDue": 204,
         "collected": true
       },
       {
         "id": "stop-24-1",
         "customerName": "محل الوادي",
-        "amountDue": 359,
-        "collected": false
+        "amountDue": 109,
+        "collected": true
       },
       {
         "id": "stop-24-2",
         "customerName": "مطعم البيت",
-        "amountDue": 338,
+        "amountDue": 340,
         "collected": true
       },
       {
         "id": "stop-24-3",
         "customerName": "بقالة السلام",
-        "amountDue": 95,
+        "amountDue": 360,
+        "collected": false
+      },
+      {
+        "id": "stop-24-4",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 204,
         "collected": true
       }
     ],
-    "totalAmount": 1048,
+    "totalAmount": 1217,
     "status": "مكتملة",
-    "id": "a76dd5ba-fd34-4c09-ba95-cd597bb151a6",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "a9541893-fde4-4341-9d5a-903f167e1753",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2825",
-    "date": "2026-08-12",
+    "date": "2026-08-09",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 313,
-    "pickupCost": 93,
-    "transportCost": 406,
+    "dieselCost": 275,
+    "pickupCost": 158,
+    "transportCost": 433,
     "stops": [
       {
         "id": "stop-25-0",
         "customerName": "محل الوادي",
-        "amountDue": 331,
-        "collected": false
+        "amountDue": 201,
+        "collected": true
       },
       {
         "id": "stop-25-1",
         "customerName": "مطعم البيت",
-        "amountDue": 263,
-        "collected": false
+        "amountDue": 162,
+        "collected": true
       },
       {
         "id": "stop-25-2",
         "customerName": "بقالة السلام",
-        "amountDue": 232,
+        "amountDue": 237,
         "collected": true
       },
       {
         "id": "stop-25-3",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 338,
+        "amountDue": 366,
         "collected": false
       },
       {
         "id": "stop-25-4",
         "customerName": "محل الزهراء",
-        "amountDue": 101,
+        "amountDue": 274,
         "collected": true
       }
     ],
-    "totalAmount": 1265,
+    "totalAmount": 1240,
     "status": "مكتملة",
-    "id": "a6ce31d2-da31-4976-92de-574c0874b8fc",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "ab10a4c8-9dc7-4e9f-8c4c-ad20a4aa0f59",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2826",
-    "date": "2026-08-12",
+    "date": "2026-08-10",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 344,
-    "pickupCost": 155,
-    "transportCost": 499,
+    "dieselCost": 240,
+    "pickupCost": 72,
+    "transportCost": 312,
     "stops": [
       {
         "id": "stop-26-0",
         "customerName": "مطعم البيت",
-        "amountDue": 289,
-        "collected": false
+        "amountDue": 240,
+        "collected": true
       },
       {
         "id": "stop-26-1",
         "customerName": "بقالة السلام",
-        "amountDue": 363,
+        "amountDue": 135,
         "collected": true
       },
       {
         "id": "stop-26-2",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 265,
+        "amountDue": 216,
         "collected": true
+      },
+      {
+        "id": "stop-26-3",
+        "customerName": "محل الزهراء",
+        "amountDue": 351,
+        "collected": true
+      },
+      {
+        "id": "stop-26-4",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 244,
+        "collected": false
       }
     ],
-    "totalAmount": 917,
+    "totalAmount": 1186,
     "status": "مكتملة",
-    "id": "8be89ac2-29a0-45d6-88c2-22fbfd9c8609",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "1d41d278-fbd8-4bef-a926-046c57f3f772",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2827",
-    "date": "2026-08-13",
+    "date": "2026-08-10",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 234,
-    "pickupCost": 90,
-    "transportCost": 324,
+    "dieselCost": 317,
+    "pickupCost": 167,
+    "transportCost": 484,
     "stops": [
       {
         "id": "stop-27-0",
         "customerName": "بقالة السلام",
-        "amountDue": 131,
+        "amountDue": 246,
         "collected": true
       },
       {
         "id": "stop-27-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 274,
-        "collected": false
-      },
-      {
-        "id": "stop-27-2",
-        "customerName": "محل الزهراء",
-        "amountDue": 278,
+        "amountDue": 270,
         "collected": true
       }
     ],
-    "totalAmount": 683,
+    "totalAmount": 516,
     "status": "مكتملة",
-    "id": "44e97237-62b7-4ed7-985b-07b607475600",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "e2df9f87-c4ee-4432-8bf1-f7a715c40e6f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2828",
-    "date": "2026-08-13",
+    "date": "2026-08-10",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 366,
-    "pickupCost": 119,
-    "transportCost": 485,
+    "dieselCost": 348,
+    "pickupCost": 120,
+    "transportCost": 468,
     "stops": [
       {
         "id": "stop-28-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 395,
+        "amountDue": 259,
         "collected": true
       },
       {
         "id": "stop-28-1",
         "customerName": "محل الزهراء",
-        "amountDue": 186,
-        "collected": false
+        "amountDue": 210,
+        "collected": true
       },
       {
         "id": "stop-28-2",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 257,
-        "collected": true
+        "amountDue": 349,
+        "collected": false
       },
       {
         "id": "stop-28-3",
         "customerName": "محل الطازج",
-        "amountDue": 206,
-        "collected": true
+        "amountDue": 127,
+        "collected": false
       }
     ],
-    "totalAmount": 1044,
+    "totalAmount": 945,
     "status": "مكتملة",
-    "id": "72110f18-5b79-4bd0-908a-9bedba4fd676",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "5047e493-b994-4997-b044-4829a49cd12c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2829",
-    "date": "2026-08-13",
+    "date": "2026-08-11",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 361,
-    "pickupCost": 167,
-    "transportCost": 528,
+    "dieselCost": 206,
+    "pickupCost": 111,
+    "transportCost": 317,
     "stops": [
       {
         "id": "stop-29-0",
         "customerName": "محل الزهراء",
-        "amountDue": 392,
+        "amountDue": 311,
         "collected": true
       },
       {
         "id": "stop-29-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 165,
-        "collected": true
+        "amountDue": 167,
+        "collected": false
       },
       {
         "id": "stop-29-2",
         "customerName": "محل الطازج",
-        "amountDue": 87,
+        "amountDue": 399,
         "collected": true
       }
     ],
-    "totalAmount": 644,
+    "totalAmount": 877,
     "status": "مكتملة",
-    "id": "37c13e7a-f66b-4605-9546-cfe5d5a2071c",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "253b2fc8-833d-4180-9221-3b850799b886",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2830",
-    "date": "2026-08-14",
+    "date": "2026-08-11",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 144,
-    "pickupCost": 130,
-    "transportCost": 274,
+    "dieselCost": 331,
+    "pickupCost": 124,
+    "transportCost": 455,
     "stops": [
       {
         "id": "stop-30-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 87,
+        "amountDue": 121,
         "collected": true
       },
       {
         "id": "stop-30-1",
         "customerName": "محل الطازج",
-        "amountDue": 245,
+        "amountDue": 357,
         "collected": true
       },
       {
         "id": "stop-30-2",
         "customerName": "مطعم الذواقة",
-        "amountDue": 211,
+        "amountDue": 287,
         "collected": true
       }
     ],
-    "totalAmount": 543,
+    "totalAmount": 765,
     "status": "مكتملة",
-    "id": "43bde3dd-a273-47ed-8706-4f3328c4672b",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "75313e65-73df-40c3-ba1b-dfaa28409efd",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2831",
-    "date": "2026-08-15",
+    "date": "2026-08-12",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 271,
-    "pickupCost": 179,
-    "transportCost": 450,
+    "dieselCost": 189,
+    "pickupCost": 123,
+    "transportCost": 312,
     "stops": [
       {
         "id": "stop-31-0",
         "customerName": "محل الطازج",
-        "amountDue": 183,
-        "collected": false
+        "amountDue": 292,
+        "collected": true
       },
       {
         "id": "stop-31-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 154,
-        "collected": false
-      },
-      {
-        "id": "stop-31-2",
-        "customerName": "بقالة النور",
-        "amountDue": 345,
+        "amountDue": 254,
         "collected": true
-      },
-      {
-        "id": "stop-31-3",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 295,
-        "collected": true
-      },
-      {
-        "id": "stop-31-4",
-        "customerName": "محل الوادي",
-        "amountDue": 219,
-        "collected": false
       }
     ],
-    "totalAmount": 1196,
+    "totalAmount": 546,
     "status": "مكتملة",
-    "id": "6824cadb-1c8c-4e89-8492-e962c3a72f79",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "81320a38-9961-4897-85aa-cb32cab04796",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2832",
-    "date": "2026-08-15",
+    "date": "2026-08-12",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
     "dieselCost": 152,
-    "pickupCost": 85,
-    "transportCost": 237,
+    "pickupCost": 107,
+    "transportCost": 259,
     "stops": [
       {
         "id": "stop-32-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 162,
-        "collected": true
+        "amountDue": 380,
+        "collected": false
       },
       {
         "id": "stop-32-1",
         "customerName": "بقالة النور",
-        "amountDue": 83,
-        "collected": true
+        "amountDue": 356,
+        "collected": false
       },
       {
         "id": "stop-32-2",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 308,
+        "amountDue": 103,
         "collected": true
       }
     ],
-    "totalAmount": 553,
+    "totalAmount": 839,
     "status": "مكتملة",
-    "id": "585750db-17fe-4d3b-b59b-eac3392de24f",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "b0928fa9-8c09-4f85-956f-b35243defe30",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2833",
-    "date": "2026-08-15",
+    "date": "2026-08-13",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 174,
-    "pickupCost": 73,
-    "transportCost": 247,
+    "dieselCost": 156,
+    "pickupCost": 178,
+    "transportCost": 334,
     "stops": [
       {
         "id": "stop-33-0",
         "customerName": "بقالة النور",
-        "amountDue": 355,
+        "amountDue": 219,
         "collected": false
       },
       {
         "id": "stop-33-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 246,
+        "amountDue": 146,
+        "collected": true
+      },
+      {
+        "id": "stop-33-2",
+        "customerName": "محل الوادي",
+        "amountDue": 374,
         "collected": false
+      },
+      {
+        "id": "stop-33-3",
+        "customerName": "مطعم البيت",
+        "amountDue": 226,
+        "collected": true
+      },
+      {
+        "id": "stop-33-4",
+        "customerName": "بقالة السلام",
+        "amountDue": 81,
+        "collected": true
       }
     ],
-    "totalAmount": 601,
+    "totalAmount": 1046,
     "status": "مكتملة",
-    "id": "033509d3-c7eb-443b-96bb-47d0bd1297c6",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "38ebfe69-1207-4a7c-9646-6772898adf2f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2834",
-    "date": "2026-08-16",
+    "date": "2026-08-14",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 236,
-    "pickupCost": 185,
-    "transportCost": 421,
+    "dieselCost": 217,
+    "pickupCost": 166,
+    "transportCost": 383,
     "stops": [
       {
         "id": "stop-34-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 176,
+        "amountDue": 400,
         "collected": true
       },
       {
         "id": "stop-34-1",
         "customerName": "محل الوادي",
-        "amountDue": 118,
-        "collected": true
+        "amountDue": 235,
+        "collected": false
       },
       {
         "id": "stop-34-2",
         "customerName": "مطعم البيت",
-        "amountDue": 257,
+        "amountDue": 162,
         "collected": true
       },
       {
         "id": "stop-34-3",
         "customerName": "بقالة السلام",
-        "amountDue": 361,
+        "amountDue": 103,
+        "collected": true
+      },
+      {
+        "id": "stop-34-4",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 330,
         "collected": true
       }
     ],
-    "totalAmount": 912,
+    "totalAmount": 1230,
     "status": "مكتملة",
-    "id": "e7d4e7d6-0f16-4cfa-80cb-d7f206e0f8c3",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "b8156ce4-2b2a-461d-97da-54463b128ef1",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2835",
-    "date": "2026-08-16",
+    "date": "2026-08-15",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 382,
-    "pickupCost": 76,
-    "transportCost": 458,
+    "dieselCost": 252,
+    "pickupCost": 123,
+    "transportCost": 375,
     "stops": [
       {
         "id": "stop-35-0",
         "customerName": "محل الوادي",
-        "amountDue": 275,
+        "amountDue": 389,
         "collected": true
       },
       {
         "id": "stop-35-1",
         "customerName": "مطعم البيت",
-        "amountDue": 271,
+        "amountDue": 215,
         "collected": true
       },
       {
         "id": "stop-35-2",
         "customerName": "بقالة السلام",
-        "amountDue": 396,
-        "collected": false
-      },
-      {
-        "id": "stop-35-3",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 218,
+        "amountDue": 368,
         "collected": false
       }
     ],
-    "totalAmount": 1160,
+    "totalAmount": 972,
     "status": "مكتملة",
-    "id": "7fe1b04b-0a0c-43d1-bca1-db98920383e6",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "99b1456d-4200-48fc-bc37-b385633d1800",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2836",
-    "date": "2026-08-17",
+    "date": "2026-08-15",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 375,
-    "pickupCost": 194,
-    "transportCost": 569,
+    "dieselCost": 147,
+    "pickupCost": 72,
+    "transportCost": 219,
     "stops": [
       {
         "id": "stop-36-0",
         "customerName": "مطعم البيت",
-        "amountDue": 234,
+        "amountDue": 123,
         "collected": true
       },
       {
         "id": "stop-36-1",
         "customerName": "بقالة السلام",
-        "amountDue": 153,
-        "collected": true
-      },
-      {
-        "id": "stop-36-2",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 247,
-        "collected": true
-      },
-      {
-        "id": "stop-36-3",
-        "customerName": "محل الزهراء",
-        "amountDue": 180,
-        "collected": true
-      },
-      {
-        "id": "stop-36-4",
-        "customerName": "سوبرماركت الأمل",
-        "amountDue": 136,
+        "amountDue": 265,
         "collected": true
       }
     ],
-    "totalAmount": 950,
+    "totalAmount": 388,
     "status": "مكتملة",
-    "id": "3fe165ee-0e14-490d-b168-c38b080a8791",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "e7003303-a94e-4872-962c-de3d6e2f4ade",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2837",
-    "date": "2026-08-18",
+    "date": "2026-08-16",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 213,
-    "pickupCost": 116,
-    "transportCost": 329,
+    "dieselCost": 257,
+    "pickupCost": 135,
+    "transportCost": 392,
     "stops": [
       {
         "id": "stop-37-0",
         "customerName": "بقالة السلام",
-        "amountDue": 381,
+        "amountDue": 117,
         "collected": true
       },
       {
         "id": "stop-37-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 320,
-        "collected": true
+        "amountDue": 148,
+        "collected": false
       },
       {
         "id": "stop-37-2",
         "customerName": "محل الزهراء",
-        "amountDue": 138,
+        "amountDue": 82,
         "collected": true
       },
       {
         "id": "stop-37-3",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 187,
+        "amountDue": 261,
         "collected": true
+      },
+      {
+        "id": "stop-37-4",
+        "customerName": "محل الطازج",
+        "amountDue": 351,
+        "collected": false
       }
     ],
-    "totalAmount": 1026,
+    "totalAmount": 959,
     "status": "مكتملة",
-    "id": "056cdb86-301b-44e2-a45f-d28e89854990",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "bf955e38-c516-471b-93b4-28e556968d88",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2838",
-    "date": "2026-08-19",
+    "date": "2026-08-16",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 385,
-    "pickupCost": 179,
-    "transportCost": 564,
+    "dieselCost": 359,
+    "pickupCost": 100,
+    "transportCost": 459,
     "stops": [
       {
         "id": "stop-38-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 113,
-        "collected": true
+        "amountDue": 372,
+        "collected": false
       },
       {
         "id": "stop-38-1",
         "customerName": "محل الزهراء",
-        "amountDue": 116,
-        "collected": true
+        "amountDue": 169,
+        "collected": false
       },
       {
         "id": "stop-38-2",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 254,
+        "amountDue": 156,
         "collected": true
       },
       {
         "id": "stop-38-3",
         "customerName": "محل الطازج",
-        "amountDue": 283,
+        "amountDue": 175,
         "collected": true
       }
     ],
-    "totalAmount": 766,
+    "totalAmount": 872,
     "status": "مكتملة",
-    "id": "e9905329-bc16-48a0-8bb2-5b8ef3598e3a",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "71be0376-35d8-4274-b446-943ef40d8620",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2839",
-    "date": "2026-08-20",
+    "date": "2026-08-17",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 308,
-    "pickupCost": 116,
-    "transportCost": 424,
+    "dieselCost": 197,
+    "pickupCost": 182,
+    "transportCost": 379,
     "stops": [
       {
         "id": "stop-39-0",
         "customerName": "محل الزهراء",
-        "amountDue": 216,
-        "collected": false
+        "amountDue": 284,
+        "collected": true
       },
       {
         "id": "stop-39-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 379,
-        "collected": true
-      },
-      {
-        "id": "stop-39-2",
-        "customerName": "محل الطازج",
-        "amountDue": 295,
+        "amountDue": 321,
         "collected": true
       }
     ],
-    "totalAmount": 890,
+    "totalAmount": 605,
     "status": "مكتملة",
-    "id": "8c0e6b62-f1f3-4d1f-8110-57976cbea489",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "219a9130-443f-4d60-8d9c-ae869a2bdfc8",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2840",
-    "date": "2026-08-20",
+    "date": "2026-08-17",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 259,
-    "pickupCost": 97,
-    "transportCost": 356,
+    "dieselCost": 347,
+    "pickupCost": 181,
+    "transportCost": 528,
     "stops": [
       {
         "id": "stop-40-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 244,
+        "amountDue": 217,
         "collected": true
       },
       {
         "id": "stop-40-1",
         "customerName": "محل الطازج",
-        "amountDue": 384,
+        "amountDue": 377,
         "collected": true
       },
       {
         "id": "stop-40-2",
         "customerName": "مطعم الذواقة",
-        "amountDue": 341,
+        "amountDue": 271,
+        "collected": true
+      },
+      {
+        "id": "stop-40-3",
+        "customerName": "بقالة النور",
+        "amountDue": 269,
+        "collected": false
+      },
+      {
+        "id": "stop-40-4",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 271,
         "collected": true
       }
     ],
-    "totalAmount": 969,
+    "totalAmount": 1405,
     "status": "مكتملة",
-    "id": "7f290dd2-9929-46a1-a001-d33bc46655e0",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "42cc97ec-b803-4f10-9337-de3b4a30f35e",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2841",
-    "date": "2026-08-21",
+    "date": "2026-08-17",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 278,
-    "pickupCost": 78,
-    "transportCost": 356,
+    "dieselCost": 396,
+    "pickupCost": 132,
+    "transportCost": 528,
     "stops": [
       {
         "id": "stop-41-0",
         "customerName": "محل الطازج",
-        "amountDue": 218,
+        "amountDue": 199,
         "collected": true
       },
       {
         "id": "stop-41-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 264,
-        "collected": true
+        "amountDue": 252,
+        "collected": false
       },
       {
         "id": "stop-41-2",
         "customerName": "بقالة النور",
-        "amountDue": 220,
+        "amountDue": 184,
         "collected": true
       },
       {
         "id": "stop-41-3",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 183,
+        "amountDue": 191,
         "collected": true
-      },
-      {
-        "id": "stop-41-4",
-        "customerName": "محل الوادي",
-        "amountDue": 245,
-        "collected": false
       }
     ],
-    "totalAmount": 1130,
+    "totalAmount": 826,
     "status": "مكتملة",
-    "id": "9f6fb3ae-05c8-4d76-9e60-1e77a2eebc21",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "881b825c-6542-4321-8e8f-86a748d1e0b5",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2842",
-    "date": "2026-08-21",
+    "date": "2026-08-18",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 167,
-    "pickupCost": 76,
-    "transportCost": 243,
+    "dieselCost": 189,
+    "pickupCost": 173,
+    "transportCost": 362,
     "stops": [
       {
         "id": "stop-42-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 325,
-        "collected": true
+        "amountDue": 244,
+        "collected": false
       },
       {
         "id": "stop-42-1",
         "customerName": "بقالة النور",
-        "amountDue": 195,
-        "collected": true
-      },
-      {
-        "id": "stop-42-2",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 396,
-        "collected": true
-      },
-      {
-        "id": "stop-42-3",
-        "customerName": "محل الوادي",
-        "amountDue": 116,
-        "collected": true
+        "amountDue": 199,
+        "collected": false
       }
     ],
-    "totalAmount": 1032,
+    "totalAmount": 443,
     "status": "مكتملة",
-    "id": "0cddfd99-0d89-4c2f-9d89-422f9ea2e4bf",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "fdb15051-6e51-4b14-86b1-aa8ada928b2d",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2843",
-    "date": "2026-08-21",
+    "date": "2026-08-19",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 238,
-    "pickupCost": 192,
-    "transportCost": 430,
+    "dieselCost": 262,
+    "pickupCost": 99,
+    "transportCost": 361,
     "stops": [
       {
         "id": "stop-43-0",
         "customerName": "بقالة النور",
-        "amountDue": 284,
+        "amountDue": 273,
         "collected": true
       },
       {
         "id": "stop-43-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 322,
-        "collected": false
+        "amountDue": 263,
+        "collected": true
+      },
+      {
+        "id": "stop-43-2",
+        "customerName": "محل الوادي",
+        "amountDue": 144,
+        "collected": true
+      },
+      {
+        "id": "stop-43-3",
+        "customerName": "مطعم البيت",
+        "amountDue": 148,
+        "collected": true
       }
     ],
-    "totalAmount": 606,
+    "totalAmount": 828,
     "status": "مكتملة",
-    "id": "5989df7e-00bb-49f4-a058-5e6b820a0377",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "88632172-14ae-4288-892a-e8d6d9b6344f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2844",
-    "date": "2026-08-22",
+    "date": "2026-08-19",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 308,
-    "pickupCost": 193,
-    "transportCost": 501,
+    "dieselCost": 179,
+    "pickupCost": 134,
+    "transportCost": 313,
     "stops": [
       {
         "id": "stop-44-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 104,
+        "amountDue": 344,
         "collected": true
       },
       {
         "id": "stop-44-1",
         "customerName": "محل الوادي",
-        "amountDue": 315,
-        "collected": true
+        "amountDue": 287,
+        "collected": false
       },
       {
         "id": "stop-44-2",
         "customerName": "مطعم البيت",
-        "amountDue": 157,
-        "collected": false
+        "amountDue": 300,
+        "collected": true
       },
       {
         "id": "stop-44-3",
         "customerName": "بقالة السلام",
-        "amountDue": 272,
-        "collected": true
-      },
-      {
-        "id": "stop-44-4",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 353,
-        "collected": true
+        "amountDue": 121,
+        "collected": false
       }
     ],
-    "totalAmount": 1201,
+    "totalAmount": 1052,
     "status": "مكتملة",
-    "id": "3353d402-f753-42bb-bc51-a874132e5ff4",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "043d30d3-eee8-45b4-bb30-097d713e5c96",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2845",
-    "date": "2026-08-23",
+    "date": "2026-08-20",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 300,
-    "pickupCost": 178,
-    "transportCost": 478,
+    "dieselCost": 350,
+    "pickupCost": 193,
+    "transportCost": 543,
     "stops": [
       {
         "id": "stop-45-0",
         "customerName": "محل الوادي",
-        "amountDue": 100,
+        "amountDue": 139,
         "collected": true
       },
       {
         "id": "stop-45-1",
         "customerName": "مطعم البيت",
-        "amountDue": 301,
-        "collected": false
+        "amountDue": 104,
+        "collected": true
       },
       {
         "id": "stop-45-2",
         "customerName": "بقالة السلام",
-        "amountDue": 114,
+        "amountDue": 294,
         "collected": true
       },
       {
         "id": "stop-45-3",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 271,
+        "amountDue": 114,
+        "collected": true
+      },
+      {
+        "id": "stop-45-4",
+        "customerName": "محل الزهراء",
+        "amountDue": 140,
         "collected": true
       }
     ],
-    "totalAmount": 786,
+    "totalAmount": 791,
     "status": "مكتملة",
-    "id": "674e034e-0c9b-4b98-a0c7-0398d8991124",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "dad167a4-decc-4c2c-b97e-a3a9ab1f9193",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2846",
-    "date": "2026-08-23",
+    "date": "2026-08-20",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 278,
-    "pickupCost": 192,
-    "transportCost": 470,
+    "dieselCost": 321,
+    "pickupCost": 189,
+    "transportCost": 510,
     "stops": [
       {
         "id": "stop-46-0",
         "customerName": "مطعم البيت",
-        "amountDue": 375,
+        "amountDue": 163,
         "collected": true
       },
       {
         "id": "stop-46-1",
         "customerName": "بقالة السلام",
-        "amountDue": 369,
+        "amountDue": 233,
+        "collected": true
+      },
+      {
+        "id": "stop-46-2",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 395,
         "collected": true
       }
     ],
-    "totalAmount": 744,
+    "totalAmount": 791,
     "status": "مكتملة",
-    "id": "1c75f300-8407-4bf1-84b0-4d272874cd59",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "189be946-ab5a-4759-a311-3745d56076ce",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2847",
-    "date": "2026-08-23",
+    "date": "2026-08-20",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 315,
-    "pickupCost": 161,
-    "transportCost": 476,
+    "dieselCost": 130,
+    "pickupCost": 109,
+    "transportCost": 239,
     "stops": [
       {
         "id": "stop-47-0",
         "customerName": "بقالة السلام",
-        "amountDue": 107,
+        "amountDue": 340,
         "collected": true
       },
       {
         "id": "stop-47-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 233,
+        "amountDue": 387,
+        "collected": true
+      },
+      {
+        "id": "stop-47-2",
+        "customerName": "محل الزهراء",
+        "amountDue": 341,
+        "collected": false
+      },
+      {
+        "id": "stop-47-3",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 110,
+        "collected": true
+      },
+      {
+        "id": "stop-47-4",
+        "customerName": "محل الطازج",
+        "amountDue": 246,
         "collected": true
       }
     ],
-    "totalAmount": 340,
+    "totalAmount": 1424,
     "status": "مكتملة",
-    "id": "dbc4604c-9dac-4be7-a5ad-b5ce9b21629d",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "3e02b9ef-bff9-43ce-9924-657487368265",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2848",
-    "date": "2026-08-24",
+    "date": "2026-08-21",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 173,
-    "pickupCost": 115,
-    "transportCost": 288,
+    "dieselCost": 394,
+    "pickupCost": 186,
+    "transportCost": 580,
     "stops": [
       {
         "id": "stop-48-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 90,
+        "amountDue": 260,
         "collected": true
       },
       {
         "id": "stop-48-1",
         "customerName": "محل الزهراء",
-        "amountDue": 234,
-        "collected": false
+        "amountDue": 219,
+        "collected": true
       },
       {
         "id": "stop-48-2",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 210,
-        "collected": false
+        "amountDue": 168,
+        "collected": true
+      },
+      {
+        "id": "stop-48-3",
+        "customerName": "محل الطازج",
+        "amountDue": 367,
+        "collected": true
       }
     ],
-    "totalAmount": 534,
+    "totalAmount": 1014,
     "status": "مكتملة",
-    "id": "5522fbd2-f105-431e-b484-2da5f25f7772",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "2183fd59-459b-44a9-87ac-aa166020dc24",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2849",
-    "date": "2026-08-24",
+    "date": "2026-08-22",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 352,
-    "pickupCost": 73,
-    "transportCost": 425,
+    "dieselCost": 224,
+    "pickupCost": 151,
+    "transportCost": 375,
     "stops": [
       {
         "id": "stop-49-0",
         "customerName": "محل الزهراء",
-        "amountDue": 303,
-        "collected": true
+        "amountDue": 269,
+        "collected": false
       },
       {
         "id": "stop-49-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 262,
+        "amountDue": 255,
+        "collected": true
+      },
+      {
+        "id": "stop-49-2",
+        "customerName": "محل الطازج",
+        "amountDue": 136,
+        "collected": true
+      },
+      {
+        "id": "stop-49-3",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 294,
+        "collected": true
+      },
+      {
+        "id": "stop-49-4",
+        "customerName": "بقالة النور",
+        "amountDue": 285,
         "collected": true
       }
     ],
-    "totalAmount": 565,
+    "totalAmount": 1239,
     "status": "مكتملة",
-    "id": "114f6eb0-e290-48bc-8e0b-dfdf0933fc80",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "fe8b6c58-2738-4ba5-bb8b-89f51b4c63ad",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2850",
-    "date": "2026-08-24",
+    "date": "2026-08-23",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 349,
-    "pickupCost": 80,
-    "transportCost": 429,
+    "dieselCost": 157,
+    "pickupCost": 110,
+    "transportCost": 267,
     "stops": [
       {
         "id": "stop-50-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 341,
-        "collected": true
+        "amountDue": 372,
+        "collected": false
       },
       {
         "id": "stop-50-1",
         "customerName": "محل الطازج",
-        "amountDue": 98,
-        "collected": false
+        "amountDue": 320,
+        "collected": true
       },
       {
         "id": "stop-50-2",
         "customerName": "مطعم الذواقة",
-        "amountDue": 348,
-        "collected": true
-      },
-      {
-        "id": "stop-50-3",
-        "customerName": "بقالة النور",
-        "amountDue": 342,
-        "collected": true
-      },
-      {
-        "id": "stop-50-4",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 105,
+        "amountDue": 171,
         "collected": true
       }
     ],
-    "totalAmount": 1234,
+    "totalAmount": 863,
     "status": "مكتملة",
-    "id": "9ab3a647-b4c1-4378-86be-96a8cbe46bb8",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "1a066977-8b79-48ac-889d-5eead3102152",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2851",
-    "date": "2026-08-25",
+    "date": "2026-08-23",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 222,
-    "pickupCost": 150,
-    "transportCost": 372,
+    "dieselCost": 145,
+    "pickupCost": 105,
+    "transportCost": 250,
     "stops": [
       {
         "id": "stop-51-0",
         "customerName": "محل الطازج",
-        "amountDue": 367,
+        "amountDue": 143,
         "collected": true
       },
       {
         "id": "stop-51-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 360,
-        "collected": false
+        "amountDue": 379,
+        "collected": true
+      },
+      {
+        "id": "stop-51-2",
+        "customerName": "بقالة النور",
+        "amountDue": 397,
+        "collected": true
+      },
+      {
+        "id": "stop-51-3",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 321,
+        "collected": true
+      },
+      {
+        "id": "stop-51-4",
+        "customerName": "محل الوادي",
+        "amountDue": 90,
+        "collected": true
       }
     ],
-    "totalAmount": 727,
+    "totalAmount": 1330,
     "status": "مكتملة",
-    "id": "e8c0b4b1-3c3e-4dfd-9d7b-a11b12b5f7b9",
-    "createdAt": "2026-09-12T23:26:23.455Z",
+    "id": "c9eb7757-e62f-4fec-b221-9d089a2dd196",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2852",
-    "date": "2026-08-25",
+    "date": "2026-08-24",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 397,
-    "pickupCost": 82,
-    "transportCost": 479,
+    "dieselCost": 383,
+    "pickupCost": 187,
+    "transportCost": 570,
     "stops": [
       {
         "id": "stop-52-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 175,
+        "amountDue": 307,
         "collected": true
       },
       {
         "id": "stop-52-1",
         "customerName": "بقالة النور",
-        "amountDue": 265,
+        "amountDue": 356,
         "collected": true
-      }
-    ],
-    "totalAmount": 440,
-    "status": "مكتملة",
-    "id": "365eaaac-3f3c-47b4-80a5-33eed37de3ee",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2853",
-    "date": "2026-08-25",
-    "driver": "ماجد الشهري",
-    "vehicle": "ص ق ر 2468",
-    "dieselCost": 302,
-    "pickupCost": 169,
-    "transportCost": 471,
-    "stops": [
-      {
-        "id": "stop-53-0",
-        "customerName": "بقالة النور",
-        "amountDue": 142,
-        "collected": false
       },
       {
-        "id": "stop-53-1",
+        "id": "stop-52-2",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 149,
-        "collected": true
+        "amountDue": 169,
+        "collected": false
       },
       {
-        "id": "stop-53-2",
+        "id": "stop-52-3",
         "customerName": "محل الوادي",
-        "amountDue": 383,
-        "collected": false
-      }
-    ],
-    "totalAmount": 674,
-    "status": "مكتملة",
-    "id": "e40f74e0-e60a-4b75-94af-4ec749d4cb44",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2854",
-    "date": "2026-08-26",
-    "driver": "محمد السهلي",
-    "vehicle": "أ ب ج 1234",
-    "dieselCost": 316,
-    "pickupCost": 177,
-    "transportCost": 493,
-    "stops": [
-      {
-        "id": "stop-54-0",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 178,
-        "collected": true
-      },
-      {
-        "id": "stop-54-1",
-        "customerName": "محل الوادي",
-        "amountDue": 183,
-        "collected": false
-      },
-      {
-        "id": "stop-54-2",
-        "customerName": "مطعم البيت",
-        "amountDue": 196,
-        "collected": true
-      },
-      {
-        "id": "stop-54-3",
-        "customerName": "بقالة السلام",
-        "amountDue": 243,
-        "collected": true
-      }
-    ],
-    "totalAmount": 800,
-    "status": "مكتملة",
-    "id": "ca5f0e50-a440-4208-bc6d-d5f763f2e2e3",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2855",
-    "date": "2026-08-26",
-    "driver": "أحمد العتيبي",
-    "vehicle": "د هـ و 5678",
-    "dieselCost": 205,
-    "pickupCost": 112,
-    "transportCost": 317,
-    "stops": [
-      {
-        "id": "stop-55-0",
-        "customerName": "محل الوادي",
-        "amountDue": 87,
-        "collected": true
-      },
-      {
-        "id": "stop-55-1",
-        "customerName": "مطعم البيت",
-        "amountDue": 279,
-        "collected": true
-      },
-      {
-        "id": "stop-55-2",
-        "customerName": "بقالة السلام",
-        "amountDue": 227,
-        "collected": true
-      },
-      {
-        "id": "stop-55-3",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 102,
-        "collected": false
-      }
-    ],
-    "totalAmount": 695,
-    "status": "مكتملة",
-    "id": "288a98ab-b43c-4f07-a110-4fa16b273380",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2856",
-    "date": "2026-08-26",
-    "driver": "خالد الزهراني",
-    "vehicle": "ح ط ي 3456",
-    "dieselCost": 221,
-    "pickupCost": 176,
-    "transportCost": 397,
-    "stops": [
-      {
-        "id": "stop-56-0",
-        "customerName": "مطعم البيت",
-        "amountDue": 84,
-        "collected": false
-      },
-      {
-        "id": "stop-56-1",
-        "customerName": "بقالة السلام",
-        "amountDue": 278,
-        "collected": true
-      },
-      {
-        "id": "stop-56-2",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 290,
-        "collected": true
-      },
-      {
-        "id": "stop-56-3",
-        "customerName": "محل الزهراء",
-        "amountDue": 125,
-        "collected": false
-      }
-    ],
-    "totalAmount": 777,
-    "status": "مكتملة",
-    "id": "43fc6204-9889-431e-a7ac-46811fefc429",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2857",
-    "date": "2026-08-27",
-    "driver": "فهد العسيري",
-    "vehicle": "ك ل م 9012",
-    "dieselCost": 170,
-    "pickupCost": 143,
-    "transportCost": 313,
-    "stops": [
-      {
-        "id": "stop-57-0",
-        "customerName": "بقالة السلام",
-        "amountDue": 363,
-        "collected": false
-      },
-      {
-        "id": "stop-57-1",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 124,
-        "collected": true
-      },
-      {
-        "id": "stop-57-2",
-        "customerName": "محل الزهراء",
-        "amountDue": 361,
-        "collected": true
-      },
-      {
-        "id": "stop-57-3",
-        "customerName": "سوبرماركت الأمل",
-        "amountDue": 115,
-        "collected": true
-      }
-    ],
-    "totalAmount": 963,
-    "status": "مكتملة",
-    "id": "eb371336-b0cd-4cb0-a602-83c6221462df",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2858",
-    "date": "2026-08-27",
-    "driver": "سعيد القحطاني",
-    "vehicle": "ن س ع 7654",
-    "dieselCost": 216,
-    "pickupCost": 89,
-    "transportCost": 305,
-    "stops": [
-      {
-        "id": "stop-58-0",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 343,
-        "collected": true
-      },
-      {
-        "id": "stop-58-1",
-        "customerName": "محل الزهراء",
-        "amountDue": 95,
-        "collected": false
-      },
-      {
-        "id": "stop-58-2",
-        "customerName": "سوبرماركت الأمل",
-        "amountDue": 285,
-        "collected": true
-      }
-    ],
-    "totalAmount": 723,
-    "status": "مكتملة",
-    "id": "b85d03f3-edfe-46aa-94a5-00dc3cc70504",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2859",
-    "date": "2026-08-27",
-    "driver": "ماجد الشهري",
-    "vehicle": "ص ق ر 2468",
-    "dieselCost": 332,
-    "pickupCost": 98,
-    "transportCost": 430,
-    "stops": [
-      {
-        "id": "stop-59-0",
-        "customerName": "محل الزهراء",
-        "amountDue": 288,
-        "collected": false
-      },
-      {
-        "id": "stop-59-1",
-        "customerName": "سوبرماركت الأمل",
-        "amountDue": 138,
-        "collected": true
-      },
-      {
-        "id": "stop-59-2",
-        "customerName": "محل الطازج",
-        "amountDue": 128,
-        "collected": true
-      }
-    ],
-    "totalAmount": 554,
-    "status": "مكتملة",
-    "id": "02906b33-a0f3-4a42-9e54-97059fbb9e0a",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2860",
-    "date": "2026-08-28",
-    "driver": "محمد السهلي",
-    "vehicle": "أ ب ج 1234",
-    "dieselCost": 398,
-    "pickupCost": 172,
-    "transportCost": 570,
-    "stops": [
-      {
-        "id": "stop-60-0",
-        "customerName": "سوبرماركت الأمل",
         "amountDue": 357,
         "collected": false
       },
       {
-        "id": "stop-60-1",
-        "customerName": "محل الطازج",
-        "amountDue": 214,
-        "collected": true
-      },
-      {
-        "id": "stop-60-2",
-        "customerName": "مطعم الذواقة",
-        "amountDue": 364,
-        "collected": true
-      },
-      {
-        "id": "stop-60-3",
-        "customerName": "بقالة النور",
-        "amountDue": 304,
-        "collected": false
-      },
-      {
-        "id": "stop-60-4",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 326,
-        "collected": true
-      }
-    ],
-    "totalAmount": 1565,
-    "status": "مكتملة",
-    "id": "e2310ed7-1205-4655-a529-d478a9ccf27a",
-    "createdAt": "2026-09-12T23:26:23.455Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2861",
-    "date": "2026-08-28",
-    "driver": "أحمد العتيبي",
-    "vehicle": "د هـ و 5678",
-    "dieselCost": 267,
-    "pickupCost": 138,
-    "transportCost": 405,
-    "stops": [
-      {
-        "id": "stop-61-0",
-        "customerName": "محل الطازج",
-        "amountDue": 166,
-        "collected": true
-      },
-      {
-        "id": "stop-61-1",
-        "customerName": "مطعم الذواقة",
-        "amountDue": 221,
-        "collected": true
-      }
-    ],
-    "totalAmount": 387,
-    "status": "مكتملة",
-    "id": "df5c9a68-8f7f-47e9-98bf-6770409015f6",
-    "createdAt": "2026-09-12T23:26:23.456Z",
-    "createdBy": "seed",
-    "_version": 1
-  },
-  {
-    "tripNumber": "T-2862",
-    "date": "2026-08-28",
-    "driver": "خالد الزهراني",
-    "vehicle": "ح ط ي 3456",
-    "dieselCost": 230,
-    "pickupCost": 95,
-    "transportCost": 325,
-    "stops": [
-      {
-        "id": "stop-62-0",
-        "customerName": "مطعم الذواقة",
-        "amountDue": 156,
-        "collected": false
-      },
-      {
-        "id": "stop-62-1",
-        "customerName": "بقالة النور",
-        "amountDue": 136,
-        "collected": true
-      },
-      {
-        "id": "stop-62-2",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 381,
-        "collected": true
-      },
-      {
-        "id": "stop-62-3",
-        "customerName": "محل الوادي",
-        "amountDue": 185,
-        "collected": false
-      },
-      {
-        "id": "stop-62-4",
+        "id": "stop-52-4",
         "customerName": "مطعم البيت",
         "amountDue": 110,
         "collected": true
       }
     ],
-    "totalAmount": 968,
+    "totalAmount": 1299,
     "status": "مكتملة",
-    "id": "6dd48014-1b69-4467-9879-e37d5473b4b8",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "6e9b7cd2-74ce-4de1-a0db-04002800eab8",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2853",
+    "date": "2026-08-24",
+    "driver": "ماجد الشهري",
+    "vehicle": "ص ق ر 2468",
+    "dieselCost": 304,
+    "pickupCost": 71,
+    "transportCost": 375,
+    "stops": [
+      {
+        "id": "stop-53-0",
+        "customerName": "بقالة النور",
+        "amountDue": 241,
+        "collected": true
+      },
+      {
+        "id": "stop-53-1",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 89,
+        "collected": true
+      },
+      {
+        "id": "stop-53-2",
+        "customerName": "محل الوادي",
+        "amountDue": 142,
+        "collected": true
+      },
+      {
+        "id": "stop-53-3",
+        "customerName": "مطعم البيت",
+        "amountDue": 89,
+        "collected": true
+      }
+    ],
+    "totalAmount": 561,
+    "status": "مكتملة",
+    "id": "3c2d7939-9c32-456d-9419-8f9c6529a02c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2854",
+    "date": "2026-08-25",
+    "driver": "محمد السهلي",
+    "vehicle": "أ ب ج 1234",
+    "dieselCost": 292,
+    "pickupCost": 102,
+    "transportCost": 394,
+    "stops": [
+      {
+        "id": "stop-54-0",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 367,
+        "collected": false
+      },
+      {
+        "id": "stop-54-1",
+        "customerName": "محل الوادي",
+        "amountDue": 239,
+        "collected": true
+      },
+      {
+        "id": "stop-54-2",
+        "customerName": "مطعم البيت",
+        "amountDue": 365,
+        "collected": true
+      }
+    ],
+    "totalAmount": 971,
+    "status": "مكتملة",
+    "id": "7822fc88-087f-4089-bf53-de621edc4c0e",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2855",
+    "date": "2026-08-25",
+    "driver": "أحمد العتيبي",
+    "vehicle": "د هـ و 5678",
+    "dieselCost": 251,
+    "pickupCost": 92,
+    "transportCost": 343,
+    "stops": [
+      {
+        "id": "stop-55-0",
+        "customerName": "محل الوادي",
+        "amountDue": 376,
+        "collected": true
+      },
+      {
+        "id": "stop-55-1",
+        "customerName": "مطعم البيت",
+        "amountDue": 155,
+        "collected": false
+      },
+      {
+        "id": "stop-55-2",
+        "customerName": "بقالة السلام",
+        "amountDue": 284,
+        "collected": true
+      }
+    ],
+    "totalAmount": 815,
+    "status": "مكتملة",
+    "id": "9f24c46f-78bb-43fd-bfbc-5db5a802af8b",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2856",
+    "date": "2026-08-25",
+    "driver": "خالد الزهراني",
+    "vehicle": "ح ط ي 3456",
+    "dieselCost": 375,
+    "pickupCost": 145,
+    "transportCost": 520,
+    "stops": [
+      {
+        "id": "stop-56-0",
+        "customerName": "مطعم البيت",
+        "amountDue": 260,
+        "collected": true
+      },
+      {
+        "id": "stop-56-1",
+        "customerName": "بقالة السلام",
+        "amountDue": 318,
+        "collected": false
+      },
+      {
+        "id": "stop-56-2",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 200,
+        "collected": true
+      },
+      {
+        "id": "stop-56-3",
+        "customerName": "محل الزهراء",
+        "amountDue": 310,
+        "collected": true
+      },
+      {
+        "id": "stop-56-4",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 122,
+        "collected": true
+      }
+    ],
+    "totalAmount": 1210,
+    "status": "مكتملة",
+    "id": "9b9b4903-551b-4943-a3f5-849515fca59a",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2857",
+    "date": "2026-08-26",
+    "driver": "فهد العسيري",
+    "vehicle": "ك ل م 9012",
+    "dieselCost": 193,
+    "pickupCost": 113,
+    "transportCost": 306,
+    "stops": [
+      {
+        "id": "stop-57-0",
+        "customerName": "بقالة السلام",
+        "amountDue": 188,
+        "collected": true
+      },
+      {
+        "id": "stop-57-1",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 152,
+        "collected": true
+      }
+    ],
+    "totalAmount": 340,
+    "status": "مكتملة",
+    "id": "50e7bda6-def9-4193-bfe7-e405e3b767df",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2858",
+    "date": "2026-08-26",
+    "driver": "سعيد القحطاني",
+    "vehicle": "ن س ع 7654",
+    "dieselCost": 382,
+    "pickupCost": 191,
+    "transportCost": 573,
+    "stops": [
+      {
+        "id": "stop-58-0",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 318,
+        "collected": true
+      },
+      {
+        "id": "stop-58-1",
+        "customerName": "محل الزهراء",
+        "amountDue": 186,
+        "collected": true
+      },
+      {
+        "id": "stop-58-2",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 339,
+        "collected": true
+      },
+      {
+        "id": "stop-58-3",
+        "customerName": "محل الطازج",
+        "amountDue": 326,
+        "collected": true
+      }
+    ],
+    "totalAmount": 1169,
+    "status": "مكتملة",
+    "id": "a2e4e8ad-d31c-4f27-bfd0-8d783707a83c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2859",
+    "date": "2026-08-26",
+    "driver": "ماجد الشهري",
+    "vehicle": "ص ق ر 2468",
+    "dieselCost": 280,
+    "pickupCost": 143,
+    "transportCost": 423,
+    "stops": [
+      {
+        "id": "stop-59-0",
+        "customerName": "محل الزهراء",
+        "amountDue": 189,
+        "collected": true
+      },
+      {
+        "id": "stop-59-1",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 267,
+        "collected": true
+      },
+      {
+        "id": "stop-59-2",
+        "customerName": "محل الطازج",
+        "amountDue": 279,
+        "collected": true
+      },
+      {
+        "id": "stop-59-3",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 213,
+        "collected": false
+      }
+    ],
+    "totalAmount": 948,
+    "status": "مكتملة",
+    "id": "294f5723-2ec7-4293-8bb5-0fe9f8048e42",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2860",
+    "date": "2026-08-27",
+    "driver": "محمد السهلي",
+    "vehicle": "أ ب ج 1234",
+    "dieselCost": 363,
+    "pickupCost": 71,
+    "transportCost": 434,
+    "stops": [
+      {
+        "id": "stop-60-0",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 88,
+        "collected": true
+      },
+      {
+        "id": "stop-60-1",
+        "customerName": "محل الطازج",
+        "amountDue": 360,
+        "collected": true
+      },
+      {
+        "id": "stop-60-2",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 194,
+        "collected": false
+      },
+      {
+        "id": "stop-60-3",
+        "customerName": "بقالة النور",
+        "amountDue": 232,
+        "collected": true
+      }
+    ],
+    "totalAmount": 874,
+    "status": "مكتملة",
+    "id": "575a9299-4ea7-46ea-b1c6-374c9e79583c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2861",
+    "date": "2026-08-27",
+    "driver": "أحمد العتيبي",
+    "vehicle": "د هـ و 5678",
+    "dieselCost": 373,
+    "pickupCost": 133,
+    "transportCost": 506,
+    "stops": [
+      {
+        "id": "stop-61-0",
+        "customerName": "محل الطازج",
+        "amountDue": 169,
+        "collected": false
+      },
+      {
+        "id": "stop-61-1",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 375,
+        "collected": true
+      },
+      {
+        "id": "stop-61-2",
+        "customerName": "بقالة النور",
+        "amountDue": 127,
+        "collected": true
+      }
+    ],
+    "totalAmount": 671,
+    "status": "مكتملة",
+    "id": "e005dd6c-81eb-4b08-9232-4cbff9da9e64",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2862",
+    "date": "2026-08-27",
+    "driver": "خالد الزهراني",
+    "vehicle": "ح ط ي 3456",
+    "dieselCost": 280,
+    "pickupCost": 61,
+    "transportCost": 341,
+    "stops": [
+      {
+        "id": "stop-62-0",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 112,
+        "collected": true
+      },
+      {
+        "id": "stop-62-1",
+        "customerName": "بقالة النور",
+        "amountDue": 83,
+        "collected": false
+      },
+      {
+        "id": "stop-62-2",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 265,
+        "collected": true
+      },
+      {
+        "id": "stop-62-3",
+        "customerName": "محل الوادي",
+        "amountDue": 85,
+        "collected": true
+      }
+    ],
+    "totalAmount": 545,
+    "status": "مكتملة",
+    "id": "5300501b-2f17-44d6-94c6-4aacdf77e56e",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2863",
-    "date": "2026-08-29",
+    "date": "2026-08-28",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 264,
-    "pickupCost": 171,
-    "transportCost": 435,
+    "dieselCost": 379,
+    "pickupCost": 137,
+    "transportCost": 516,
     "stops": [
       {
         "id": "stop-63-0",
         "customerName": "بقالة النور",
-        "amountDue": 367,
+        "amountDue": 395,
         "collected": true
       },
       {
         "id": "stop-63-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 242,
-        "collected": true
+        "amountDue": 381,
+        "collected": false
       },
       {
         "id": "stop-63-2",
         "customerName": "محل الوادي",
-        "amountDue": 246,
+        "amountDue": 117,
+        "collected": true
+      },
+      {
+        "id": "stop-63-3",
+        "customerName": "مطعم البيت",
+        "amountDue": 141,
         "collected": true
       }
     ],
-    "totalAmount": 855,
+    "totalAmount": 1034,
     "status": "مكتملة",
-    "id": "b1a518c5-bb9e-4995-8513-19fca5b6589a",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "6b706b9c-2df9-45ca-9850-c7bfe03626d1",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2864",
-    "date": "2026-08-29",
+    "date": "2026-08-28",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 139,
-    "pickupCost": 75,
-    "transportCost": 214,
+    "dieselCost": 131,
+    "pickupCost": 177,
+    "transportCost": 308,
     "stops": [
       {
         "id": "stop-64-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 183,
+        "amountDue": 362,
         "collected": true
       },
       {
         "id": "stop-64-1",
         "customerName": "محل الوادي",
-        "amountDue": 253,
+        "amountDue": 92,
         "collected": true
       },
       {
         "id": "stop-64-2",
         "customerName": "مطعم البيت",
-        "amountDue": 306,
-        "collected": true
+        "amountDue": 388,
+        "collected": false
       },
       {
         "id": "stop-64-3",
         "customerName": "بقالة السلام",
-        "amountDue": 385,
-        "collected": true
-      },
-      {
-        "id": "stop-64-4",
-        "customerName": "سوبرماركت المدينة",
-        "amountDue": 394,
-        "collected": true
+        "amountDue": 96,
+        "collected": false
       }
     ],
-    "totalAmount": 1521,
+    "totalAmount": 938,
     "status": "مكتملة",
-    "id": "a2c99ada-98cd-4367-b7df-6b6a86deef8a",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "3897e908-22c5-4fed-9b56-9f711cbd926f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2865",
-    "date": "2026-08-30",
+    "date": "2026-08-29",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 133,
-    "pickupCost": 92,
-    "transportCost": 225,
+    "dieselCost": 246,
+    "pickupCost": 76,
+    "transportCost": 322,
     "stops": [
       {
         "id": "stop-65-0",
         "customerName": "محل الوادي",
-        "amountDue": 229,
-        "collected": false
+        "amountDue": 394,
+        "collected": true
       },
       {
         "id": "stop-65-1",
         "customerName": "مطعم البيت",
-        "amountDue": 225,
+        "amountDue": 177,
         "collected": true
       },
       {
         "id": "stop-65-2",
         "customerName": "بقالة السلام",
-        "amountDue": 176,
-        "collected": false
+        "amountDue": 158,
+        "collected": true
+      },
+      {
+        "id": "stop-65-3",
+        "customerName": "سوبرماركت المدينة",
+        "amountDue": 138,
+        "collected": true
+      },
+      {
+        "id": "stop-65-4",
+        "customerName": "محل الزهراء",
+        "amountDue": 82,
+        "collected": true
       }
     ],
-    "totalAmount": 630,
+    "totalAmount": 949,
     "status": "مكتملة",
-    "id": "11e1aa9c-05d1-4fdc-bca4-a65be8c576cc",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "ce4f9cf8-d803-4ce9-b47f-887486ccb152",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2866",
-    "date": "2026-08-30",
+    "date": "2026-08-29",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 164,
-    "pickupCost": 63,
-    "transportCost": 227,
+    "dieselCost": 311,
+    "pickupCost": 153,
+    "transportCost": 464,
     "stops": [
       {
         "id": "stop-66-0",
         "customerName": "مطعم البيت",
-        "amountDue": 259,
-        "collected": false
+        "amountDue": 220,
+        "collected": true
       },
       {
         "id": "stop-66-1",
         "customerName": "بقالة السلام",
-        "amountDue": 260,
-        "collected": false
+        "amountDue": 146,
+        "collected": true
       },
       {
         "id": "stop-66-2",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 127,
-        "collected": false
-      },
-      {
-        "id": "stop-66-3",
-        "customerName": "محل الزهراء",
-        "amountDue": 115,
+        "amountDue": 143,
         "collected": true
       }
     ],
-    "totalAmount": 761,
+    "totalAmount": 509,
     "status": "مكتملة",
-    "id": "66369e2e-8cba-475d-a511-8e757df4e3df",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "730bd3fe-99b5-4dfe-8843-8408768c55e7",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2867",
-    "date": "2026-08-31",
+    "date": "2026-08-29",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 233,
-    "pickupCost": 131,
-    "transportCost": 364,
+    "dieselCost": 394,
+    "pickupCost": 197,
+    "transportCost": 591,
     "stops": [
       {
         "id": "stop-67-0",
         "customerName": "بقالة السلام",
-        "amountDue": 229,
-        "collected": false
+        "amountDue": 159,
+        "collected": true
       },
       {
         "id": "stop-67-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 268,
-        "collected": false
+        "amountDue": 296,
+        "collected": true
       },
       {
         "id": "stop-67-2",
         "customerName": "محل الزهراء",
-        "amountDue": 367,
+        "amountDue": 344,
         "collected": true
       },
       {
         "id": "stop-67-3",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 117,
-        "collected": true
+        "amountDue": 116,
+        "collected": false
       },
       {
         "id": "stop-67-4",
         "customerName": "محل الطازج",
-        "amountDue": 192,
+        "amountDue": 307,
         "collected": true
       }
     ],
-    "totalAmount": 1173,
+    "totalAmount": 1222,
     "status": "مكتملة",
-    "id": "c5a86b23-99b1-4077-8088-288637e9303f",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "7156c6ac-4585-4964-8263-e76a469ecc28",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2868",
-    "date": "2026-08-31",
+    "date": "2026-08-30",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 209,
-    "pickupCost": 168,
-    "transportCost": 377,
+    "dieselCost": 309,
+    "pickupCost": 156,
+    "transportCost": 465,
     "stops": [
       {
         "id": "stop-68-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 118,
+        "amountDue": 83,
         "collected": true
       },
       {
         "id": "stop-68-1",
         "customerName": "محل الزهراء",
-        "amountDue": 214,
+        "amountDue": 216,
+        "collected": false
+      },
+      {
+        "id": "stop-68-2",
+        "customerName": "سوبرماركت الأمل",
+        "amountDue": 331,
+        "collected": false
+      },
+      {
+        "id": "stop-68-3",
+        "customerName": "محل الطازج",
+        "amountDue": 307,
         "collected": true
       }
     ],
-    "totalAmount": 332,
+    "totalAmount": 937,
     "status": "مكتملة",
-    "id": "5b52be2c-6f37-4a68-8aff-9f11f8a2099d",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "a1624e37-e635-4a1a-a58e-93c3916151d9",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2540,33 +2678,27 @@
     "date": "2026-08-31",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 261,
-    "pickupCost": 136,
-    "transportCost": 397,
+    "dieselCost": 155,
+    "pickupCost": 174,
+    "transportCost": 329,
     "stops": [
       {
         "id": "stop-69-0",
         "customerName": "محل الزهراء",
-        "amountDue": 328,
+        "amountDue": 388,
         "collected": true
       },
       {
         "id": "stop-69-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 388,
+        "amountDue": 273,
         "collected": true
-      },
-      {
-        "id": "stop-69-2",
-        "customerName": "محل الطازج",
-        "amountDue": 173,
-        "collected": false
       }
     ],
-    "totalAmount": 889,
+    "totalAmount": 661,
     "status": "مكتملة",
-    "id": "7a7104f8-18d1-4224-a200-6e6e356f6a05",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "ae8ffbb7-9363-468b-93c2-f5b44d673136",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2575,45 +2707,33 @@
     "date": "2026-09-01",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 248,
-    "pickupCost": 118,
-    "transportCost": 366,
+    "dieselCost": 178,
+    "pickupCost": 126,
+    "transportCost": 304,
     "stops": [
       {
         "id": "stop-70-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 240,
-        "collected": false
+        "amountDue": 319,
+        "collected": true
       },
       {
         "id": "stop-70-1",
         "customerName": "محل الطازج",
-        "amountDue": 393,
+        "amountDue": 306,
         "collected": true
       },
       {
         "id": "stop-70-2",
         "customerName": "مطعم الذواقة",
-        "amountDue": 315,
+        "amountDue": 159,
         "collected": true
-      },
-      {
-        "id": "stop-70-3",
-        "customerName": "بقالة النور",
-        "amountDue": 259,
-        "collected": true
-      },
-      {
-        "id": "stop-70-4",
-        "customerName": "سوبرماركت الشروق",
-        "amountDue": 141,
-        "collected": false
       }
     ],
-    "totalAmount": 1348,
+    "totalAmount": 784,
     "status": "مكتملة",
-    "id": "afa9881f-17c9-497c-b1a9-98d4c0d1b5ff",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "7c80d600-b719-49de-ad90-252520db1577",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2622,68 +2742,86 @@
     "date": "2026-09-01",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 179,
-    "pickupCost": 124,
-    "transportCost": 303,
+    "dieselCost": 152,
+    "pickupCost": 191,
+    "transportCost": 343,
     "stops": [
       {
         "id": "stop-71-0",
         "customerName": "محل الطازج",
-        "amountDue": 182,
-        "collected": false
+        "amountDue": 354,
+        "collected": true
       },
       {
         "id": "stop-71-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 352,
+        "amountDue": 154,
+        "collected": true
+      },
+      {
+        "id": "stop-71-2",
+        "customerName": "بقالة النور",
+        "amountDue": 109,
+        "collected": true
+      },
+      {
+        "id": "stop-71-3",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 164,
         "collected": true
       }
     ],
-    "totalAmount": 534,
+    "totalAmount": 781,
     "status": "مكتملة",
-    "id": "69f9e64e-cd98-447e-951a-f7e5e586882a",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "f4b876d6-9acd-47cd-b0f4-5d68b79e3bb7",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2872",
-    "date": "2026-09-02",
+    "date": "2026-09-01",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 377,
-    "pickupCost": 63,
-    "transportCost": 440,
+    "dieselCost": 140,
+    "pickupCost": 144,
+    "transportCost": 284,
     "stops": [
       {
         "id": "stop-72-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 370,
+        "amountDue": 394,
         "collected": true
       },
       {
         "id": "stop-72-1",
         "customerName": "بقالة النور",
-        "amountDue": 207,
+        "amountDue": 167,
         "collected": false
       },
       {
         "id": "stop-72-2",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 154,
+        "amountDue": 387,
         "collected": true
       },
       {
         "id": "stop-72-3",
         "customerName": "محل الوادي",
-        "amountDue": 319,
+        "amountDue": 263,
+        "collected": true
+      },
+      {
+        "id": "stop-72-4",
+        "customerName": "مطعم البيت",
+        "amountDue": 333,
         "collected": true
       }
     ],
-    "totalAmount": 1050,
+    "totalAmount": 1544,
     "status": "مكتملة",
-    "id": "ce4bd830-3139-4416-97df-5e029a5d6636",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "7b10bd81-40c5-4748-8d43-9613d2cd8476",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2692,39 +2830,39 @@
     "date": "2026-09-02",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 357,
-    "pickupCost": 177,
-    "transportCost": 534,
+    "dieselCost": 346,
+    "pickupCost": 127,
+    "transportCost": 473,
     "stops": [
       {
         "id": "stop-73-0",
         "customerName": "بقالة النور",
-        "amountDue": 185,
+        "amountDue": 89,
         "collected": true
       },
       {
         "id": "stop-73-1",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 181,
+        "amountDue": 125,
         "collected": true
       },
       {
         "id": "stop-73-2",
         "customerName": "محل الوادي",
-        "amountDue": 229,
-        "collected": false
+        "amountDue": 172,
+        "collected": true
       },
       {
         "id": "stop-73-3",
         "customerName": "مطعم البيت",
-        "amountDue": 217,
+        "amountDue": 294,
         "collected": true
       }
     ],
-    "totalAmount": 812,
+    "totalAmount": 680,
     "status": "مكتملة",
-    "id": "562297ba-84b6-4409-affc-607f75b26bd3",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "297c2545-36f3-4dca-9e29-946b8f80e35e",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2733,27 +2871,39 @@
     "date": "2026-09-03",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 153,
-    "pickupCost": 97,
-    "transportCost": 250,
+    "dieselCost": 144,
+    "pickupCost": 102,
+    "transportCost": 246,
     "stops": [
       {
         "id": "stop-74-0",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 248,
-        "collected": true
+        "amountDue": 308,
+        "collected": false
       },
       {
         "id": "stop-74-1",
         "customerName": "محل الوادي",
-        "amountDue": 242,
+        "amountDue": 201,
+        "collected": true
+      },
+      {
+        "id": "stop-74-2",
+        "customerName": "مطعم البيت",
+        "amountDue": 364,
+        "collected": true
+      },
+      {
+        "id": "stop-74-3",
+        "customerName": "بقالة السلام",
+        "amountDue": 197,
         "collected": true
       }
     ],
-    "totalAmount": 490,
+    "totalAmount": 1070,
     "status": "مكتملة",
-    "id": "263d7e43-5058-4a58-86d4-efb2fcf7ba31",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "d6daf170-ae43-4e09-8c4b-9bc311742201",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2762,27 +2912,33 @@
     "date": "2026-09-03",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 362,
-    "pickupCost": 189,
-    "transportCost": 551,
+    "dieselCost": 382,
+    "pickupCost": 88,
+    "transportCost": 470,
     "stops": [
       {
         "id": "stop-75-0",
         "customerName": "محل الوادي",
-        "amountDue": 123,
+        "amountDue": 180,
         "collected": true
       },
       {
         "id": "stop-75-1",
         "customerName": "مطعم البيت",
-        "amountDue": 193,
-        "collected": false
+        "amountDue": 310,
+        "collected": true
+      },
+      {
+        "id": "stop-75-2",
+        "customerName": "بقالة السلام",
+        "amountDue": 390,
+        "collected": true
       }
     ],
-    "totalAmount": 316,
+    "totalAmount": 880,
     "status": "مكتملة",
-    "id": "65c92316-eff6-4fc6-b9b3-8b42085080d8",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "61753708-349f-4cc9-b721-11bd81d1c03f",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2791,156 +2947,150 @@
     "date": "2026-09-04",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 133,
-    "pickupCost": 86,
-    "transportCost": 219,
+    "dieselCost": 390,
+    "pickupCost": 113,
+    "transportCost": 503,
     "stops": [
       {
         "id": "stop-76-0",
         "customerName": "مطعم البيت",
-        "amountDue": 392,
-        "collected": true
+        "amountDue": 276,
+        "collected": false
       },
       {
         "id": "stop-76-1",
         "customerName": "بقالة السلام",
-        "amountDue": 338,
+        "amountDue": 287,
         "collected": true
       },
       {
         "id": "stop-76-2",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 108,
+        "amountDue": 94,
         "collected": true
       }
     ],
-    "totalAmount": 838,
+    "totalAmount": 657,
     "status": "مكتملة",
-    "id": "dd400920-6621-433d-b3db-6c2e9f70850b",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "0ca700f4-e728-4ec9-bd2e-b76109385c2c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2877",
-    "date": "2026-09-05",
+    "date": "2026-09-04",
     "driver": "ماجد الشهري",
     "vehicle": "ص ق ر 2468",
-    "dieselCost": 196,
-    "pickupCost": 99,
-    "transportCost": 295,
+    "dieselCost": 344,
+    "pickupCost": 147,
+    "transportCost": 491,
     "stops": [
       {
         "id": "stop-77-0",
         "customerName": "بقالة السلام",
-        "amountDue": 98,
+        "amountDue": 162,
         "collected": true
       },
       {
         "id": "stop-77-1",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 140,
-        "collected": false
+        "amountDue": 81,
+        "collected": true
       },
       {
         "id": "stop-77-2",
         "customerName": "محل الزهراء",
-        "amountDue": 84,
-        "collected": true
-      },
-      {
-        "id": "stop-77-3",
-        "customerName": "سوبرماركت الأمل",
-        "amountDue": 289,
-        "collected": true
-      },
-      {
-        "id": "stop-77-4",
-        "customerName": "محل الطازج",
-        "amountDue": 106,
+        "amountDue": 325,
         "collected": true
       }
     ],
-    "totalAmount": 717,
+    "totalAmount": 568,
     "status": "مكتملة",
-    "id": "38fb9156-51b4-4c82-9131-b2ff259f34d2",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "7dd044c7-6672-45e5-ab05-0b4b29e05c8c",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2878",
-    "date": "2026-09-06",
+    "date": "2026-09-05",
     "driver": "محمد السهلي",
     "vehicle": "أ ب ج 1234",
-    "dieselCost": 268,
-    "pickupCost": 132,
-    "transportCost": 400,
+    "dieselCost": 169,
+    "pickupCost": 146,
+    "transportCost": 315,
     "stops": [
       {
         "id": "stop-78-0",
         "customerName": "سوبرماركت المدينة",
-        "amountDue": 275,
+        "amountDue": 214,
         "collected": true
       },
       {
         "id": "stop-78-1",
         "customerName": "محل الزهراء",
-        "amountDue": 334,
+        "amountDue": 174,
         "collected": true
       },
       {
         "id": "stop-78-2",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 261,
+        "amountDue": 279,
         "collected": true
       }
     ],
-    "totalAmount": 870,
+    "totalAmount": 667,
     "status": "مكتملة",
-    "id": "daf7833e-48fd-419f-9df6-22257d7603cb",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "fa8ce101-57fe-4cc2-bac1-64f54fc6893e",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2879",
-    "date": "2026-09-06",
+    "date": "2026-09-05",
     "driver": "أحمد العتيبي",
     "vehicle": "د هـ و 5678",
-    "dieselCost": 224,
-    "pickupCost": 189,
-    "transportCost": 413,
+    "dieselCost": 365,
+    "pickupCost": 95,
+    "transportCost": 460,
     "stops": [
       {
         "id": "stop-79-0",
         "customerName": "محل الزهراء",
-        "amountDue": 167,
-        "collected": false
+        "amountDue": 300,
+        "collected": true
       },
       {
         "id": "stop-79-1",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 299,
+        "amountDue": 392,
         "collected": true
       },
       {
         "id": "stop-79-2",
         "customerName": "محل الطازج",
-        "amountDue": 273,
+        "amountDue": 80,
         "collected": true
       },
       {
         "id": "stop-79-3",
         "customerName": "مطعم الذواقة",
-        "amountDue": 282,
+        "amountDue": 335,
+        "collected": false
+      },
+      {
+        "id": "stop-79-4",
+        "customerName": "بقالة النور",
+        "amountDue": 364,
         "collected": true
       }
     ],
-    "totalAmount": 1021,
+    "totalAmount": 1471,
     "status": "مكتملة",
-    "id": "0d2481ed-8669-4fee-8f43-ad680450231c",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "bbc3c7bb-59af-4a72-bdc4-fc4f8c2203db",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -2949,109 +3099,150 @@
     "date": "2026-09-06",
     "driver": "خالد الزهراني",
     "vehicle": "ح ط ي 3456",
-    "dieselCost": 226,
-    "pickupCost": 125,
-    "transportCost": 351,
+    "dieselCost": 204,
+    "pickupCost": 65,
+    "transportCost": 269,
     "stops": [
       {
         "id": "stop-80-0",
         "customerName": "سوبرماركت الأمل",
-        "amountDue": 234,
-        "collected": false
+        "amountDue": 154,
+        "collected": true
       },
       {
         "id": "stop-80-1",
         "customerName": "محل الطازج",
-        "amountDue": 289,
+        "amountDue": 215,
+        "collected": true
+      },
+      {
+        "id": "stop-80-2",
+        "customerName": "مطعم الذواقة",
+        "amountDue": 325,
         "collected": true
       }
     ],
-    "totalAmount": 523,
+    "totalAmount": 694,
     "status": "مكتملة",
-    "id": "42764ce3-efc9-48fd-8b80-2bc222cbcfa5",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "f2bae2e0-ddb6-4c68-bfe3-a5881f8b3942",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2881",
-    "date": "2026-09-07",
+    "date": "2026-09-06",
     "driver": "فهد العسيري",
     "vehicle": "ك ل م 9012",
-    "dieselCost": 374,
-    "pickupCost": 101,
-    "transportCost": 475,
+    "dieselCost": 259,
+    "pickupCost": 173,
+    "transportCost": 432,
     "stops": [
       {
         "id": "stop-81-0",
         "customerName": "محل الطازج",
-        "amountDue": 267,
-        "collected": true
+        "amountDue": 177,
+        "collected": false
       },
       {
         "id": "stop-81-1",
         "customerName": "مطعم الذواقة",
-        "amountDue": 310,
-        "collected": true
+        "amountDue": 300,
+        "collected": false
       },
       {
         "id": "stop-81-2",
         "customerName": "بقالة النور",
-        "amountDue": 184,
-        "collected": false
+        "amountDue": 109,
+        "collected": true
       }
     ],
-    "totalAmount": 761,
+    "totalAmount": 586,
     "status": "مكتملة",
-    "id": "af76170a-85aa-4019-a8df-7ee1fa1a5f73",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "27c127e8-4630-4106-b368-6e367f130b7b",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   },
   {
     "tripNumber": "T-2882",
-    "date": "2026-09-07",
+    "date": "2026-09-06",
     "driver": "سعيد القحطاني",
     "vehicle": "ن س ع 7654",
-    "dieselCost": 348,
-    "pickupCost": 110,
-    "transportCost": 458,
+    "dieselCost": 392,
+    "pickupCost": 81,
+    "transportCost": 473,
     "stops": [
       {
         "id": "stop-82-0",
         "customerName": "مطعم الذواقة",
-        "amountDue": 351,
+        "amountDue": 342,
         "collected": false
       },
       {
         "id": "stop-82-1",
         "customerName": "بقالة النور",
-        "amountDue": 317,
-        "collected": false
+        "amountDue": 108,
+        "collected": true
       },
       {
         "id": "stop-82-2",
         "customerName": "سوبرماركت الشروق",
-        "amountDue": 196,
-        "collected": false
+        "amountDue": 95,
+        "collected": true
       },
       {
         "id": "stop-82-3",
         "customerName": "محل الوادي",
-        "amountDue": 176,
-        "collected": false
+        "amountDue": 208,
+        "collected": true
       },
       {
         "id": "stop-82-4",
         "customerName": "مطعم البيت",
-        "amountDue": 250,
+        "amountDue": 306,
+        "collected": true
+      }
+    ],
+    "totalAmount": 1059,
+    "status": "مكتملة",
+    "id": "5afcc713-c30e-4658-b457-42a30fd33a6d",
+    "createdAt": "2026-09-12T23:56:19.678Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "tripNumber": "T-2883",
+    "date": "2026-09-07",
+    "driver": "ماجد الشهري",
+    "vehicle": "ص ق ر 2468",
+    "dieselCost": 242,
+    "pickupCost": 156,
+    "transportCost": 398,
+    "stops": [
+      {
+        "id": "stop-83-0",
+        "customerName": "بقالة النور",
+        "amountDue": 299,
+        "collected": false
+      },
+      {
+        "id": "stop-83-1",
+        "customerName": "سوبرماركت الشروق",
+        "amountDue": 306,
+        "collected": false
+      },
+      {
+        "id": "stop-83-2",
+        "customerName": "محل الوادي",
+        "amountDue": 180,
         "collected": false
       }
     ],
-    "totalAmount": 1290,
+    "totalAmount": 785,
     "status": "جارية",
-    "id": "83aaee37-723d-4568-a83d-afd7e97ac7e4",
-    "createdAt": "2026-09-12T23:26:23.456Z",
+    "id": "554eede7-528a-41b5-9f55-1e0cc98abf38",
+    "createdAt": "2026-09-12T23:56:19.678Z",
     "createdBy": "seed",
     "_version": 1
   }

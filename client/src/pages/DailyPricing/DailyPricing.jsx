@@ -1,13 +1,10 @@
 import { useMemo, useState } from "react";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import Card from "../../components/Card/Card";
-import StatCard from "../../components/StatCard/StatCard";
 import { Table, Td } from "../../components/DataTable/DataTable";
-import IconButton from "../../components/IconButton/IconButton";
-import { EditIcon } from "../../components/Icons/Icons";
 import Modal from "../../components/Modal/Modal";
 import { useCollection } from "../../api/useCollection";
-import { dailyPricingApi } from "../../api/resources";
+import { dailyPricingApi, purchaseOrdersApi, salesInvoicesApi } from "../../api/resources";
 import { useSettings } from "../../context/SettingsContext";
 import "./DailyPricing.css";
 
@@ -126,76 +123,79 @@ function EditPriceForm({ price, onClose, onSubmit }) {
 }
 
 export default function DailyPricing() {
-  const { items: dailyPrices, loading, error, create, update } = useCollection(dailyPricingApi);
-  const { settings, fmtMoney } = useSettings();
+  const { items: dailyPrices, loading, error, create } = useCollection(dailyPricingApi);
+  const { items: purchaseOrders } = useCollection(purchaseOrdersApi);
+  const { items: salesInvoices } = useCollection(salesInvoicesApi);
+  const { settings, fmtMoney, fmtWeight } = useSettings();
   const [showAdd, setShowAdd] = useState(false);
-  const [editingPrice, setEditingPrice] = useState(null);
 
-  const sorted = useMemo(() => [...dailyPrices].sort((a, b) => (a.date < b.date ? 1 : -1)), [dailyPrices]);
-  const active = dailyPrices.find((p) => p.status === "نشط") || null;
-  const activeMargin = active && active.sellPrice != null ? (active.sellPrice - active.kgPrice).toFixed(2) : null;
-
-  async function handleEditSubmit(body) {
-    await update(editingPrice.id, { ...body, _expectedVersion: editingPrice._version });
-  }
+  const transactions = useMemo(() => {
+    const buys = purchaseOrders.map((o) => ({
+      id: `buy-${o.id}`,
+      date: o.date,
+      type: "شراء",
+      party: o.supplierName,
+      kgPrice: o.kgPrice,
+      weightKg: o.weightKg,
+      total: o.total,
+    }));
+    const sells = salesInvoices.map((i) => ({
+      id: `sell-${i.id}`,
+      date: i.date,
+      type: "بيع",
+      party: i.slaughterhouse,
+      kgPrice: i.kgPrice,
+      weightKg: i.weightKg,
+      total: i.total,
+    }));
+    return [...buys, ...sells].sort((a, b) => (a.date < b.date ? 1 : -1));
+  }, [purchaseOrders, salesInvoices]);
 
   return (
     <div>
-      <PageHeader title="إدارة الأسعار اليومية" />
-
-      <div className="page-grid page-grid-3 suppliers-stats">
-        <StatCard label="سعر شراء اليوم" value={active ? `${Number(active.kgPrice).toFixed(2)} ${settings.currency}` : "—"} />
-        <StatCard label="سعر بيع اليوم" value={active && active.sellPrice != null ? `${Number(active.sellPrice).toFixed(2)} ${settings.currency}` : "—"} />
-        <StatCard label="هامش الربح للكيلو" value={activeMargin != null ? `${activeMargin} ${settings.currency}` : "—"} />
-      </div>
+      <PageHeader
+        title="سجل عمليات الشراء والبيع"
+        subtitle="كل عملية شراء أو بيع فعلية، بسعرها وطرفها والإجمالي"
+        actions={
+          <button className="btn-outline" onClick={() => setShowAdd(true)}>
+            تحديث السعر المرجعي لليوم
+          </button>
+        }
+      />
 
       {loading && <p className="state-message">جارٍ التحميل...</p>}
       {error && <p className="state-message state-message-error">{error}</p>}
 
       {!loading && !error && (
         <Card>
-          <div className="card-head">
-            <div>
-              <div className="card-title">سجل الأسعار اليومية</div>
-              <div className="card-sub">تسعير الكيلو شراءً وبيعاً حسب اليوم</div>
-            </div>
-            <button className="btn-primary" onClick={() => setShowAdd(true)}>
-              تسجيل سعر جديد
-            </button>
-          </div>
-          <Table
-            columns={["التاريخ", "سعر شراء الكيلو", "سعر بيع الكيلو", "هامش الربح", "ملاحظات", "الإجراءات"]}
-            rows={sorted}
-            renderRow={(p) => {
-              const margin = p.sellPrice != null ? (p.sellPrice - p.kgPrice).toFixed(2) : null;
-              return (
+          {transactions.length === 0 && <p className="state-message">لا توجد عمليات مسجلة</p>}
+          {transactions.length > 0 && (
+            <Table
+              columns={["التاريخ", "النوع", "من / الى", "سعر الكيلو", "الكمية", "الإجمالي"]}
+              rows={transactions}
+              renderRow={(t) => (
                 <>
-                  <Td className="td-muted" dir="ltr">{p.date}</Td>
-                  <Td dir="ltr">{Number(p.kgPrice).toFixed(2)} {settings.currency}</Td>
-                  <Td dir="ltr">{p.sellPrice != null ? `${Number(p.sellPrice).toFixed(2)} ${settings.currency}` : "—"}</Td>
-                  <Td className={margin != null && margin > 0 ? "td-strong" : "td-faint"}>{margin != null ? `${margin} ${settings.currency}` : "—"}</Td>
-                  <Td className="td-muted">{p.notes || "—"}</Td>
+                  <Td className="td-muted" dir="ltr">{t.date}</Td>
                   <Td>
-                    <IconButton label="تعديل" onClick={() => setEditingPrice(p)}>
-                      <EditIcon />
-                    </IconButton>
+                    <span className={`badge ${t.type === "شراء" ? "badge-yellow" : "badge-green"}`}>
+                      <i className="badge-dot" />
+                      {t.type}
+                    </span>
                   </Td>
+                  <Td>{t.party}</Td>
+                  <Td dir="ltr">{Number(t.kgPrice).toFixed(2)} {settings.currency}</Td>
+                  <Td dir="ltr">{fmtWeight(t.weightKg)}</Td>
+                  <Td className="td-strong">{fmtMoney(t.total)}</Td>
                 </>
-              );
-            }}
-          />
+              )}
+            />
+          )}
         </Card>
       )}
 
       {showAdd && (
-        <Modal title="تسجيل سعر جديد" onClose={() => setShowAdd(false)}>
+        <Modal title="تحديث السعر المرجعي لليوم" subtitle="يُستخدم كسعر افتراضي عند تسجيل عمليات جديدة" onClose={() => setShowAdd(false)}>
           <AddPriceForm onClose={() => setShowAdd(false)} onCreate={create} />
-        </Modal>
-      )}
-
-      {editingPrice && (
-        <Modal title="تعديل سعر اليوم" subtitle={editingPrice.date} onClose={() => setEditingPrice(null)}>
-          <EditPriceForm price={editingPrice} onClose={() => setEditingPrice(null)} onSubmit={handleEditSubmit} />
         </Modal>
       )}
     </div>
