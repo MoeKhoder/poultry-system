@@ -271,8 +271,8 @@ export default function SlaughterhouseDetail() {
       </div>
 
       <div className="section-heading">
-        <h2>سجلات الذبح</h2>
-        <p>تتبع جميع عمليات الذبح</p>
+        <h2>سجلات البيع</h2>
+        <p>تتبع جميع عمليات البيع</p>
       </div>
 
       <Card>
