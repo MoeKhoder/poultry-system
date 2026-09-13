@@ -266,13 +266,13 @@ export default function SlaughterhouseDetail() {
           </div>
         </div>
         <button className="btn-primary" onClick={() => setShowAdd(true)}>
-          <PlusIcon />   إضافة عملية بيع
+          <PlusIcon /> إضافة عملية ذبح
         </button>
       </div>
 
       <div className="section-heading">
-        <h2>سجلات بيع</h2>
-        <p>تتبع جميع عمليات بيع</p>
+        <h2>سجلات الذبح</h2>
+        <p>تتبع جميع عمليات الذبح</p>
       </div>
 
       <Card>

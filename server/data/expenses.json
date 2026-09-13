@@ -4,9 +4,9 @@
     "category": "صيانة مركبات",
     "description": "صيانة دورية للمركبة",
     "createdBy": "seed",
-    "amount": 605,
-    "id": "94bd43f7-b5d3-4f99-8034-a32ab1184a4d",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 338,
+    "id": "ef7b8934-95b5-48d5-9b23-abf9e331766d",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -14,9 +14,9 @@
     "category": "كهرباء وماء",
     "description": "فاتورة كهرباء وماء",
     "createdBy": "seed",
-    "amount": 217,
-    "id": "6ea3bfec-b95d-4555-9c0d-c0baa13f7d44",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 294,
+    "id": "95355eca-9415-4c27-bb7d-5526e3b8be5a",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -24,9 +24,9 @@
     "category": "وقود",
     "description": "وقود رحلة توزيع",
     "createdBy": "seed",
-    "amount": 246,
-    "id": "d8f18e17-bf7b-4cc3-8052-c2d5cf881d1f",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 315,
+    "id": "8bea8119-ef48-405d-9d79-30cd1f7d61e2",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -34,9 +34,9 @@
     "category": "إيجار",
     "description": "إيجار المستودع",
     "createdBy": "seed",
-    "amount": 233,
-    "id": "105e4705-6e06-4c96-923c-16bb01e69b9b",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 131,
+    "id": "d47ff204-4800-48bd-850f-d6b1456dfa74",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -44,9 +44,9 @@
     "category": "أخرى",
     "description": "مصاريف متنوعة",
     "createdBy": "seed",
-    "amount": 117,
-    "id": "5c144c51-b9be-4230-b583-9a79ad8c7bd9",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 113,
+    "id": "c535ff5e-ba9a-4eb4-ab32-ecd4acef14fb",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -54,9 +54,9 @@
     "category": "صيانة مركبات",
     "description": "صيانة دورية للمركبة",
     "createdBy": "seed",
-    "amount": 513,
-    "id": "54bcda12-edc2-45ab-9adb-834ce708d292",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 646,
+    "id": "afd5f47d-d64d-4efe-b399-52e55ea87c83",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -64,9 +64,9 @@
     "category": "كهرباء وماء",
     "description": "فاتورة كهرباء وماء",
     "createdBy": "seed",
-    "amount": 248,
-    "id": "472f84a9-0b62-4f56-a4ea-f649e1eaf315",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 179,
+    "id": "95393969-3338-467f-bc41-ff6644f78cdc",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -74,9 +74,9 @@
     "category": "وقود",
     "description": "وقود رحلة توزيع",
     "createdBy": "seed",
-    "amount": 192,
-    "id": "466bbf94-1e86-44e9-9939-094234913816",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 299,
+    "id": "b5ae9b7d-7f3c-4b21-bc4f-1ed7a0abc2a1",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -84,9 +84,9 @@
     "category": "إيجار",
     "description": "إيجار المستودع",
     "createdBy": "seed",
-    "amount": 119,
-    "id": "7e5ae05a-5665-42bf-afde-abbbda471d20",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 113,
+    "id": "804def4f-8eec-47db-b744-07279a649146",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -94,9 +94,9 @@
     "category": "أخرى",
     "description": "مصاريف متنوعة",
     "createdBy": "seed",
-    "amount": 148,
-    "id": "f4b683ae-fc51-45c3-bda1-9bce12f254be",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 123,
+    "id": "a8395133-94b3-4235-9852-98d3af437d51",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -104,9 +104,9 @@
     "category": "صيانة مركبات",
     "description": "صيانة دورية للمركبة",
     "createdBy": "seed",
-    "amount": 422,
-    "id": "7eb46582-aa56-4e72-8c32-0f1e083fd058",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 452,
+    "id": "0c0a4880-5abb-4585-901f-8f481741b5dc",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -114,9 +114,9 @@
     "category": "كهرباء وماء",
     "description": "فاتورة كهرباء وماء",
     "createdBy": "seed",
-    "amount": 165,
-    "id": "7955d224-4414-4134-a5a6-00d7b79ca8d4",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 273,
+    "id": "26740732-9b8e-4a8c-8338-a64fff00d34e",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -124,9 +124,9 @@
     "category": "وقود",
     "description": "وقود رحلة توزيع",
     "createdBy": "seed",
-    "amount": 209,
-    "id": "3211c664-78b0-420a-96f0-19f1aee59a1c",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 212,
+    "id": "81e3f249-9163-4657-ba70-bd670ade9900",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -134,9 +134,9 @@
     "category": "إيجار",
     "description": "إيجار المستودع",
     "createdBy": "seed",
-    "amount": 178,
-    "id": "f08efde4-ed5c-4e6e-8d9f-7936880570bc",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 141,
+    "id": "e6dd0330-db39-498e-9fc2-aa2888595357",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -144,9 +144,9 @@
     "category": "رواتب",
     "description": "رواتب أسبوع 1",
     "createdBy": "seed",
-    "amount": 832,
-    "id": "d4222c35-6333-4967-b683-c7c5cee2955f",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 837,
+    "id": "08774325-9e39-445b-a9ee-ecfa0a69a9eb",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -154,9 +154,9 @@
     "category": "رواتب",
     "description": "رواتب أسبوع 2",
     "createdBy": "seed",
-    "amount": 876,
-    "id": "2543ee3a-5247-4724-8c9e-17dca6606905",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 900,
+    "id": "7f5dd97d-a257-4924-a553-10e9562eecab",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -164,9 +164,9 @@
     "category": "رواتب",
     "description": "رواتب أسبوع 3",
     "createdBy": "seed",
-    "amount": 1038,
-    "id": "47056e02-3fe6-4da0-8f7f-e7d218174e62",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 990,
+    "id": "51080840-1161-46b1-8b5a-238c01c1cf47",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -174,9 +174,9 @@
     "category": "رواتب",
     "description": "رواتب أسبوع 4",
     "createdBy": "seed",
-    "amount": 1022,
-    "id": "d05e8526-4b24-4854-909f-0d455b26339c",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 1092,
+    "id": "48ec91cf-c8b3-45e1-b1db-eb6b5f70f893",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -184,9 +184,9 @@
     "category": "رواتب",
     "description": "رواتب أسبوع 5",
     "createdBy": "seed",
-    "amount": 1059,
-    "id": "4e363886-51d0-43b5-99bd-26eef5d208d2",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 899,
+    "id": "ef1c703b-dd53-46a0-a24f-f5611c36d4c8",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   },
   {
@@ -194,9 +194,9 @@
     "category": "رواتب",
     "description": "رواتب أسبوع 6",
     "createdBy": "seed",
-    "amount": 967,
-    "id": "7ce869a7-2982-4ba6-8306-998ef5e487a4",
-    "createdAt": "2026-09-12T23:56:19.684Z",
+    "amount": 949,
+    "id": "ace9920b-9311-4faa-a9fa-5ebf8649fcf0",
+    "createdAt": "2026-09-13T00:04:36.865Z",
     "_version": 1
   }
 ]

@@ -13,15 +13,18 @@ import { useSettings } from "../../context/SettingsContext";
 import { useCollection } from "../../api/useCollection";
 import { expensesApi } from "../../api/resources";
 import { useAuth } from "../../context/AuthContext";
+import { useDropdownList } from "../../api/useDropdownList";
 import "./Expenses.css";
 
-const EXPENSE_CATEGORIES = ["وقود", "صيانة مركبات", "رواتب", "إيجار", "كهرباء وماء", "أخرى"];
+const FALLBACK_CATEGORIES = ["وقود", "صيانة مركبات", "رواتب", "إيجار", "كهرباء وماء", "أخرى"];
 
 function AddExpenseForm({ currentUser, onClose, onCreate }) {
   const { settings } = useSettings();
+  const { values: categoryOptions } = useDropdownList("فئات المصاريف");
+  const categories = categoryOptions.length > 0 ? categoryOptions : FALLBACK_CATEGORIES;
   const [form, setForm] = useState({
     date: new Date().toISOString().slice(0, 10),
-    category: EXPENSE_CATEGORIES[0],
+    category: "",
     description: "",
     amount: "",
     createdBy: currentUser,
@@ -52,7 +55,8 @@ function AddExpenseForm({ currentUser, onClose, onCreate }) {
       <div className="modal-field">
         <label>الفئة</label>
         <select value={form.category} onChange={set("category")} required>
-          {EXPENSE_CATEGORIES.map((c) => (
+          <option value="">— اختر —</option>
+          {categories.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>

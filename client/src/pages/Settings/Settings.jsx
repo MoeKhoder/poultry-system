@@ -20,6 +20,7 @@ const FALLBACK_CURRENCY_OPTIONS = ["ر.س", "$", "د.إ", "ج.م", "د.ك"];
 const tabs = [
   { key: "backup", label: "النسخ الاحتياطي", icon: "💾" },
   { key: "users", label: "المستخدمون", icon: "👥" },
+  { key: "lists", label: "القوائم المخصصة", icon: "📝" },
   { key: "system", label: "إعدادات النظام", icon: "⚙️" },
   { key: "company", label: "بيانات الشركة", icon: "🏢" },
 ];

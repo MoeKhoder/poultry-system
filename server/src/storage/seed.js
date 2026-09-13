@@ -92,7 +92,8 @@ async function seedDropdownOptions(regionNames) {
   }
   const lists = [
     record({ label: "المناطق", values: regionNames }),
-    record({ label: "فئات المصاريف", values: ["وقود ونقل", "صيانة", "رواتب", "أعلاف ولوجستيات", "رسوم ومصاريف إدارية", "أخرى"] }),
+    record({ label: "فئات المصاريف", values: ["وقود", "صيانة مركبات", "رواتب", "إيجار", "كهرباء وماء", "أخرى"] }),
+    record({ label: "أنواع المركبات", values: ["شاحنة كبيرة", "شاحنة متوسطة", "بيك أب"] }),
     record({ label: "العملات", values: ["ر.س", "$", "د.إ", "ج.م", "د.ك"] }),
   ];
   await writeJSON("dropdownOptions", lists);

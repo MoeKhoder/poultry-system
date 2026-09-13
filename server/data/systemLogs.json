@@ -2,6 +2,43 @@
   {
     "username": "admin",
     "role": "IT",
+    "action": "delete",
+    "module": "dropdownOptions",
+    "recordId": "c9456019-e489-48f0-910c-6b0e4f306145",
+    "oldValue": {
+      "label": "العملات",
+      "values": [
+        "ر.س",
+        "$",
+        "د.إ",
+        "ج.م",
+        "د.ك"
+      ],
+      "id": "c9456019-e489-48f0-910c-6b0e4f306145",
+      "createdAt": "2026-09-13T00:04:36.868Z",
+      "createdBy": "seed",
+      "_version": 1
+    },
+    "newValue": null,
+    "result": "success",
+    "ip": "::1",
+    "timestamp": "2026-09-13T00:09:09.172Z"
+  },
+  {
+    "username": "admin",
+    "role": "IT",
+    "action": "login",
+    "module": "auth",
+    "recordId": "9c9d0862-8b5a-4608-a8bb-bde9519c1f39",
+    "oldValue": null,
+    "newValue": null,
+    "result": "success",
+    "ip": "::1",
+    "timestamp": "2026-09-13T00:07:54.911Z"
+  },
+  {
+    "username": "admin",
+    "role": "IT",
     "action": "create",
     "module": "salesInvoices",
     "recordId": "c463e2a2-2ce8-4ce4-866d-cb8368cfa4fe",

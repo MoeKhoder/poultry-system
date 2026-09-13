@@ -11,14 +11,17 @@ import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDelet
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Tabs from "../../components/Tabs/Tabs";
 import { useCollection } from "../../api/useCollection";
+import { useDropdownList } from "../../api/useDropdownList";
 import { vehiclesApi, driversApi, distributionTripsApi } from "../../api/resources";
 import "./FleetManagement.css";
 
-const VEHICLE_TYPES = ["شاحنة كبيرة", "شاحنة متوسطة", "بيك أب"];
+const FALLBACK_VEHICLE_TYPES = ["شاحنة كبيرة", "شاحنة متوسطة", "بيك أب"];
 const VEHICLE_STATUSES = ["متاح", "في رحلة", "صيانة"];
 const DRIVER_STATUSES = ["متاح", "في رحلة", "إجازة"];
 
 function VehicleForm({ initial, drivers, onClose, onSubmit }) {
+  const { values: typeOptions } = useDropdownList("أنواع المركبات");
+  const vehicleTypes = typeOptions.length > 0 ? typeOptions : FALLBACK_VEHICLE_TYPES;
   const [form, setForm] = useState(initial);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -56,7 +59,7 @@ function VehicleForm({ initial, drivers, onClose, onSubmit }) {
         <label>النوع</label>
         <select value={form.type} onChange={set("type")} required>
           <option value="">— اختر —</option>
-          {VEHICLE_TYPES.map((t) => (
+          {vehicleTypes.map((t) => (
             <option key={t} value={t}>
               {t}
             </option>
