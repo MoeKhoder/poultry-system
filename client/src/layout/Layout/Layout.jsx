@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import TopBar from "../TopBar/TopBar";
 import BrandCredit from "../../components/BrandCredit/BrandCredit";
+import { ChickenIcon, MenuIcon } from "../../components/Icons/Icons";
 import "./Layout.css";
 
 export default function Layout() {
@@ -14,10 +15,12 @@ export default function Layout() {
       <div className="layout-main">
         <header className="layout-topbar">
           <button className="layout-menu-btn" onClick={() => setOpen(true)} aria-label="القائمة">
-            ☰
+            <MenuIcon />
           </button>
           <div className="layout-topbar-brand">
-            <span>🐓</span>
+            <span className="layout-topbar-brand-icon">
+              <ChickenIcon />
+            </span>
             <span>الشيخ تشيكن</span>
           </div>
         </header>

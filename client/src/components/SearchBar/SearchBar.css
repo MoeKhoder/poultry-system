@@ -1,6 +1,13 @@
 .search-bar {
   position: relative;
   width: 230px;
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .search-bar {
+    width: 100%;
+  }
 }
 
 .search-bar-icon {

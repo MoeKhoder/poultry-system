@@ -46,6 +46,11 @@
     display: flex;
   }
 
+  .layout-menu-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
   .layout-topbar-brand {
     display: flex;
     align-items: center;
@@ -53,6 +58,13 @@
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 15px;
+  }
+
+  .layout-topbar-brand-icon {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    flex-shrink: 0;
   }
 
   .layout-content {

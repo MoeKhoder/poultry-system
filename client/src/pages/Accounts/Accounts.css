@@ -47,6 +47,12 @@
   margin-bottom: 18px;
 }
 
+@media (max-width: 420px) {
+  .ledger-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
 .ledger-stat {
   border-radius: var(--radius-sm);
   padding: 14px;

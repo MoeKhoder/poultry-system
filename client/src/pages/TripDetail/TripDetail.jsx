@@ -150,7 +150,7 @@ export default function TripDetail() {
           </div>
           <div className="trip-form-row">
             <div className="modal-field">
-              <label>تكلفة وقود</label>
+              <label>تكلفة الديزل</label>
               <input type="number" value={form.dieselCost} onChange={set("dieselCost")} required />
             </div>
             <div className="modal-field">

@@ -28,6 +28,11 @@
   .invoice-create-layout {
     grid-template-columns: 1fr;
   }
+
+  .invoice-summary-panel,
+  .invoice-view-card {
+    position: static;
+  }
 }
 
 .invoice-form-panel form {
