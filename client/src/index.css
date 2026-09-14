@@ -606,6 +606,11 @@ a {
   gap: 8px;
 }
 
+.cage-qty-input {
+  max-width: 90px;
+  flex-shrink: 0;
+}
+
 .package-add-row input {
   flex: 1;
   border: 1px solid var(--color-border-strong);

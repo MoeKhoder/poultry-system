@@ -30,6 +30,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
   const [slaughterhouse, setSlaughterhouse] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [cages, setCages] = useState([]);
+  const [cageQtyInput, setCageQtyInput] = useState("1");
   const [cageInput, setCageInput] = useState("");
   const [emptyCageWeight, setEmptyCageWeight] = useState("8");
   const [priceInput, setPriceInput] = useState(kgPrice ? kgPrice.toFixed(2) : "5");
@@ -43,9 +44,9 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
   const totalWeight = cages.reduce((sum, c) => sum + c, 0);
   const cageCount = cages.length;
   const netWeight = Math.max(0, totalWeight - cageCount * (Number(emptyCageWeight) || 0));
-  const discountPercent = Number(discount) || 0;
+  const discountAmount = Number(discount) || 0;
   const rawTotal = Math.round(netWeight * (Number(priceInput) || 0));
-  const total = discountPercent ? Math.round(rawTotal * (1 - discountPercent / 100)) : rawTotal;
+  const total = Math.max(0, rawTotal - discountAmount);
 
   let paid = 0;
   if (payStatus === "مدفوع") paid = total;
@@ -53,9 +54,11 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
 
   function addCage() {
     const w = Number(cageInput);
+    const qty = Math.max(1, Number(cageQtyInput) || 1);
     if (!w || w <= 0) return;
-    setCages((prev) => [...prev, w]);
+    setCages((prev) => [...prev, ...Array(qty).fill(w)]);
     setCageInput("");
+    setCageQtyInput("1");
   }
 
   function removeCage(index) {
@@ -78,7 +81,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
         cages: cageCount,
         cageWeight: Number(emptyCageWeight) || 0,
         kgPrice: Number(priceInput) || 0,
-        discount: discountPercent ? `${discountPercent}%` : null,
+        discount: discountAmount || null,
         total,
         paid,
         notes: notes || null,
@@ -127,6 +130,14 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             <div className="modal-field">
               <label>الأقفاص (كغ)</label>
               <div className="package-add-row">
+                <input
+                  type="number"
+                  min="1"
+                  value={cageQtyInput}
+                  onChange={(e) => setCageQtyInput(e.target.value)}
+                  placeholder="عدد الأقفاص"
+                  className="cage-qty-input"
+                />
                 <input
                   type="number"
                   value={cageInput}
@@ -178,7 +189,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             </div>
 
             <div className="modal-field">
-              <label>الخصم (%)</label>
+              <label>الخصم ({settings.currency})</label>
               <input type="number" value={discount} onChange={(e) => setDiscount(e.target.value)} />
             </div>
 
@@ -269,7 +280,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             </div>
             <div className="detail-row">
               <span>الخصومات</span>
-              <span>{discountPercent ? `${discountPercent}%` : "—"}</span>
+              <span>{discountAmount ? fmtMoney(discountAmount) : "—"}</span>
             </div>
             <div className="detail-row">
               <span>حالة الدفع</span>
@@ -327,7 +338,7 @@ function ViewInvoiceView({ invoice, settings, fmtMoney, fmtWeight, onBack, onDel
           </div>
           <div className="detail-row">
             <span>الخصومات</span>
-            <span>{invoice.discount || "—"}</span>
+            <span>{invoice.discount ? fmtMoney(invoice.discount) : "—"}</span>
           </div>
           <div className="detail-row">
             <span>حالة الدفع</span>
@@ -416,7 +427,7 @@ export default function SalesInvoices() {
                   <Td>{inv.slaughterhouse}</Td>
                   <Td className="td-muted" dir="ltr">{inv.date}</Td>
                   <Td dir="ltr">{fmtWeight(inv.weightKg)}</Td>
-                  <Td>{inv.discount || "—"}</Td>
+                  <Td>{inv.discount ? (typeof inv.discount === "number" ? fmtMoney(inv.discount) : inv.discount) : "—"}</Td>
                   <Td className="td-strong">{fmtMoney(inv.total)}</Td>
                   <Td>
                     <StatusBadge status={statusForInvoice(inv.total, inv.paid || 0)} />

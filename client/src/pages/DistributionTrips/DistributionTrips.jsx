@@ -6,9 +6,10 @@ import StatCard from "../../components/StatCard/StatCard";
 import { Table, Td } from "../../components/DataTable/DataTable";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import IconButton from "../../components/IconButton/IconButton";
-import { EditIcon, EyeIcon, PlusIcon } from "../../components/Icons/Icons";
+import { EditIcon, EyeIcon, PlusIcon, TrashIcon } from "../../components/Icons/Icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Modal from "../../components/Modal/Modal";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { useSettings } from "../../context/SettingsContext";
 import { useCollection } from "../../api/useCollection";
 import { distributionTripsApi } from "../../api/resources";
@@ -80,9 +81,10 @@ function TripViewModal({ trip, onClose, onComplete, completing }) {
 
 export default function DistributionTrips() {
   const navigate = useNavigate();
-  const { items: trips, loading, error, update } = useCollection(distributionTripsApi);
+  const { items: trips, loading, error, update, remove } = useCollection(distributionTripsApi);
   const { fmtMoney } = useSettings();
   const [viewingTrip, setViewingTrip] = useState(null);
+  const [deletingTrip, setDeletingTrip] = useState(null);
   const [completing, setCompleting] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -100,6 +102,11 @@ export default function DistributionTrips() {
     } finally {
       setCompleting(false);
     }
+  }
+
+  async function handleDeleteTrip() {
+    await remove(deletingTrip.id);
+    setDeletingTrip(null);
   }
 
   return (
@@ -150,6 +157,9 @@ export default function DistributionTrips() {
                     <IconButton label="تعديل" onClick={() => navigate(`/trips/${t.id}`)}>
                       <EditIcon />
                     </IconButton>
+                    <IconButton label="حذف" tone="danger" onClick={() => setDeletingTrip(t)}>
+                      <TrashIcon />
+                    </IconButton>
                     <IconButton label="عرض" onClick={() => setViewingTrip(t)}>
                       <EyeIcon />
                     </IconButton>
@@ -167,6 +177,14 @@ export default function DistributionTrips() {
           onClose={() => setViewingTrip(null)}
           onComplete={handleComplete}
           completing={completing}
+        />
+      )}
+
+      {deletingTrip && (
+        <ConfirmDeleteModal
+          message={`سيتم حذف الرحلة ${deletingTrip.tripNumber} نهائياً.`}
+          onConfirm={handleDeleteTrip}
+          onCancel={() => setDeletingTrip(null)}
         />
       )}
     </div>

@@ -6,9 +6,10 @@ import StatCard from "../../components/StatCard/StatCard";
 import { Table, Td } from "../../components/DataTable/DataTable";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import IconButton from "../../components/IconButton/IconButton";
-import { EditIcon, EyeIcon, PlusIcon } from "../../components/Icons/Icons";
+import { EditIcon, EyeIcon, PlusIcon, TrashIcon } from "../../components/Icons/Icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Modal from "../../components/Modal/Modal";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { printReport } from "../../utils/printDocument";
 import { useSettings } from "../../context/SettingsContext";
 import { useCollection } from "../../api/useCollection";
@@ -97,10 +98,11 @@ function SlaughterhouseForm({ initial, onClose, onSubmit }) {
 
 export default function Slaughterhouses() {
   const navigate = useNavigate();
-  const { items: slaughterhouses, loading, error, create, update } = useCollection(slaughterhousesApi);
+  const { items: slaughterhouses, loading, error, create, update, remove } = useCollection(slaughterhousesApi);
   const { settings, fmtMoney } = useSettings();
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [deletingSlaughterhouse, setDeletingSlaughterhouse] = useState(null);
   const [summary, setSummary] = useState({ slaughterhouses: [] });
   const [query, setQuery] = useState("");
 
@@ -139,6 +141,11 @@ export default function Slaughterhouses() {
       photo: form.photo ?? null,
       _expectedVersion: editing._version,
     });
+  }
+
+  async function handleDeleteSlaughterhouse() {
+    await remove(deletingSlaughterhouse.id);
+    setDeletingSlaughterhouse(null);
   }
 
   return (
@@ -196,6 +203,9 @@ export default function Slaughterhouses() {
                       <IconButton label="تعديل" onClick={() => setEditing(s)}>
                         <EditIcon />
                       </IconButton>
+                      <IconButton label="حذف" tone="danger" onClick={() => setDeletingSlaughterhouse(s)}>
+                        <TrashIcon />
+                      </IconButton>
                       <IconButton label="عرض" onClick={() => navigate(`/slaughterhouses/${s.id}`)}>
                         <EyeIcon />
                       </IconButton>
@@ -222,6 +232,14 @@ export default function Slaughterhouses() {
         <Modal title={`تعديل ${editing.name}`} onClose={() => setEditing(null)}>
           <SlaughterhouseForm initial={editing} onClose={() => setEditing(null)} onSubmit={handleEditSubmit} />
         </Modal>
+      )}
+
+      {deletingSlaughterhouse && (
+        <ConfirmDeleteModal
+          message={`سيتم حذف المسلخ "${deletingSlaughterhouse.name}" وكافة بياناته نهائياً. هذا لا يحذف فواتير البيع المرتبطة به.`}
+          onConfirm={handleDeleteSlaughterhouse}
+          onCancel={() => setDeletingSlaughterhouse(null)}
+        />
       )}
     </div>
   );

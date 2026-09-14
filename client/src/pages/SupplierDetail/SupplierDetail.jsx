@@ -26,8 +26,10 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const [cages, setCages] = useState(
     isEdit && initial.cages ? Array.from({ length: Number(initial.cages) }, () => Math.round((Number(initial.weightKg) || 0) / Number(initial.cages))) : [],
   );
+  const [cageQtyInput, setCageQtyInput] = useState("1");
   const [cageInput, setCageInput] = useState("");
   const [emptyCageWeight, setEmptyCageWeight] = useState(initial.cageWeight ? String(initial.cageWeight) : "8");
+  const [discount, setDiscount] = useState(initial.discount ? String(initial.discount) : "0");
   const [totalTouched, setTotalTouched] = useState(isEdit);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -43,9 +45,11 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
 
   function addCage() {
     const w = Number(cageInput);
+    const qty = Math.max(1, Number(cageQtyInput) || 1);
     if (!w || w <= 0) return;
-    setCages((prev) => [...prev, w]);
+    setCages((prev) => [...prev, ...Array(qty).fill(w)]);
     setCageInput("");
+    setCageQtyInput("1");
   }
 
   function removeCage(index) {
@@ -56,7 +60,9 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const cageCount = cages.length;
   const netWeight = Math.max(0, totalWeight - cageCount * (Number(emptyCageWeight) || 0));
   const kgPrice = Number(form.kgPrice) || 0;
-  const suggestedTotal = Math.round(netWeight * kgPrice);
+  const discountAmount = Number(discount) || 0;
+  const rawTotal = Math.round(netWeight * kgPrice);
+  const suggestedTotal = Math.max(0, rawTotal - discountAmount);
   const total = totalTouched ? Number(form.total) || 0 : suggestedTotal;
   const paid = Number(form.paid) || 0;
   const remaining = Math.max(0, total - paid);
@@ -70,7 +76,7 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
     setSaving(true);
     setError("");
     try {
-      await onSubmit({ date: form.date, cages: cageCount, weightKg: netWeight, cageWeight: Number(emptyCageWeight) || 0, kgPrice, total, paid });
+      await onSubmit({ date: form.date, cages: cageCount, weightKg: netWeight, cageWeight: Number(emptyCageWeight) || 0, kgPrice, discount: discountAmount || null, total, paid });
       onClose();
     } catch (err) {
       setError(err.payload?.conflict ? "تم تعديل هذا الطلب من مكان آخر، أعد المحاولة" : "تعذر الحفظ");
@@ -94,6 +100,14 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
       <div className="modal-field">
         <label>الأقفاص ({settings.weightUnit})</label>
         <div className="package-add-row">
+          <input
+            type="number"
+            min="1"
+            value={cageQtyInput}
+            onChange={(e) => setCageQtyInput(e.target.value)}
+            placeholder="عدد الأقفاص"
+            className="cage-qty-input"
+          />
           <input
             type="number"
             value={cageInput}
@@ -144,9 +158,15 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
         </div>
       </div>
 
-      <div className="modal-field">
-        <label>الوزن الصافي ({settings.weightUnit})</label>
-        <input value={netWeight} disabled />
+      <div className="field-row">
+        <div className="modal-field">
+          <label>الوزن الصافي ({settings.weightUnit})</label>
+          <input value={netWeight} disabled />
+        </div>
+        <div className="modal-field">
+          <label>الخصم ({settings.currency})</label>
+          <input type="number" value={discount} onChange={(e) => setDiscount(e.target.value)} />
+        </div>
       </div>
 
       <div className="field-row">

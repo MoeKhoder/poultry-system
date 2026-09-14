@@ -236,9 +236,9 @@ async function seedSalesInvoices(dailyPrices, slaughterhouses) {
       const kgPrice = priceByDate[date] || 17;
       const weightKg = rand(60, 250) * 8;
       const cages = Math.round(weightKg / 8);
-      const discount = counter % 5 === 0 ? "2%" : counter % 7 === 0 ? "3%" : null;
-      let total = Math.round(weightKg * kgPrice);
-      if (discount) total = Math.round(total * (1 - parseInt(discount) / 100));
+      const rawTotal = Math.round(weightKg * kgPrice);
+      const discount = counter % 5 === 0 ? Math.round(rawTotal * 0.02) : counter % 7 === 0 ? Math.round(rawTotal * 0.03) : null;
+      const total = discount ? rawTotal - discount : rawTotal;
       const paidRatio = counter % 5 === 0 ? 0 : counter % 3 === 0 ? 0.5 : 1;
       const paid = Math.round(total * paidRatio);
       invoices.push(

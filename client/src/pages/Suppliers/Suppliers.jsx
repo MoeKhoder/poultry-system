@@ -7,8 +7,9 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import { Table, Td } from "../../components/DataTable/DataTable";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import IconButton from "../../components/IconButton/IconButton";
-import { EditIcon, EyeIcon, PlusIcon } from "../../components/Icons/Icons";
+import { EditIcon, EyeIcon, PlusIcon, TrashIcon } from "../../components/Icons/Icons";
 import Modal from "../../components/Modal/Modal";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { printReport } from "../../utils/printDocument";
 import { useCollection } from "../../api/useCollection";
 import { suppliersApi, accountsSummaryApi } from "../../api/resources";
@@ -93,11 +94,12 @@ function SupplierForm({ initial, onClose, onSubmit }) {
 
 export default function Suppliers() {
   const navigate = useNavigate();
-  const { items: suppliers, loading, error, create, update } = useCollection(suppliersApi);
+  const { items: suppliers, loading, error, create, update, remove } = useCollection(suppliersApi);
   const { settings, fmtMoney } = useSettings();
   const [query, setQuery] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [deletingSupplier, setDeletingSupplier] = useState(null);
   const [summary, setSummary] = useState({ suppliers: [] });
 
   useEffect(() => {
@@ -141,6 +143,11 @@ export default function Suppliers() {
       photo: form.photo ?? null,
       _expectedVersion: editing._version,
     });
+  }
+
+  async function handleDeleteSupplier() {
+    await remove(deletingSupplier.id);
+    setDeletingSupplier(null);
   }
 
   return (
@@ -200,6 +207,9 @@ export default function Suppliers() {
                       <IconButton label="تعديل" onClick={() => setEditing(s)}>
                         <EditIcon />
                       </IconButton>
+                      <IconButton label="حذف" tone="danger" onClick={() => setDeletingSupplier(s)}>
+                        <TrashIcon />
+                      </IconButton>
                       <IconButton label="عرض" onClick={() => navigate(`/suppliers/${s.id}`)}>
                         <EyeIcon />
                       </IconButton>
@@ -222,6 +232,14 @@ export default function Suppliers() {
         <Modal title={`تعديل ${editing.name}`} onClose={() => setEditing(null)}>
           <SupplierForm initial={editing} onClose={() => setEditing(null)} onSubmit={handleEditSubmit} />
         </Modal>
+      )}
+
+      {deletingSupplier && (
+        <ConfirmDeleteModal
+          message={`سيتم حذف المورد "${deletingSupplier.name}" وكافة بياناته نهائياً. هذا لا يحذف طلبيات الشراء المرتبطة به.`}
+          onConfirm={handleDeleteSupplier}
+          onCancel={() => setDeletingSupplier(null)}
+        />
       )}
     </div>
   );

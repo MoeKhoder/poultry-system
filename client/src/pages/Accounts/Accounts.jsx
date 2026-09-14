@@ -95,6 +95,70 @@ function PaymentForm({ row, currency, fmtMoney, onClose, onSubmit }) {
   );
 }
 
+function DeductionForm({ row, currency, fmtMoney, onClose, onSubmit }) {
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [reason, setReason] = useState("");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const value = Number(amount);
+    if (!value || value <= 0) {
+      setError("أدخل مبلغاً صحيحاً");
+      return;
+    }
+    if (value > row.remaining) {
+      setError("لا يمكن أن يتجاوز الخصم المبلغ المتبقي");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    try {
+      await onSubmit({ amount: value, date, note: reason || null, type: "خصم" });
+      onClose();
+    } catch {
+      setError("تعذر تسجيل الخصم");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="payment-form-party">
+        <p className="payment-form-party-name">{row.name}</p>
+      </div>
+      <div className="modal-field">
+        <label>المبلغ المتبقي الحالي ({currency})</label>
+        <input value={fmtMoney(row.remaining)} disabled />
+      </div>
+      <div className="modal-field">
+        <label>مبلغ الخصم ({currency})</label>
+        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+      </div>
+      <div className="modal-field">
+        <label>التاريخ</label>
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+      </div>
+      <div className="modal-field">
+        <label>سبب الخصم</label>
+        <input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="خصم تسوية / تعويض بضاعة تالفة..." required />
+      </div>
+      {error && <p className="modal-error">{error}</p>}
+      <div className="modal-actions">
+        <button type="button" className="btn-outline" onClick={onClose}>
+          إلغاء
+        </button>
+        <button type="submit" className="btn-primary" disabled={saving}>
+          {saving ? "جارٍ الحفظ..." : "✓ تأكيد الخصم"}
+        </button>
+      </div>
+    </form>
+  );
+}
+
 function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onPay }) {
   const [entries, setEntries] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -248,6 +312,7 @@ export default function Accounts() {
   const [error, setError] = useState("");
   const { settings, fmtMoney } = useSettings();
   const [payingRow, setPayingRow] = useState(null);
+  const [deductingRow, setDeductingRow] = useState(null);
   const [viewingRow, setViewingRow] = useState(null);
 
   function reload() {
@@ -314,6 +379,21 @@ export default function Accounts() {
     setViewingRow(null);
   }
 
+  async function handleDeduction({ amount, date, note, type }) {
+    await paymentsApi.create({
+      partyType: deductingRow.partyType,
+      partyId: deductingRow.id,
+      partyName: deductingRow.name,
+      amount,
+      method: "—",
+      date,
+      note,
+      type,
+    });
+    reload();
+    setViewingRow(null);
+  }
+
   return (
     <div>
       <PageHeader title="الحسابات" subtitle="كشف الحسابات و الديون" />
@@ -362,6 +442,7 @@ export default function Accounts() {
                     <div className="row-actions">
                       <ActionLink onClick={() => setViewingRow(r)}>كشف</ActionLink>
                       {r.remaining > 0 && <ActionLink onClick={() => setPayingRow(r)}>دفع</ActionLink>}
+                      {r.remaining > 0 && <ActionLink onClick={() => setDeductingRow(r)}>خصم</ActionLink>}
                     </div>
                   </Td>
                 </>
@@ -386,6 +467,12 @@ export default function Accounts() {
       {payingRow && (
         <Modal title="تسجيل دفعة" onClose={() => setPayingRow(null)}>
           <PaymentForm row={payingRow} currency={settings.currency} fmtMoney={fmtMoney} onClose={() => setPayingRow(null)} onSubmit={handlePayment} />
+        </Modal>
+      )}
+
+      {deductingRow && (
+        <Modal title="خصم من الحساب" subtitle="يُخصم مباشرة من المبلغ الإجمالي المستحق" onClose={() => setDeductingRow(null)}>
+          <DeductionForm row={deductingRow} currency={settings.currency} fmtMoney={fmtMoney} onClose={() => setDeductingRow(null)} onSubmit={handleDeduction} />
         </Modal>
       )}
     </div>

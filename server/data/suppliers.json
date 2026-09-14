@@ -1,0 +1,72 @@
+[
+  {
+    "code": "S001",
+    "name": "مزرعة الأمل",
+    "region": "طرابلس",
+    "contact": "عبدالله الأحمد",
+    "phone": "81234567",
+    "totalPurchases": 145000,
+    "balance": 46500,
+    "status": "دائن",
+    "id": "1d706cdd-afe3-4321-89ef-862f6a4192db",
+    "createdAt": "2026-09-14T05:59:13.134Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "code": "S002",
+    "name": "شركة الخير للدواجن",
+    "region": "بيروت",
+    "contact": "محمد العمري",
+    "phone": "70987654",
+    "totalPurchases": 89000,
+    "balance": 3000,
+    "status": "دائن",
+    "id": "83511d8c-9e98-439a-bb3f-e2d226a5094a",
+    "createdAt": "2026-09-14T05:59:13.134Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "code": "S003",
+    "name": "مزرعة الوادي",
+    "region": "زحلة",
+    "contact": "خالد الوادي",
+    "phone": "03456123",
+    "totalPurchases": 212000,
+    "balance": 0,
+    "status": "مسدّد",
+    "id": "34d0a452-f0d4-4cb9-8d5e-4048bf1225bc",
+    "createdAt": "2026-09-14T05:59:13.134Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "code": "S004",
+    "name": "شركة الذهبي للدواجن",
+    "region": "صيدا",
+    "contact": "فيصل الذهبي",
+    "phone": "76123456",
+    "totalPurchases": 67000,
+    "balance": 23000,
+    "status": "دائن",
+    "id": "00d9b192-8de0-4b43-b23d-35a60832b445",
+    "createdAt": "2026-09-14T05:59:13.134Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "code": "S005",
+    "name": "مزرعة النخيل",
+    "region": "جونية",
+    "contact": "سعد النخيل",
+    "phone": "71678901",
+    "totalPurchases": 38000,
+    "balance": 0,
+    "status": "مسدّد",
+    "id": "a8b4afce-ea50-4857-b236-fdc366e776ba",
+    "createdAt": "2026-09-14T05:59:13.134Z",
+    "createdBy": "seed",
+    "_version": 1
+  }
+]
