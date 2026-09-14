@@ -42,6 +42,7 @@ export const roleDefaultsApi = {
 };
 
 export const paymentsApi = makeResource("/payments");
+export const loansApi = makeResource("/loans");
 
 export const accountsSummaryApi = {
   get: () => api.get("/accounts-summary"),

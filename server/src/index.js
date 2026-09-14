@@ -22,6 +22,7 @@ import vehiclesRoutes from "./modules/vehicles.js";
 import driversRoutes from "./modules/drivers.js";
 import expensesRoutes from "./modules/expenses.js";
 import paymentsRoutes from "./modules/payments.js";
+import loansRoutes from "./modules/loans.js";
 import accountsSummaryRoutes from "./modules/accountsSummary.js";
 
 const app = express();
@@ -54,6 +55,7 @@ app.use("/api/vehicles", requireAuth, vehiclesRoutes);
 app.use("/api/drivers", requireAuth, driversRoutes);
 app.use("/api/expenses", requireAuth, expensesRoutes);
 app.use("/api/payments", requireAuth, paymentsRoutes);
+app.use("/api/loans", requireAuth, loansRoutes);
 app.use("/api/accounts-summary", requireAuth, accountsSummaryRoutes);
 
 app.get("/api/health", (req, res) => {

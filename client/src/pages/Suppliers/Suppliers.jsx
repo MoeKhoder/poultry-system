@@ -7,22 +7,77 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import { Table, Td } from "../../components/DataTable/DataTable";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import IconButton from "../../components/IconButton/IconButton";
-import { EditIcon, EyeIcon, PlusIcon, TrashIcon } from "../../components/Icons/Icons";
+import { EditIcon, EyeIcon, PlusIcon, TrashIcon, WalletIcon } from "../../components/Icons/Icons";
 import Modal from "../../components/Modal/Modal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { printReport } from "../../utils/printDocument";
 import { useCollection } from "../../api/useCollection";
-import { suppliersApi, accountsSummaryApi } from "../../api/resources";
+import { suppliersApi, accountsSummaryApi, loansApi } from "../../api/resources";
 import { useSettings } from "../../context/SettingsContext";
-import { useDropdownList } from "../../api/useDropdownList";
 import PhotoUpload from "../../components/PhotoUpload/PhotoUpload";
 import "./Suppliers.css";
+
+function LoanForm({ party, currency, onClose, onSubmit }) {
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [note, setNote] = useState("");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const value = Number(amount);
+    if (!value || value <= 0) {
+      setError("أدخل مبلغاً صحيحاً");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    try {
+      await onSubmit({ amount: value, date, note: note || null });
+      onClose();
+    } catch {
+      setError("تعذر تسجيل الدين");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="modal-field">
+        <label>المورد</label>
+        <input value={party.name} disabled />
+      </div>
+      <div className="modal-field">
+        <label>مبلغ الدين ({currency})</label>
+        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+      </div>
+      <div className="modal-field">
+        <label>التاريخ</label>
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+      </div>
+      <div className="modal-field">
+        <label>ملاحظة</label>
+        <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="سبب الدين (اختياري)" />
+      </div>
+      {error && <p className="modal-error">{error}</p>}
+      <div className="modal-actions">
+        <button type="button" className="btn-outline" onClick={onClose}>
+          إلغاء
+        </button>
+        <button type="submit" className="btn-primary" disabled={saving}>
+          {saving ? "جارٍ الحفظ..." : "إضافة الدين"}
+        </button>
+      </div>
+    </form>
+  );
+}
 
 function SupplierForm({ initial, onClose, onSubmit }) {
   const [form, setForm] = useState(initial);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
-  const { values: regionOptions } = useDropdownList("المناطق");
 
   function set(field) {
     return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -52,18 +107,7 @@ function SupplierForm({ initial, onClose, onSubmit }) {
       </div>
       <div className="modal-field">
         <label>المنطقة / المدينة</label>
-        {regionOptions.length > 0 ? (
-          <select value={form.region} onChange={set("region")} required>
-            <option value="">— اختر —</option>
-            {regionOptions.map((r) => (
-              <option key={r} value={r}>
-                {r}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <input value={form.region} onChange={set("region")} required />
-        )}
+        <input value={form.region} onChange={set("region")} placeholder="مثال: طرابلس" required />
       </div>
       <div className="modal-field">
         <label>صورة البروفايل</label>
@@ -100,6 +144,7 @@ export default function Suppliers() {
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deletingSupplier, setDeletingSupplier] = useState(null);
+  const [loaningSupplier, setLoaningSupplier] = useState(null);
   const [summary, setSummary] = useState({ suppliers: [] });
 
   useEffect(() => {
@@ -148,6 +193,16 @@ export default function Suppliers() {
   async function handleDeleteSupplier() {
     await remove(deletingSupplier.id);
     setDeletingSupplier(null);
+  }
+
+  async function handleAddLoan(body) {
+    await loansApi.create({
+      partyType: "supplier",
+      partyId: loaningSupplier.id,
+      partyName: loaningSupplier.name,
+      ...body,
+    });
+    accountsSummaryApi.get().then(setSummary);
   }
 
   return (
@@ -210,6 +265,9 @@ export default function Suppliers() {
                       <IconButton label="حذف" tone="danger" onClick={() => setDeletingSupplier(s)}>
                         <TrashIcon />
                       </IconButton>
+                      <IconButton label="إضافة دين" onClick={() => setLoaningSupplier(s)}>
+                        <WalletIcon />
+                      </IconButton>
                       <IconButton label="عرض" onClick={() => navigate(`/suppliers/${s.id}`)}>
                         <EyeIcon />
                       </IconButton>
@@ -240,6 +298,12 @@ export default function Suppliers() {
           onConfirm={handleDeleteSupplier}
           onCancel={() => setDeletingSupplier(null)}
         />
+      )}
+
+      {loaningSupplier && (
+        <Modal title="إضافة دين" subtitle={loaningSupplier.name} onClose={() => setLoaningSupplier(null)}>
+          <LoanForm party={loaningSupplier} currency={settings.currency} onClose={() => setLoaningSupplier(null)} onSubmit={handleAddLoan} />
+        </Modal>
       )}
     </div>
   );

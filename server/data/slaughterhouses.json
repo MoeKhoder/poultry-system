@@ -9,8 +9,8 @@
     "capacityPerDay": 500,
     "dueBalance": 53000,
     "remainingBalance": 140000,
-    "id": "bc2ebb51-8616-404e-85f6-dcd114173458",
-    "createdAt": "2026-09-14T05:59:13.137Z",
+    "id": "325f34af-47f0-4ebc-a7ba-239c4132a9a8",
+    "createdAt": "2026-09-14T12:02:42.990Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -24,8 +24,8 @@
     "capacityPerDay": 350,
     "dueBalance": 0,
     "remainingBalance": 134000,
-    "id": "4fbde51b-4e94-4d8c-b3d4-0b5233e314c3",
-    "createdAt": "2026-09-14T05:59:13.137Z",
+    "id": "99d36b56-1add-4b33-9d2f-7cdc8ffd868a",
+    "createdAt": "2026-09-14T12:02:42.990Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -39,8 +39,8 @@
     "capacityPerDay": 400,
     "dueBalance": 19000,
     "remainingBalance": 70000,
-    "id": "7317a61a-13c6-4337-86d1-9081362470e8",
-    "createdAt": "2026-09-14T05:59:13.137Z",
+    "id": "008ec47b-09ce-4d80-8f92-4b12f827017c",
+    "createdAt": "2026-09-14T12:02:42.990Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -54,8 +54,8 @@
     "capacityPerDay": 600,
     "dueBalance": 0,
     "remainingBalance": 156000,
-    "id": "2701cf57-7bb5-4e0d-8ea2-68ce0b72d509",
-    "createdAt": "2026-09-14T05:59:13.137Z",
+    "id": "3931e4d8-20c2-4129-b32b-e622e58673e3",
+    "createdAt": "2026-09-14T12:02:42.990Z",
     "createdBy": "seed",
     "_version": 1
   },
@@ -69,8 +69,8 @@
     "capacityPerDay": 250,
     "dueBalance": 10000,
     "remainingBalance": 27000,
-    "id": "9829d415-60a7-48dc-b83f-109d8515c00b",
-    "createdAt": "2026-09-14T05:59:13.137Z",
+    "id": "80c972ad-5306-4b5c-8ffc-abc2d34c59da",
+    "createdAt": "2026-09-14T12:02:42.991Z",
     "createdBy": "seed",
     "_version": 1
   }
