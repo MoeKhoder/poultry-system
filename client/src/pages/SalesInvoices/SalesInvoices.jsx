@@ -30,8 +30,8 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
   const [slaughterhouse, setSlaughterhouse] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [cages, setCages] = useState([]);
-  const [cageQtyInput, setCageQtyInput] = useState("1");
   const [cageInput, setCageInput] = useState("");
+  const [cageCountInput, setCageCountInput] = useState("");
   const [emptyCageWeight, setEmptyCageWeight] = useState("8");
   const [priceInput, setPriceInput] = useState(kgPrice ? kgPrice.toFixed(2) : "5");
   const [discount, setDiscount] = useState("0");
@@ -42,7 +42,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
   const [saving, setSaving] = useState(false);
 
   const totalWeight = cages.reduce((sum, c) => sum + c, 0);
-  const cageCount = cages.length;
+  const cageCount = Number(cageCountInput) || 0;
   const netWeight = Math.max(0, totalWeight - cageCount * (Number(emptyCageWeight) || 0));
   const discountAmount = Number(discount) || 0;
   const rawTotal = Math.round(netWeight * (Number(priceInput) || 0));
@@ -54,11 +54,9 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
 
   function addCage() {
     const w = Number(cageInput);
-    const qty = Math.max(1, Number(cageQtyInput) || 1);
     if (!w || w <= 0) return;
-    setCages((prev) => [...prev, ...Array(qty).fill(w)]);
+    setCages((prev) => [...prev, w]);
     setCageInput("");
-    setCageQtyInput("1");
   }
 
   function removeCage(index) {
@@ -67,8 +65,12 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (cages.length === 0) {
+      setError("أضف وزناً واحداً على الأقل");
+      return;
+    }
     if (cageCount === 0) {
-      setError("أضف قفص واحد على الأقل");
+      setError("أدخل عدد الأقفاص");
       return;
     }
     setSaving(true);
@@ -128,16 +130,8 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
             </div>
 
             <div className="modal-field">
-              <label>الأقفاص (كغ)</label>
+              <label>الأوزان (كغ)</label>
               <div className="package-add-row">
-                <input
-                  type="number"
-                  min="1"
-                  value={cageQtyInput}
-                  onChange={(e) => setCageQtyInput(e.target.value)}
-                  placeholder="عدد الأقفاص"
-                  className="cage-qty-input"
-                />
                 <input
                   type="number"
                   value={cageInput}
@@ -148,17 +142,17 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
                       addCage();
                     }
                   }}
-                  placeholder="وزن القفص"
+                  placeholder="أدخل وزناً"
                 />
                 <button type="button" className="btn-outline" onClick={addCage}>
-                  + إضافة قفص
+                  + إضافة وزن
                 </button>
               </div>
               {cages.length > 0 && (
                 <div className="package-list">
                   {cages.map((w, i) => (
                     <div key={i} className="package-list-item">
-                      <span>قفص {i + 1}: {w} {settings.weightUnit}</span>
+                      <span>وزن {i + 1}: {w} {settings.weightUnit}</span>
                       <button type="button" onClick={() => removeCage(i)}>×</button>
                     </div>
                   ))}
@@ -173,7 +167,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
               </div>
               <div className="modal-field">
                 <label>عدد الأقفاص</label>
-                <input value={cageCount} disabled />
+                <input type="number" value={cageCountInput} onChange={(e) => setCageCountInput(e.target.value)} placeholder="أدخل العدد" required />
               </div>
             </div>
 

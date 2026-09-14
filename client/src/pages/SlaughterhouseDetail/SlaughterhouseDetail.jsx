@@ -26,8 +26,8 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const [cages, setCages] = useState(
     isEdit && initial.cages ? Array.from({ length: Number(initial.cages) }, () => Math.round((Number(initial.weightKg) || 0) / Number(initial.cages))) : [],
   );
-  const [cageQtyInput, setCageQtyInput] = useState("1");
   const [cageInput, setCageInput] = useState("");
+  const [cageCountInput, setCageCountInput] = useState(isEdit && initial.cages ? String(initial.cages) : "");
   const [emptyCageWeight, setEmptyCageWeight] = useState(initial.cageWeight ? String(initial.cageWeight) : "8");
   const [discount, setDiscount] = useState(initial.discount ? String(initial.discount) : "0");
   const [totalTouched, setTotalTouched] = useState(isEdit);
@@ -45,11 +45,9 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
 
   function addCage() {
     const w = Number(cageInput);
-    const qty = Math.max(1, Number(cageQtyInput) || 1);
     if (!w || w <= 0) return;
-    setCages((prev) => [...prev, ...Array(qty).fill(w)]);
+    setCages((prev) => [...prev, w]);
     setCageInput("");
-    setCageQtyInput("1");
   }
 
   function removeCage(index) {
@@ -57,7 +55,7 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   }
 
   const totalWeight = cages.reduce((sum, c) => sum + c, 0);
-  const cageCount = cages.length;
+  const cageCount = Number(cageCountInput) || 0;
   const netWeight = Math.max(0, totalWeight - cageCount * (Number(emptyCageWeight) || 0));
   const kgPrice = Number(form.kgPrice) || 0;
   const discountAmount = Number(discount) || 0;
@@ -69,8 +67,12 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (cages.length === 0) {
+      setError("أضف وزناً واحداً على الأقل");
+      return;
+    }
     if (cageCount === 0) {
-      setError("أضف قفص واحد على الأقل");
+      setError("أدخل عدد الأقفاص");
       return;
     }
     setSaving(true);
@@ -98,16 +100,8 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
       </div>
 
       <div className="modal-field">
-        <label>الأقفاص ({settings.weightUnit})</label>
+        <label>الأوزان ({settings.weightUnit})</label>
         <div className="package-add-row">
-          <input
-            type="number"
-            min="1"
-            value={cageQtyInput}
-            onChange={(e) => setCageQtyInput(e.target.value)}
-            placeholder="عدد الأقفاص"
-            className="cage-qty-input"
-          />
           <input
             type="number"
             value={cageInput}
@@ -118,17 +112,17 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
                 addCage();
               }
             }}
-            placeholder="وزن القفص"
+            placeholder="أدخل وزناً"
           />
           <button type="button" className="btn-outline" onClick={addCage}>
-            + إضافة قفص
+            + إضافة وزن
           </button>
         </div>
         {cages.length > 0 && (
           <div className="package-list">
             {cages.map((w, i) => (
               <div key={i} className="package-list-item">
-                <span>قفص {i + 1}: {w} {settings.weightUnit}</span>
+                <span>وزن {i + 1}: {w} {settings.weightUnit}</span>
                 <button type="button" onClick={() => removeCage(i)}>×</button>
               </div>
             ))}
@@ -143,7 +137,7 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
         </div>
         <div className="modal-field">
           <label>عدد الأقفاص</label>
-          <input value={cageCount} disabled />
+          <input type="number" value={cageCountInput} onChange={(e) => setCageCountInput(e.target.value)} placeholder="أدخل العدد" required />
         </div>
       </div>
 
@@ -286,13 +280,13 @@ export default function SlaughterhouseDetail() {
           </div>
         </div>
         <button className="btn-primary" onClick={() => setShowAdd(true)}>
-          <PlusIcon /> إضافة عملية ذبح
+          <PlusIcon /> إضافة عملية الدفع
         </button>
       </div>
 
       <div className="section-heading">
-        <h2>سجلات الذبح</h2>
-        <p>تتبع جميع عمليات الذبح</p>
+        <h2>سجلات الدفع</h2>
+        <p>تتبع جميع عمليات الدفع</p>
       </div>
 
       <Card>
