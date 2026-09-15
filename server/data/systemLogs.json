@@ -2,6 +2,41 @@
   {
     "username": "admin",
     "role": "IT",
+    "action": "create",
+    "module": "loans",
+    "recordId": "098dae6a-abb1-48cd-b075-fd181c51c8d8",
+    "oldValue": null,
+    "newValue": {
+      "partyType": "slaughterhouse",
+      "partyId": "a310f612-5f69-4f89-a5d6-7f56117ddb46",
+      "partyName": "mahmoud el zohbi",
+      "amount": 300,
+      "date": "2026-09-15",
+      "note": null,
+      "id": "098dae6a-abb1-48cd-b075-fd181c51c8d8",
+      "createdAt": "2026-09-15T17:22:10.567Z",
+      "createdBy": "admin",
+      "_version": 1
+    },
+    "result": "success",
+    "ip": "::1",
+    "timestamp": "2026-09-15T17:22:10.577Z"
+  },
+  {
+    "username": "admin",
+    "role": "IT",
+    "action": "login",
+    "module": "auth",
+    "recordId": "c945db47-132f-4951-b36c-8c8eaeeb0dfc",
+    "oldValue": null,
+    "newValue": null,
+    "result": "success",
+    "ip": "::1",
+    "timestamp": "2026-09-15T17:21:19.513Z"
+  },
+  {
+    "username": "admin",
+    "role": "IT",
     "action": "download",
     "module": "backup",
     "recordId": null,

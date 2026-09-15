@@ -283,8 +283,8 @@ export default function SlaughterhouseDetail() {
       const priorInvoicesTotal = houseInvoices
         .filter((i) => i.date < fromDate)
         .reduce((sum, i) => sum + (i.total || 0), 0);
-      const priorLoansTotal = loans
-        .filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id && l.date < fromDate)
+      const loansTotal = loans
+        .filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id && l.date <= toDate)
         .reduce((sum, l) => sum + (l.amount || 0), 0);
       const priorPaidOnInvoices = houseInvoices
         .filter((i) => i.date < fromDate)
@@ -292,7 +292,7 @@ export default function SlaughterhouseDetail() {
       const priorPaidViaLedger = payments
         .filter((p) => p.partyType === "slaughterhouse" && p.partyId === slaughterhouse.id && p.date < fromDate)
         .reduce((sum, p) => sum + (p.amount || 0), 0);
-      const openingBalance = priorInvoicesTotal + priorLoansTotal - priorPaidOnInvoices - priorPaidViaLedger;
+      const openingBalance = priorInvoicesTotal + loansTotal - priorPaidOnInvoices - priorPaidViaLedger;
 
       printWeeklyVoucherStatement({
         settings,
@@ -362,14 +362,14 @@ export default function SlaughterhouseDetail() {
             🖨️ طباعة كشف أسبوعي
           </button>
           <button className="btn-primary" onClick={() => setShowAdd(true)}>
-            <PlusIcon /> إضافة عملية ذبح
+            <PlusIcon /> إضافة عملية البيع
           </button>
         </div>
       </div>
 
       <div className="section-heading">
-        <h2>سجلات الذبح</h2>
-        <p>تتبع جميع عمليات الذبح</p>
+        <h2>سجلات البيع</h2>
+        <p>تتبع جميع عمليات البيع</p>
       </div>
 
       <Card>

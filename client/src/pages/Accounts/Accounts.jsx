@@ -7,7 +7,7 @@ import ActionLink from "../../components/ActionLink/ActionLink";
 import Modal from "../../components/Modal/Modal";
 import Tabs from "../../components/Tabs/Tabs";
 import { printReport, printAccountStatement } from "../../utils/printDocument";
-import { accountsSummaryApi, paymentsApi, purchaseOrdersApi, salesInvoicesApi } from "../../api/resources";
+import { accountsSummaryApi, paymentsApi, purchaseOrdersApi, salesInvoicesApi, loansApi } from "../../api/resources";
 import { useSettings } from "../../context/SettingsContext";
 import "./Accounts.css";
 
@@ -166,7 +166,7 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
   useEffect(() => {
     setLoading(true);
     const debitsApi = isSuppliers ? purchaseOrdersApi : salesInvoicesApi;
-    Promise.all([debitsApi.list(), paymentsApi.list()]).then(([debitRecords, allPayments]) => {
+    Promise.all([debitsApi.list(), paymentsApi.list(), loansApi.list()]).then(([debitRecords, allPayments, allLoans]) => {
       const debits = debitRecords
         .filter((r) => (isSuppliers ? r.supplierId === row.id : r.slaughterhouse === row.name))
         .map((r) => ({
@@ -175,6 +175,15 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
           debit: r.total,
           credit: 0,
           createdAt: r.createdAt,
+        }));
+      const loanDebits = allLoans
+        .filter((l) => l.partyType === (isSuppliers ? "supplier" : "slaughterhouse") && l.partyId === row.id)
+        .map((l) => ({
+          date: l.date,
+          label: l.note ? `دين — ${l.note}` : "دين",
+          debit: l.amount,
+          credit: 0,
+          createdAt: l.createdAt,
         }));
       const paidAtPurchase = isSuppliers
         ? debitRecords
@@ -204,7 +213,7 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
           credit: p.amount,
           createdAt: p.createdAt,
         }));
-      const chronological = [...debits, ...paidAtPurchase, ...credits].sort((a, b) => {
+      const chronological = [...debits, ...loanDebits, ...paidAtPurchase, ...credits].sort((a, b) => {
         if (a.date !== b.date) return a.date < b.date ? -1 : 1;
         return (a.createdAt || "") < (b.createdAt || "") ? -1 : 1;
       });

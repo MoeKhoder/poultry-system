@@ -22,5 +22,17 @@
     "createdAt": "2026-09-14T15:00:48.137Z",
     "createdBy": "admin",
     "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "a310f612-5f69-4f89-a5d6-7f56117ddb46",
+    "partyName": "mahmoud el zohbi",
+    "amount": 300,
+    "date": "2026-09-15",
+    "note": null,
+    "id": "098dae6a-abb1-48cd-b075-fd181c51c8d8",
+    "createdAt": "2026-09-15T17:22:10.567Z",
+    "createdBy": "admin",
+    "_version": 1
   }
 ]
