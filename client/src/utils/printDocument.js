@@ -77,6 +77,23 @@ function baseStyles() {
     table.doc-table tr:nth-child(even) td {
       background: #faf7ef;
     }
+    table.doc-table-highlight th {
+      background: #fde68a;
+      color: #1a1a1a;
+    }
+    .doc-summary-highlight .doc-summary-row span:first-child {
+      background: #fde68a;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .doc-summary-row-total {
+      font-size: 15px;
+    }
+    .doc-summary-row-total span:last-child {
+      color: #b45309;
+    }
     .doc-summary {
       width: 60%;
       margin-bottom: 18px;
@@ -262,6 +279,40 @@ export function printAccountStatement({ settings, row, isSuppliers, entries, fmt
         ${rows.map((r) => `<tr>${r.map((v) => `<td>${escapeHtml(v)}</td>`).join("")}</tr>`).join("")}
       </tbody>
     </table>
+    ${creditHtml()}
+  `;
+
+  openPrintDocument(html);
+}
+
+export function printWeeklyVoucherStatement({ settings, party, invoices, openingBalance, fmtMoney, fmtWeight }) {
+  const sorted = [...invoices].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const periodTotal = sorted.reduce((sum, i) => sum + (i.total || 0), 0);
+  const grandTotal = openingBalance + periodTotal;
+
+  const rows = sorted.map((i) => [
+    i.date,
+    i.invoiceNumber,
+    fmtWeight(i.weightKg),
+    Number(i.kgPrice).toLocaleString("ar-SA"),
+    fmtMoney(i.total),
+  ]);
+
+  const html = `
+    ${letterheadHtml(settings)}
+    <p class="doc-title">${escapeHtml(party.name)}</p>
+    <p class="doc-subtitle">كشف فواتير أسبوعي</p>
+    <table class="doc-table doc-table-highlight">
+      <thead><tr><th>تاريخ الفاتورة</th><th>رقم الفاتورة</th><th>الوزن الصافي</th><th>السعر</th><th>القيمة</th></tr></thead>
+      <tbody>
+        ${rows.map((r) => `<tr>${r.map((v) => `<td>${escapeHtml(v)}</td>`).join("")}</tr>`).join("")}
+      </tbody>
+    </table>
+    <div class="doc-summary doc-summary-full doc-summary-highlight">
+      <div class="doc-summary-row"><span>رصيد الفروج</span><span>${escapeHtml(fmtMoney(periodTotal))}</span></div>
+      <div class="doc-summary-row"><span>قديم</span><span>${escapeHtml(fmtMoney(openingBalance))}</span></div>
+      <div class="doc-summary-row doc-summary-row-total"><span>الرصيد</span><span>${escapeHtml(fmtMoney(grandTotal))}</span></div>
+    </div>
     ${creditHtml()}
   `;
 

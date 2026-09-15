@@ -20,6 +20,6 @@
     "alertDriverLicenseDays": 30,
     "dailyEmailReportEnabled": false,
     "alertMissingDailyPriceEnabled": true,
-    "_version": 1
+    "_version": 3
   }
 ]

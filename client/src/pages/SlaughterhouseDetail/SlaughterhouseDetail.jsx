@@ -9,15 +9,50 @@ import SelectWrap from "../../components/SelectWrap/SelectWrap";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Modal from "../../components/Modal/Modal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
-import { printVoucher } from "../../utils/printDocument";
+import { printVoucher, printWeeklyVoucherStatement } from "../../utils/printDocument";
 import { useSettings } from "../../context/SettingsContext";
-import { slaughterhousesApi, salesInvoicesApi, accountsSummaryApi } from "../../api/resources";
+import { slaughterhousesApi, salesInvoicesApi, accountsSummaryApi, paymentsApi, loansApi } from "../../api/resources";
 import "./SlaughterhouseDetail.css";
 
 function statusForInvoice(total, paid) {
   if (paid >= total && total > 0) return "مدفوع";
   if (paid > 0) return "جزئي";
   return "غير مدفوع";
+}
+
+function WeeklyStatementModal({ onClose, onSubmit, submitting }) {
+  const today = new Date().toISOString().slice(0, 10);
+  const weekAgo = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
+  const [fromDate, setFromDate] = useState(weekAgo);
+  const [toDate, setToDate] = useState(today);
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(fromDate, toDate);
+      }}
+    >
+      <div className="field-row">
+        <div className="modal-field">
+          <label>من تاريخ</label>
+          <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} required />
+        </div>
+        <div className="modal-field">
+          <label>إلى تاريخ</label>
+          <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} required />
+        </div>
+      </div>
+      <div className="modal-actions">
+        <button type="button" className="btn-outline" onClick={onClose}>
+          إلغاء
+        </button>
+        <button type="submit" className="btn-primary" disabled={submitting}>
+          {submitting ? "جارٍ التحضير..." : "🖨️ طباعة الكشف"}
+        </button>
+      </div>
+    </form>
+  );
 }
 
 function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
@@ -197,6 +232,8 @@ export default function SlaughterhouseDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showAdd, setShowAdd] = useState(false);
+  const [showWeeklyStatement, setShowWeeklyStatement] = useState(false);
+  const [preparingStatement, setPreparingStatement] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState(null);
   const [viewingInvoice, setViewingInvoice] = useState(null);
   const [deletingInvoice, setDeletingInvoice] = useState(null);
@@ -230,6 +267,45 @@ export default function SlaughterhouseDetail() {
       }
       return true;
     });
+
+  async function handlePrintWeeklyStatement(fromDate, toDate) {
+    setPreparingStatement(true);
+    try {
+      const [allInvoicesForHouse, payments, loans] = await Promise.all([
+        salesInvoicesApi.list(),
+        paymentsApi.list(),
+        loansApi.list(),
+      ]);
+      const houseInvoices = allInvoicesForHouse.filter((i) => i.slaughterhouse === slaughterhouse.name);
+      const periodInvoices = houseInvoices.filter((i) => i.date >= fromDate && i.date <= toDate);
+
+      const priorInvoicesTotal = houseInvoices
+        .filter((i) => i.date < fromDate)
+        .reduce((sum, i) => sum + (i.total || 0), 0);
+      const priorLoansTotal = loans
+        .filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id && l.date < fromDate)
+        .reduce((sum, l) => sum + (l.amount || 0), 0);
+      const priorPaidOnInvoices = houseInvoices
+        .filter((i) => i.date < fromDate)
+        .reduce((sum, i) => sum + (i.paid || 0), 0);
+      const priorPaidViaLedger = payments
+        .filter((p) => p.partyType === "slaughterhouse" && p.partyId === slaughterhouse.id && p.date < fromDate)
+        .reduce((sum, p) => sum + (p.amount || 0), 0);
+      const openingBalance = priorInvoicesTotal + priorLoansTotal - priorPaidOnInvoices - priorPaidViaLedger;
+
+      printWeeklyVoucherStatement({
+        settings,
+        party: slaughterhouse,
+        invoices: periodInvoices,
+        openingBalance,
+        fmtMoney,
+        fmtWeight,
+      });
+      setShowWeeklyStatement(false);
+    } finally {
+      setPreparingStatement(false);
+    }
+  }
 
   async function handleCreateInvoice(body) {
     await salesInvoicesApi.create({ ...body, slaughterhouse: slaughterhouse.name });
@@ -279,14 +355,19 @@ export default function SlaughterhouseDetail() {
             </div>
           </div>
         </div>
-        <button className="btn-primary" onClick={() => setShowAdd(true)}>
-          <PlusIcon /> إضافة عملية الدفع
-        </button>
+        <div className="profile-card-actions">
+          <button className="btn-outline" onClick={() => setShowWeeklyStatement(true)}>
+            🖨️ طباعة كشف أسبوعي
+          </button>
+          <button className="btn-primary" onClick={() => setShowAdd(true)}>
+            <PlusIcon /> إضافة عملية ذبح
+          </button>
+        </div>
       </div>
 
       <div className="section-heading">
-        <h2>سجلات الدفع</h2>
-        <p>تتبع جميع عمليات الدفع</p>
+        <h2>سجلات الذبح</h2>
+        <p>تتبع جميع عمليات الذبح</p>
       </div>
 
       <Card>
@@ -350,6 +431,16 @@ export default function SlaughterhouseDetail() {
             nextRef={`${settings.invoicePrefix || "SL"}${String(invoices.length + 1).padStart(3, "0")}`}
             onClose={() => setShowAdd(false)}
             onSubmit={handleCreateInvoice}
+          />
+        </Modal>
+      )}
+
+      {showWeeklyStatement && (
+        <Modal title="طباعة كشف أسبوعي" subtitle={slaughterhouse.name} onClose={() => setShowWeeklyStatement(false)}>
+          <WeeklyStatementModal
+            onClose={() => setShowWeeklyStatement(false)}
+            onSubmit={handlePrintWeeklyStatement}
+            submitting={preparingStatement}
           />
         </Modal>
       )}

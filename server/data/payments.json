@@ -1,0 +1,80 @@
+[
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "5da9aeab-0d39-4812-9a08-7cbc814b79fc",
+    "partyName": "tt",
+    "amount": 50,
+    "method": "نقدي",
+    "date": "2026-09-13",
+    "note": null,
+    "id": "673f41bd-e4c9-4f07-9f06-577b49a75284",
+    "createdAt": "2026-09-13T13:28:38.129Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "19cbf3c2-c236-4857-8e51-a62756eff290",
+    "partyName": "imad tanous",
+    "amount": 560,
+    "method": "نقدي",
+    "date": "2026-09-13",
+    "note": null,
+    "id": "bc3cdfe6-6a6c-4f8d-b02c-578ab43e3df9",
+    "createdAt": "2026-09-13T15:30:43.031Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "supplier",
+    "partyId": "139b842a-ef2e-4cfd-b1cd-ddb5448b3ecf",
+    "partyName": "mazere3 saad raed",
+    "amount": 102,
+    "method": "نقدي",
+    "date": "2026-09-13",
+    "note": null,
+    "id": "275a8a27-50a8-4fa7-81d2-793d2c974756",
+    "createdAt": "2026-09-13T15:39:33.943Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "cb1e8ab9-62a7-4880-9dbd-7b82577a376e",
+    "partyName": "imad famous",
+    "amount": 500,
+    "method": "نقدي",
+    "date": "2026-09-14",
+    "note": null,
+    "id": "1319b0e7-5b06-4274-a52e-241f9c561e1a",
+    "createdAt": "2026-09-14T12:41:29.110Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "aa634972-b332-4244-bb22-8ca0ff352c87",
+    "partyName": "Mustafa",
+    "amount": 67,
+    "method": "نقدي",
+    "date": "2026-09-14",
+    "note": null,
+    "id": "83f37c43-e143-4ac1-b688-60a697f4fb54",
+    "createdAt": "2026-09-14T14:55:27.146Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "7d423ed3-7faa-4901-b2be-374cc5bcf62d",
+    "partyName": "ahmad bouzan",
+    "amount": 1420,
+    "method": "نقدي",
+    "date": "2026-09-14",
+    "note": null,
+    "id": "aa4f8ec4-0c16-4588-a271-5a92154048aa",
+    "createdAt": "2026-09-14T18:19:10.360Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

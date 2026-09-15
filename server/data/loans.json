@@ -1,0 +1,26 @@
+[
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "7d423ed3-7faa-4901-b2be-374cc5bcf62d",
+    "partyName": "ahmad bouzan",
+    "amount": 4686,
+    "date": "2026-09-12",
+    "note": null,
+    "id": "bfb2437a-bf5b-40ec-8a6e-d3c42dda1367",
+    "createdAt": "2026-09-14T14:57:50.664Z",
+    "createdBy": "admin",
+    "_version": 1
+  },
+  {
+    "partyType": "slaughterhouse",
+    "partyId": "7d423ed3-7faa-4901-b2be-374cc5bcf62d",
+    "partyName": "ahmad bouzan",
+    "amount": 5000,
+    "date": "2026-09-14",
+    "note": "hseb khaled sbeh",
+    "id": "b9edb665-e9a3-448b-86fb-4e8c035cfd05",
+    "createdAt": "2026-09-14T15:00:48.137Z",
+    "createdBy": "admin",
+    "_version": 1
+  }
+]

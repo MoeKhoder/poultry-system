@@ -522,6 +522,13 @@ a {
   height: 14px;
 }
 
+.profile-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .section-heading {
   margin-bottom: 12px;
 }
