@@ -269,6 +269,7 @@ export default function SlaughterhouseDetail() {
     });
 
   async function handlePrintWeeklyStatement(fromDate, toDate) {
+    const printWin = window.open("", "_blank", "width=900,height=1000");
     setPreparingStatement(true);
     try {
       const [allInvoicesForHouse, payments, loans] = await Promise.all([
@@ -300,6 +301,7 @@ export default function SlaughterhouseDetail() {
         openingBalance,
         fmtMoney,
         fmtWeight,
+        existingWin: printWin,
       });
       setShowWeeklyStatement(false);
     } finally {

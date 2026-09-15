@@ -285,7 +285,7 @@ export function printAccountStatement({ settings, row, isSuppliers, entries, fmt
   openPrintDocument(html);
 }
 
-export function printWeeklyVoucherStatement({ settings, party, invoices, openingBalance, fmtMoney, fmtWeight }) {
+export function printWeeklyVoucherStatement({ settings, party, invoices, openingBalance, fmtMoney, fmtWeight, existingWin }) {
   const sorted = [...invoices].sort((a, b) => (a.date < b.date ? 1 : -1));
   const periodTotal = sorted.reduce((sum, i) => sum + (i.total || 0), 0);
   const grandTotal = openingBalance + periodTotal;
@@ -316,11 +316,11 @@ export function printWeeklyVoucherStatement({ settings, party, invoices, opening
     ${creditHtml()}
   `;
 
-  openPrintDocument(html);
+  openPrintDocument(html, existingWin);
 }
 
-export function openPrintDocument(bodyHtml) {
-  const win = window.open("", "_blank", "width=900,height=1000");
+export function openPrintDocument(bodyHtml, existingWin) {
+  const win = existingWin || window.open("", "_blank", "width=900,height=1000");
   if (!win) return;
   win.document.open();
   win.document.write(`

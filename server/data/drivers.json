@@ -1,0 +1,80 @@
+[
+  {
+    "name": "أحمد العتيبي",
+    "phone": "81000000",
+    "licenseNumber": "1000000",
+    "licenseExpiry": "2027-01-15",
+    "assignedVehicleId": "aa24bbe5-75ce-436a-a598-fa366c0c4452",
+    "assignedVehiclePlate": "د هـ و 5678",
+    "status": "متاح",
+    "id": "97fbaa62-628d-49f3-9e4b-d710476d3c83",
+    "createdAt": "2026-09-15T16:50:48.806Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "name": "خالد الزهراني",
+    "phone": "81111111",
+    "licenseNumber": "1000037",
+    "licenseExpiry": "2027-02-15",
+    "assignedVehicleId": "90c9475d-8aa6-403f-b2af-8f6cb9dad46b",
+    "assignedVehiclePlate": "ح ط ي 3456",
+    "status": "متاح",
+    "id": "4c382da4-c637-4c80-8467-3e95fca42155",
+    "createdAt": "2026-09-15T16:50:48.806Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "name": "فهد العسيري",
+    "phone": "81222222",
+    "licenseNumber": "1000074",
+    "licenseExpiry": "2027-03-15",
+    "assignedVehicleId": "ca34d112-f6e5-4891-923a-625b171a36bd",
+    "assignedVehiclePlate": "ك ل م 9012",
+    "status": "متاح",
+    "id": "156c3a21-c29e-404b-b384-5582657df376",
+    "createdAt": "2026-09-15T16:50:48.806Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "name": "سعيد القحطاني",
+    "phone": "81333333",
+    "licenseNumber": "1000111",
+    "licenseExpiry": "2027-04-15",
+    "assignedVehicleId": "524277e0-dfad-46fe-8417-b3c2e7668938",
+    "assignedVehiclePlate": "ن س ع 7654",
+    "status": "متاح",
+    "id": "a69ebb54-f3a8-405b-9b40-a121425f3eef",
+    "createdAt": "2026-09-15T16:50:48.806Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "name": "ماجد الشهري",
+    "phone": "81444444",
+    "licenseNumber": "1000148",
+    "licenseExpiry": "2027-05-15",
+    "assignedVehicleId": "42a8aed7-023c-4486-8b1c-4e470d2d8b9f",
+    "assignedVehiclePlate": "ص ق ر 2468",
+    "status": "متاح",
+    "id": "2f63c6b2-e613-4f53-a9cb-63b965434125",
+    "createdAt": "2026-09-15T16:50:48.806Z",
+    "createdBy": "seed",
+    "_version": 1
+  },
+  {
+    "name": "محمد السهلي",
+    "phone": "81555555",
+    "licenseNumber": "1000185",
+    "licenseExpiry": "2027-06-15",
+    "assignedVehicleId": "dfb5e1a7-31f6-4c66-b00f-af25a0df2ed7",
+    "assignedVehiclePlate": "أ ب ج 1234",
+    "status": "إجازة",
+    "id": "ebc09f4f-1ced-4c98-96e4-09c5eaf50e5d",
+    "createdAt": "2026-09-15T16:50:48.806Z",
+    "createdBy": "seed",
+    "_version": 1
+  }
+]
