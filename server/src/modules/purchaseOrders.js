@@ -24,6 +24,7 @@ const router = buildCrudRouter({
     return {
       ...body,
       cages: Number(body.cages) || 0,
+      weights: Array.isArray(body.weights) ? body.weights.map(Number).filter((weight) => weight > 0) : [],
       weightKg,
       kgPrice,
       total,
@@ -38,6 +39,7 @@ const router = buildCrudRouter({
     if (next.weightKg !== undefined) next.weightKg = Number(next.weightKg) || 0;
     if (next.kgPrice !== undefined) next.kgPrice = Number(next.kgPrice) || 0;
     if (next.cages !== undefined) next.cages = Number(next.cages) || 0;
+    if (next.weights !== undefined) next.weights = Array.isArray(next.weights) ? next.weights.map(Number).filter((weight) => weight > 0) : [];
     return next;
   },
 });

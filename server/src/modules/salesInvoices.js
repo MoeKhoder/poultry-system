@@ -25,6 +25,7 @@ const router = buildCrudRouter({
   beforeCreate: async (body, items) => ({
     ...body,
     invoiceNumber: await nextInvoiceNumber(items),
+    weights: Array.isArray(body.weights) ? body.weights.map(Number).filter((weight) => weight > 0) : [],
     total: Number(body.total) || 0,
     paid: Number(body.paid) || 0,
   }),
@@ -34,6 +35,7 @@ const router = buildCrudRouter({
     if (next.paid !== undefined) next.paid = Number(next.paid) || 0;
     if (next.weightKg !== undefined) next.weightKg = Number(next.weightKg) || 0;
     if (next.cages !== undefined) next.cages = Number(next.cages) || 0;
+    if (next.weights !== undefined) next.weights = Array.isArray(next.weights) ? next.weights.map(Number).filter((weight) => weight > 0) : [];
     return next;
   },
 });
