@@ -1,4 +1,5 @@
 import bmtechLogo from "../assets/bmtech-logo.jpeg";
+import { formatLedgerBalance, paymentMovementLabel } from "./accountMovements";
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -221,6 +222,21 @@ function creditHtml() {
   return `<div class="doc-credit"><img src="${bmtechLogo}" alt="" />تطوير BM Tech</div>`;
 }
 
+function accountSummaryHtml({ fmtMoney, invoicesTotal, loansTotal, loansOutstanding, totalDue, paid, remaining, highlight = false }) {
+  const summaryClass = highlight ? "doc-summary doc-summary-full doc-summary-highlight" : "doc-summary doc-summary-full";
+  const loanDisplay = loansOutstanding != null ? loansOutstanding : loansTotal;
+  const loanLabel = loansOutstanding != null ? "الدين المتبقي" : "الدين المضاف";
+  return `
+    <div class="${summaryClass}">
+      <div class="doc-summary-row"><span>الفواتير والعمليات</span><span>${escapeHtml(fmtMoney(invoicesTotal))}</span></div>
+      <div class="doc-summary-row"><span>${loanLabel}</span><span>${escapeHtml(fmtMoney(loanDisplay))}</span></div>
+      <div class="doc-summary-row"><span>الإجمالي المستحق</span><span>${escapeHtml(fmtMoney(totalDue))}</span></div>
+      <div class="doc-summary-row"><span>المبالغ المدفوعة</span><span>${escapeHtml(fmtMoney(paid))}</span></div>
+      <div class="doc-summary-row${highlight ? " doc-summary-row-total" : ""}"><span>المتبقي</span><span>${escapeHtml(fmtMoney(remaining))}</span></div>
+    </div>
+  `;
+}
+
 export function printPurchaseOrder({ settings, supplier, order }) {
   const rows = [
     ["التاريخ", order.date],
@@ -254,27 +270,33 @@ export function printPurchaseOrder({ settings, supplier, order }) {
   openPrintDocument(html);
 }
 
-export function printAccountStatement({ settings, row, isSuppliers, entries, fmtMoney }) {
+export function printAccountStatement({ settings, row, isSuppliers, entries, fmtMoney, fmtWeight }) {
   const chronological = [...entries].reverse();
   const rows = chronological.map((e) => [
     e.date,
     e.label,
-    e.debit ? fmtMoney(e.debit) : "—",
+    e.weightKg != null ? fmtWeight(e.weightKg) : "—",
+    e.invoiceDebit ? fmtMoney(e.invoiceDebit) : "—",
+    e.loanDebit ? fmtMoney(e.loanDebit) : "—",
     e.credit ? fmtMoney(e.credit) : "—",
-    `${fmtMoney(Math.abs(e.balance))} (${e.balance >= 0 ? "مدين" : "دائن"})`,
+    formatLedgerBalance(e.balance, fmtMoney),
   ]);
 
   const html = `
     ${letterheadHtml(settings)}
     <p class="doc-title">كشف حساب — ${escapeHtml(row.name)}</p>
     <p class="doc-subtitle">${isSuppliers ? "مورد" : "مسلخ"}</p>
-    <div class="doc-summary doc-summary-full">
-      <div class="doc-summary-row"><span>${isSuppliers ? "إجمالي المشتريات" : "إجمالي المبيعات"}</span><span>${escapeHtml(fmtMoney(row.total))}</span></div>
-      <div class="doc-summary-row"><span>المدفوع</span><span>${escapeHtml(fmtMoney(row.paid))}</span></div>
-      <div class="doc-summary-row"><span>المتبقي</span><span>${escapeHtml(fmtMoney(row.remaining))}</span></div>
-    </div>
+    ${accountSummaryHtml({
+      fmtMoney,
+      invoicesTotal: row.invoicesTotal || 0,
+      loansTotal: row.loansTotal || 0,
+      loansOutstanding: row.loansOutstanding,
+      totalDue: row.total,
+      paid: row.paid,
+      remaining: row.remaining,
+    })}
     <table class="doc-table">
-      <thead><tr><th>التاريخ</th><th>البيان</th><th>مدين</th><th>دائن</th><th>الرصيد</th></tr></thead>
+      <thead><tr><th>التاريخ</th><th>البيان</th><th>الوزن الصافي</th><th>الفواتير والعمليات</th><th>الدين المضاف</th><th>المبالغ المدفوعة</th><th>المتبقي</th></tr></thead>
       <tbody>
         ${rows.map((r) => `<tr>${r.map((v) => `<td>${escapeHtml(v)}</td>`).join("")}</tr>`).join("")}
       </tbody>
@@ -285,34 +307,62 @@ export function printAccountStatement({ settings, row, isSuppliers, entries, fmt
   openPrintDocument(html);
 }
 
-export function printWeeklyVoucherStatement({ settings, party, invoices, openingBalance, fmtMoney, fmtWeight, existingWin }) {
-  const sorted = [...invoices].sort((a, b) => (a.date < b.date ? 1 : -1));
-  const periodTotal = sorted.reduce((sum, i) => sum + (i.total || 0), 0);
-  const grandTotal = openingBalance + periodTotal;
-
-  const rows = sorted.map((i) => [
-    i.date,
-    i.invoiceNumber,
-    fmtWeight(i.weightKg),
-    Number(i.kgPrice).toLocaleString("ar-SA"),
-    fmtMoney(i.total),
-  ]);
+export function printWeeklyVoucherStatement({ settings, party, invoices, loans = [], allPartyLoans = [], payments = [], openingBalance, openingInvoiceBalance = 0, openingLoanBalance = 0, openingPaid = 0, loansOutstanding, fmtMoney, fmtWeight, existingWin }) {
+  const loanCatalog = allPartyLoans.length > 0 ? allPartyLoans : loans;
+  const movements = [
+    ...invoices.map((i) => ({ date: i.date, reference: i.invoiceNumber, weight: fmtWeight(i.weightKg), invoiceDebt: i.total || 0, loanDebt: 0, paid: i.paid || 0, createdAt: i.createdAt })),
+    ...loans.map((l) => ({ date: l.date, reference: l.note ? `دين — ${l.note}` : "إضافة دين", weight: "—", invoiceDebt: 0, loanDebt: l.amount || 0, paid: 0, createdAt: l.createdAt })),
+    ...payments.map((p) => ({
+      date: p.date,
+      reference: paymentMovementLabel(p, loanCatalog.find((l) => l.id === p.loanId)),
+      weight: "—",
+      invoiceDebt: 0,
+      loanDebt: 0,
+      paid: p.amount || 0,
+      createdAt: p.createdAt,
+    })),
+  ].sort((a, b) => (a.date === b.date ? (a.createdAt || "").localeCompare(b.createdAt || "") : a.date.localeCompare(b.date)));
+  let balance = openingBalance;
+  const rows = movements.map((movement) => {
+    balance += movement.invoiceDebt + movement.loanDebt - movement.paid;
+    return [
+      movement.date,
+      movement.reference,
+      movement.weight,
+      movement.invoiceDebt ? fmtMoney(movement.invoiceDebt) : "—",
+      movement.loanDebt ? fmtMoney(movement.loanDebt) : "—",
+      movement.paid ? fmtMoney(movement.paid) : "—",
+      formatLedgerBalance(balance, fmtMoney),
+    ];
+  });
+  const periodInvoiceDebt = movements.reduce((sum, movement) => sum + movement.invoiceDebt, 0);
+  const periodLoanDebt = movements.reduce((sum, movement) => sum + movement.loanDebt, 0);
+  const periodPaid = movements.reduce((sum, movement) => sum + movement.paid, 0);
+  const invoicesTotal = openingInvoiceBalance + periodInvoiceDebt;
+  const loansTotal = openingLoanBalance + periodLoanDebt;
+  const totalDue = invoicesTotal + loansTotal;
+  const totalPaid = openingPaid + periodPaid;
 
   const html = `
     ${letterheadHtml(settings)}
     <p class="doc-title">${escapeHtml(party.name)}</p>
     <p class="doc-subtitle">كشف فواتير أسبوعي</p>
+    ${accountSummaryHtml({
+      fmtMoney,
+      invoicesTotal,
+      loansTotal,
+      loansOutstanding,
+      totalDue,
+      paid: totalPaid,
+      remaining: balance,
+      highlight: true,
+    })}
     <table class="doc-table doc-table-highlight">
-      <thead><tr><th>تاريخ الفاتورة</th><th>رقم الفاتورة</th><th>الوزن الصافي</th><th>السعر</th><th>القيمة</th></tr></thead>
+      <thead><tr><th>التاريخ</th><th>البيان</th><th>الوزن الصافي</th><th>الفواتير والعمليات</th><th>الدين المضاف</th><th>المبالغ المدفوعة</th><th>المتبقي</th></tr></thead>
       <tbody>
         ${rows.map((r) => `<tr>${r.map((v) => `<td>${escapeHtml(v)}</td>`).join("")}</tr>`).join("")}
       </tbody>
     </table>
-    <div class="doc-summary doc-summary-full doc-summary-highlight">
-      <div class="doc-summary-row"><span>رصيد الفروج</span><span>${escapeHtml(fmtMoney(periodTotal))}</span></div>
-      <div class="doc-summary-row"><span>قديم</span><span>${escapeHtml(fmtMoney(openingBalance))}</span></div>
-      <div class="doc-summary-row doc-summary-row-total"><span>الرصيد</span><span>${escapeHtml(fmtMoney(grandTotal))}</span></div>
-    </div>
     ${creditHtml()}
   `;
 

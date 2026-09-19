@@ -10,6 +10,9 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Modal from "../../components/Modal/Modal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { printVoucher, printWeeklyVoucherStatement } from "../../utils/printDocument";
+import LoansRecordsCard from "../../components/LoansRecordsCard/LoansRecordsCard";
+import PartyPaymentForm from "../../components/PartyPaymentForm/PartyPaymentForm";
+import { loanRemaining, partyLoanTotals } from "../../utils/loanBalances";
 import { useSettings } from "../../context/SettingsContext";
 import { slaughterhousesApi, salesInvoicesApi, accountsSummaryApi, paymentsApi, loansApi } from "../../api/resources";
 import "./SlaughterhouseDetail.css";
@@ -59,40 +62,6 @@ function DebtForm({ party, initial, onClose, onSubmit, currency }) {
       </div>
     </form>
   );
-}
-
-function PaymentForm({ party, initial, onClose, onSubmit, currency }) {
-  const [amount, setAmount] = useState(initial?.amount ? String(initial.amount) : "");
-  const [date, setDate] = useState(initial?.date || new Date().toISOString().slice(0, 10));
-  const [method, setMethod] = useState(initial?.method || "نقدي");
-  const [note, setNote] = useState(initial?.note || "");
-  const [error, setError] = useState("");
-  const [saving, setSaving] = useState(false);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const value = Number(amount);
-    if (!value || value <= 0) return setError("أدخل مبلغاً صحيحاً");
-    setSaving(true);
-    try {
-      await onSubmit({ amount: value, date, method, note: note || null });
-      onClose();
-    } catch (err) {
-      setError(err.payload?.conflict ? "تم تعديل هذه الدفعة من مكان آخر" : "تعذر حفظ الدفعة");
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  return <form onSubmit={handleSubmit}>
-    <div className="modal-field"><label>المسلخ</label><input value={party.name} disabled /></div>
-    <div className="modal-field"><label>مبلغ الدفعة ({currency})</label><div className="package-add-row"><input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required /><button type="button" className="btn-outline" onClick={() => setAmount(String(initial?.loanAmount || 0))}>سداد قيمة الدين</button></div></div>
-    <div className="modal-field"><label>التاريخ</label><input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></div>
-    <div className="modal-field"><label>طريقة الدفع</label><input value={method} onChange={(e) => setMethod(e.target.value)} required /></div>
-    <div className="modal-field"><label>ملاحظة</label><input value={note} onChange={(e) => setNote(e.target.value)} /></div>
-    {error && <p className="modal-error">{error}</p>}
-    <div className="modal-actions"><button type="button" className="btn-outline" onClick={onClose}>إلغاء</button><button type="submit" className="btn-primary" disabled={saving}>{saving ? "جارٍ الحفظ..." : "حفظ الدفعة"}</button></div>
-  </form>;
 }
 
 function WeeklyStatementModal({ onClose, onSubmit, submitting }) {
@@ -376,26 +345,40 @@ export default function SlaughterhouseDetail() {
       ]);
       const houseInvoices = allInvoicesForHouse.filter((i) => i.slaughterhouse === slaughterhouse.name);
       const periodInvoices = houseInvoices.filter((i) => i.date >= fromDate && i.date <= toDate);
+      const houseLoans = loans.filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id);
+      const housePayments = payments.filter((p) => p.partyType === "slaughterhouse" && p.partyId === slaughterhouse.id);
+      const periodLoans = houseLoans.filter((l) => l.date >= fromDate && l.date <= toDate);
+      const periodPayments = housePayments.filter((p) => p.date >= fromDate && p.date <= toDate);
 
       const priorInvoicesTotal = houseInvoices
         .filter((i) => i.date < fromDate)
         .reduce((sum, i) => sum + (i.total || 0), 0);
-      const loansTotal = loans
-        .filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id && l.date <= toDate)
+      const priorLoansTotal = houseLoans
+        .filter((l) => l.date < fromDate)
         .reduce((sum, l) => sum + (l.amount || 0), 0);
       const priorPaidOnInvoices = houseInvoices
         .filter((i) => i.date < fromDate)
         .reduce((sum, i) => sum + (i.paid || 0), 0);
-      const priorPaidViaLedger = payments
-        .filter((p) => p.partyType === "slaughterhouse" && p.partyId === slaughterhouse.id && p.date < fromDate)
+      const priorPaidViaLedger = housePayments
+        .filter((p) => p.date < fromDate)
         .reduce((sum, p) => sum + (p.amount || 0), 0);
-      const openingBalance = priorInvoicesTotal + loansTotal - priorPaidOnInvoices - priorPaidViaLedger;
+      const openingPaid = priorPaidOnInvoices + priorPaidViaLedger;
+      const openingBalance = priorInvoicesTotal + priorLoansTotal - priorPaidOnInvoices - priorPaidViaLedger;
+
+      const { outstanding: loansOutstanding } = partyLoanTotals(houseLoans, housePayments, "slaughterhouse", slaughterhouse.id);
 
       printWeeklyVoucherStatement({
         settings,
         party: slaughterhouse,
         invoices: periodInvoices,
+        loans: periodLoans,
+        allPartyLoans: houseLoans,
+        payments: periodPayments,
         openingBalance,
+        openingInvoiceBalance: priorInvoicesTotal,
+        openingLoanBalance: priorLoansTotal,
+        openingPaid,
+        loansOutstanding,
         fmtMoney,
         fmtWeight,
         existingWin: printWin,
@@ -445,7 +428,11 @@ export default function SlaughterhouseDetail() {
   }
 
   async function handleUpdatePayment(body) {
-    await paymentsApi.update(editingPayment.id, { ...body, _expectedVersion: editingPayment._version });
+    await paymentsApi.update(editingPayment.id, {
+      ...body,
+      ...(editingPayment.loanId ? { loanId: editingPayment.loanId } : {}),
+      _expectedVersion: editingPayment._version,
+    });
     setEditingPayment(null);
     reload();
   }
@@ -562,31 +549,20 @@ export default function SlaughterhouseDetail() {
       </Card>}
 
       {activeTab === "loans" && (
-        <Card>
-          <div className="card-head">
-            <div><div className="card-title">سجلات الديون</div><div className="card-sub">إدارة الديون المسجلة على المسلخ</div></div>
-            <div className="page-head-actions"><button className="btn-outline" onClick={() => setEditingLoan({ isNew: true })}>إضافة دين</button><button className="btn-primary" onClick={() => setEditingPayment({ isNew: true })}>تسجيل دفعة</button></div>
-          </div>
-          {loans.length === 0 && <p className="state-message">لا توجد ديون مسجلة لهذا المسلخ</p>}
-          {loans.length > 0 && <Table columns={["التاريخ", "المبلغ", "الملاحظة", "الإجراءات"]} rows={[...loans].sort((a, b) => b.date.localeCompare(a.date))} renderRow={(loan) => (
-            <>
-              <Td className="td-muted" dir="ltr">{loan.date}</Td>
-              <Td className="td-strong">{fmtMoney(loan.amount)}</Td>
-              <Td>{loan.note || "—"}</Td>
-              <Td><div className="row-actions"><button type="button" className="btn-outline" onClick={() => setEditingPayment({ isNew: true, loanId: loan.id, loanAmount: Math.max(0, loan.amount - payments.filter((payment) => payment.loanId === loan.id).reduce((sum, payment) => sum + payment.amount, 0)) })}>تسديد</button><IconButton label="تعديل" onClick={() => setEditingLoan(loan)}><EditIcon /></IconButton><IconButton label="حذف" tone="danger" onClick={() => setDeletingLoan(loan)}><TrashIcon /></IconButton></div></Td>
-            </>
-          )} />}
-          <p className="ledger-movements-title">سجل الدفعات والتعديلات</p>
-          <Table columns={["التاريخ", "العملية", "المبلغ", "التفاصيل", "الإجراءات"]} rows={[
-            ...payments.map((payment) => ({ ...payment, kind: "payment" })),
-            ...loanHistory.map((log) => ({ ...log, kind: "loan-change", date: log.timestamp?.slice(0, 10) })),
-          ].sort((a, b) => (b.createdAt || b.timestamp || b.date || "").localeCompare(a.createdAt || a.timestamp || a.date || ""))} renderRow={(entry) => {
-            if (entry.kind === "payment") return <><Td dir="ltr">{entry.date}</Td><Td>{entry.amount >= loans.reduce((sum, loan) => sum + loan.amount, 0) ? "دفعة كاملة" : "دفعة جزئية"}</Td><Td>{fmtMoney(entry.amount)}</Td><Td>{entry.method || entry.note || "—"}</Td><Td><div className="row-actions"><IconButton label="تعديل" onClick={() => setEditingPayment(entry)}><EditIcon /></IconButton><IconButton label="حذف" tone="danger" onClick={() => setDeletingPayment(entry)}><TrashIcon /></IconButton></div></Td></>;
-            const oldAmount = entry.oldValue?.amount;
-            const newAmount = entry.newValue?.amount;
-            return <><Td dir="ltr">{entry.date}</Td><Td>تعديل دين</Td><Td>{fmtMoney(newAmount ?? oldAmount ?? 0)}</Td><Td>{oldAmount !== undefined ? `من ${oldAmount} إلى ${newAmount}` : entry.action === "delete" ? "حذف الدين" : "إضافة الدين"}</Td><Td>—</Td></>;
-          }} />
-        </Card>
+        <LoansRecordsCard
+          partyLabel="المسلخ"
+          loans={loans}
+          payments={payments}
+          loanHistory={loanHistory}
+          fmtMoney={fmtMoney}
+          onAddLoan={() => setEditingLoan({ isNew: true })}
+          onAddPayment={() => setEditingPayment({ isNew: true })}
+          onSettleLoan={(loan, remaining) => setEditingPayment({ isNew: true, loanId: loan.id, loanAmount: remaining })}
+          onEditLoan={(loan) => setEditingLoan(loan)}
+          onDeleteLoan={(loan) => setDeletingLoan(loan)}
+          onEditPayment={(entry) => setEditingPayment(entry)}
+          onDeletePayment={(entry) => setDeletingPayment(entry)}
+        />
       )}
 
       {showAdd && (
@@ -644,8 +620,42 @@ export default function SlaughterhouseDetail() {
       {editingLoan && <Modal title={editingLoan.isNew ? "إضافة دين" : "تعديل الدين"} subtitle={slaughterhouse.name} onClose={() => setEditingLoan(null)}>
         <DebtForm party={slaughterhouse} initial={editingLoan.isNew ? null : editingLoan} currency={settings.currency} onClose={() => setEditingLoan(null)} onSubmit={editingLoan.isNew ? handleCreateLoan : handleUpdateLoan} />
       </Modal>}
-      {deletingLoan && <ConfirmDeleteModal message={`سيتم حذف الدين بقيمة ${fmtMoney(deletingLoan.amount)} نهائياً.`} onConfirm={handleDeleteLoan} onCancel={() => setDeletingLoan(null)} />}
-      {editingPayment && <Modal title={editingPayment.loanId ? "تسديد الدين" : editingPayment.isNew ? "تسجيل دفعة" : "تعديل الدفعة"} subtitle={slaughterhouse.name} onClose={() => setEditingPayment(null)}><PaymentForm party={slaughterhouse} initial={editingPayment} currency={settings.currency} onClose={() => setEditingPayment(null)} onSubmit={editingPayment.isNew ? handleCreatePayment : handleUpdatePayment} /></Modal>}
+      {deletingLoan && (
+        <ConfirmDeleteModal
+          message={`سيتم حذف سجل الدين بقيمة ${fmtMoney(deletingLoan.amount)}. يُفضّل عدم الحذف بعد أي تسديد — الديون المسدّدة تُخفى تلقائياً من القائمة.`}
+          onConfirm={handleDeleteLoan}
+          onCancel={() => setDeletingLoan(null)}
+        />
+      )}
+      {editingPayment && (
+        <Modal
+          title={editingPayment.loanId ? "تسديد الدين" : editingPayment.isNew ? "تسجيل دفعة" : "تعديل الدفعة"}
+          subtitle={slaughterhouse.name}
+          onClose={() => setEditingPayment(null)}
+        >
+          <PartyPaymentForm
+            partyLabel="المسلخ"
+            partyName={slaughterhouse.name}
+            initial={
+              editingPayment.loanId && editingPayment.isNew
+                ? editingPayment
+                : editingPayment.loanId
+                  ? {
+                      ...editingPayment,
+                      loanAmount: loanRemaining(
+                        loans.find((l) => l.id === editingPayment.loanId) || { id: editingPayment.loanId, amount: 0 },
+                        payments,
+                        { excludePaymentId: editingPayment.id },
+                      ),
+                    }
+                  : editingPayment
+            }
+            currency={settings.currency}
+            onClose={() => setEditingPayment(null)}
+            onSubmit={editingPayment.isNew ? handleCreatePayment : handleUpdatePayment}
+          />
+        </Modal>
+      )}
       {deletingPayment && <ConfirmDeleteModal message={`سيتم حذف الدفعة بقيمة ${fmtMoney(deletingPayment.amount)} نهائياً.`} onConfirm={handleDeletePayment} onCancel={() => setDeletingPayment(null)} />}
 
       {viewingInvoice && (

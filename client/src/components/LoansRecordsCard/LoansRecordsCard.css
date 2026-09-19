@@ -1,0 +1,26 @@
+.loans-show-settled {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #5c584e;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.loan-settle-hint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #16342b;
+  background: #e3ede9;
+  border: 1px solid #d8e2dd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.loan-settle-hint-muted {
+  color: #5c584e;
+  background: #faf7ef;
+  border-color: #e8dfc9;
+}
