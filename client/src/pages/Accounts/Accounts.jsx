@@ -62,7 +62,10 @@ function PaymentForm({ row, currency, fmtMoney, onClose, onSubmit }) {
       </div>
       <div className="modal-field">
         <label>مبلغ الدفعة ({currency})</label>
-        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+        <div className="package-add-row">
+          <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+          <button type="button" className="btn-outline" onClick={() => setAmount(String(row.remaining))}>سداد كامل</button>
+        </div>
       </div>
       <div className="modal-field">
         <label>طريقة الدفع</label>

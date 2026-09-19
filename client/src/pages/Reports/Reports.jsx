@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import PageHeader from "../../components/PageHeader/PageHeader";
 import Card from "../../components/Card/Card";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
+import { Table, Td } from "../../components/DataTable/DataTable";
 import { DownloadIcon } from "../../components/Icons/Icons";
 
 function statusForInvoice(total, paid) {
@@ -12,7 +13,7 @@ function statusForInvoice(total, paid) {
 }
 import { printReport } from "../../utils/printDocument";
 import { useCollection } from "../../api/useCollection";
-import { salesInvoicesApi, distributionTripsApi, expensesApi, purchaseOrdersApi } from "../../api/resources";
+import { salesInvoicesApi, distributionTripsApi, expensesApi, purchaseOrdersApi, paymentsApi, loansApi } from "../../api/resources";
 import { useSettings } from "../../context/SettingsContext";
 import { purchaseCostForOrders } from "../../utils/purchaseCalc";
 import "./Reports.css";
@@ -70,11 +71,13 @@ function monthLabel(ym) {
   return d.toLocaleDateString("ar", { month: "long", year: "numeric" });
 }
 
-function DailyReport({ invoices, trips, expenses, orders, today, settings, fmtMoney, fmtWeight, exportRef }) {
+function DailyReport({ invoices, trips, expenses, orders, payments, loans, today, settings, fmtMoney, fmtWeight, exportRef }) {
   const todayTrips = trips.filter((t) => t.date === today);
   const todayOrders = orders.filter((o) => o.date === today);
   const todayInvoices = invoices.filter((i) => i.date === today);
   const todayExpenses = expenses.filter((e) => e.date === today);
+  const todayLoans = loans.filter((l) => l.date === today);
+  const todayPayments = payments.filter((p) => p.date === today && p.type !== "خصم");
 
   const cages = todayOrders.reduce((sum, o) => sum + (o.cages || 0), 0);
   const weightKg = todayOrders.reduce((sum, o) => sum + (o.weightKg || 0), 0);
@@ -84,6 +87,8 @@ function DailyReport({ invoices, trips, expenses, orders, today, settings, fmtMo
   const expensesTotal = todayExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
   const netProfit = sales - purchases - transportCost - expensesTotal;
   const profitMargin = sales > 0 ? ((netProfit / sales) * 100).toFixed(1) : "0.0";
+  const loansTotal = todayLoans.reduce((sum, loan) => sum + (loan.amount || 0), 0);
+  const paymentsTotal = todayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
 
   function handleExport() {
     printReport({
@@ -99,6 +104,8 @@ function DailyReport({ invoices, trips, expenses, orders, today, settings, fmtMo
         ["المصاريف", fmtMoney(expensesTotal)],
         ["صافي الربح", fmtMoney(netProfit)],
         ["هامش الربح", `${profitMargin}%`],
+        ["ديون مضافة", fmtMoney(loansTotal)],
+        ["دفعات مستلمة/مسددة", fmtMoney(paymentsTotal)],
       ],
       columns: ["المسلخ", "الأقفاص", "الإجمالي", "حالة الدفع"],
       rows: todayInvoices.map((inv) => [inv.slaughterhouse, inv.cages, fmtMoney(inv.total), statusForInvoice(inv.total, inv.paid || 0)]),
@@ -155,6 +162,14 @@ function DailyReport({ invoices, trips, expenses, orders, today, settings, fmtMo
               <span>المصاريف</span>
               <span className="td-negative">{fmtMoney(expensesTotal)}</span>
             </div>
+            <div className="reports-summary-row">
+              <span>ديون مضافة</span>
+              <span>{fmtMoney(loansTotal)}</span>
+            </div>
+            <div className="reports-summary-row">
+              <span>دفعات مسجلة</span>
+              <span className="reports-summary-positive">{fmtMoney(paymentsTotal)}</span>
+            </div>
             <div className="reports-summary-row reports-summary-divider">
               <span>صافي الربح</span>
               <span className={netProfit >= 0 ? "reports-summary-positive" : "td-negative"}>{fmtMoney(netProfit)}</span>
@@ -188,11 +203,23 @@ function DailyReport({ invoices, trips, expenses, orders, today, settings, fmtMo
           </div>
         </Card>
       </div>
+
+      <Card>
+        <h2 className="section-title">حركات الديون والدفعات اليوم</h2>
+        {[...todayLoans.map((loan) => ({ date: loan.date, label: loan.note ? `دين — ${loan.note}` : "إضافة دين", amount: loan.amount, type: "دين" })), ...todayPayments.map((payment) => ({ date: payment.date, label: payment.note || payment.method || "دفعة", amount: payment.amount, type: "دفعة" }))].length === 0 && <p className="state-message">لا توجد حركات مالية اليوم</p>}
+        {[...todayLoans.map((loan) => ({ date: loan.date, label: loan.note ? `دين — ${loan.note}` : "إضافة دين", amount: loan.amount, type: "دين" })), ...todayPayments.map((payment) => ({ date: payment.date, label: payment.note || payment.method || "دفعة", amount: payment.amount, type: "دفعة" }))].length > 0 && (
+          <Table
+            columns={["النوع", "التفاصيل", "المبلغ"]}
+            rows={[...todayLoans.map((loan) => ({ label: loan.note ? `دين — ${loan.note}` : "إضافة دين", amount: loan.amount, type: "دين" })), ...todayPayments.map((payment) => ({ label: payment.note || payment.method || "دفعة", amount: payment.amount, type: "دفعة" }))]}
+            renderRow={(movement) => <><Td>{movement.type}</Td><Td>{movement.label}</Td><Td className={movement.type === "دفعة" ? "reports-summary-positive" : "td-negative"}>{fmtMoney(movement.amount)}</Td></>}
+          />
+        )}
+      </Card>
     </div>
   );
 }
 
-function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, exportRef }) {
+function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, settings, fmtMoney, exportRef }) {
   const weeks = useMemo(buildWeeks, []);
   const [selectedWeek, setSelectedWeek] = useState(0);
   const week = weeks[selectedWeek];
@@ -202,6 +229,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
     const dayOrders = orders.filter((o) => o.date === date);
     const dayInvoices = invoices.filter((i) => i.date === date);
     const dayExpenses = expenses.filter((e) => e.date === date);
+    const dayLoans = loans.filter((l) => l.date === date);
+    const dayPayments = payments.filter((p) => p.date === date && p.type !== "خصم");
     const cages = dayOrders.reduce((sum, o) => sum + (o.cages || 0), 0);
     const purchases = purchaseCostForOrders(orders, date, date);
     const sales = dayInvoices.reduce((sum, i) => sum + (i.total || 0), 0);
@@ -217,6 +246,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
       expensesTotal,
       profit: sales - purchases - transportCost - expensesTotal,
       tripsCount: dayTrips.length,
+      loans: dayLoans.reduce((sum, loan) => sum + (loan.amount || 0), 0),
+      payments: dayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0),
     };
   });
 
@@ -225,6 +256,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
   const weekSales = rows.reduce((sum, r) => sum + r.sales, 0);
   const weekTransport = rows.reduce((sum, r) => sum + r.transportCost, 0);
   const weekExpenses = rows.reduce((sum, r) => sum + r.expensesTotal, 0);
+  const weekLoans = rows.reduce((sum, r) => sum + r.loans, 0);
+  const weekPayments = rows.reduce((sum, r) => sum + r.payments, 0);
 
   function handleExport() {
     printReport({
@@ -237,6 +270,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
         ["إجمالي المبيعات", fmtMoney(weekSales)],
         ["تكاليف النقل", fmtMoney(weekTransport)],
         ["المصاريف", fmtMoney(weekExpenses)],
+        ["الديون المضافة", fmtMoney(weekLoans)],
+        ["الدفعات المسجلة", fmtMoney(weekPayments)],
       ],
       columns: ["اليوم", "الأقفاص", "المشتريات", "تكاليف النقل", "المصاريف", "المبيعات", "الربح", "الرحلات"],
       rows: rows.map((r) => [
@@ -289,6 +324,14 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
           <p className="reports-stat-label">المصاريف</p>
           <p className="reports-stat-value reports-stat-value-negative">{fmtMoney(weekExpenses)}</p>
         </Card>
+        <Card>
+          <p className="reports-stat-label">الديون المضافة</p>
+          <p className="reports-stat-value">{fmtMoney(weekLoans)}</p>
+        </Card>
+        <Card>
+          <p className="reports-stat-label">الدفعات المسجلة</p>
+          <p className="reports-stat-value reports-summary-positive">{fmtMoney(weekPayments)}</p>
+        </Card>
       </div>
 
       <Card>
@@ -304,6 +347,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
             <span>المبيعات</span>
             <span>الربح</span>
             <span>الرحلات</span>
+            <span>الديون</span>
+            <span>الدفعات</span>
           </div>
           {rows.map((r) => (
             <div key={r.date} className="reports-week-row">
@@ -315,6 +360,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, settings, fmtMoney, e
               <span>{fmtMoney(r.sales)}</span>
               <span className={r.profit >= 0 ? "reports-summary-positive" : "td-negative"}>{fmtMoney(r.profit)}</span>
               <span className="td-brand">{r.tripsCount} رحلات</span>
+              <span className="td-negative">{fmtMoney(r.loans)}</span>
+              <span className="reports-summary-positive">{fmtMoney(r.payments)}</span>
             </div>
           ))}
           </div>
@@ -484,9 +531,11 @@ export default function Reports() {
   const { items: trips, loading: loadingTrips } = useCollection(distributionTripsApi);
   const { items: expenses, loading: loadingExpenses } = useCollection(expensesApi);
   const { items: orders, loading: loadingOrders } = useCollection(purchaseOrdersApi);
+  const { items: payments, loading: loadingPayments } = useCollection(paymentsApi);
+  const { items: loans, loading: loadingLoans } = useCollection(loansApi);
   const { settings, fmtMoney, fmtWeight } = useSettings();
 
-  const loading = loadingInvoices || loadingTrips || loadingExpenses || loadingOrders;
+  const loading = loadingInvoices || loadingTrips || loadingExpenses || loadingOrders || loadingPayments || loadingLoans;
   const today = todayString();
   const activeExportRef = useRef(null);
 
@@ -524,6 +573,8 @@ export default function Reports() {
               trips={trips}
               expenses={expenses}
               orders={orders}
+              payments={payments}
+              loans={loans}
               today={today}
               settings={settings}
               fmtMoney={fmtMoney}
@@ -532,7 +583,7 @@ export default function Reports() {
             />
           )}
           {active === "weekly" && (
-            <WeeklyReport invoices={invoices} trips={trips} expenses={expenses} orders={orders} settings={settings} fmtMoney={fmtMoney} exportRef={activeExportRef} />
+            <WeeklyReport invoices={invoices} trips={trips} expenses={expenses} orders={orders} payments={payments} loans={loans} settings={settings} fmtMoney={fmtMoney} exportRef={activeExportRef} />
           )}
           {active === "pl" && (
             <ProfitLossReport invoices={invoices} trips={trips} expenses={expenses} orders={orders} settings={settings} fmtMoney={fmtMoney} exportRef={activeExportRef} />

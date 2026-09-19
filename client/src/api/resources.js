@@ -43,6 +43,7 @@ export const roleDefaultsApi = {
 
 export const paymentsApi = makeResource("/payments");
 export const loansApi = makeResource("/loans");
+loansApi.history = (partyType, partyId) => api.get(`/loans/history?partyType=${partyType}&partyId=${partyId}`);
 
 export const accountsSummaryApi = {
   get: () => api.get("/accounts-summary"),

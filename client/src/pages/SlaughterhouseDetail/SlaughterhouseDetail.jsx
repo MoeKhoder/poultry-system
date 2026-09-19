@@ -20,6 +20,81 @@ function statusForInvoice(total, paid) {
   return "غير مدفوع";
 }
 
+function DebtForm({ party, initial, onClose, onSubmit, currency }) {
+  const [amount, setAmount] = useState(initial?.amount ? String(initial.amount) : "");
+  const [date, setDate] = useState(initial?.date || new Date().toISOString().slice(0, 10));
+  const [note, setNote] = useState(initial?.note || "");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const value = Number(amount);
+    if (!value || value <= 0) {
+      setError("أدخل مبلغاً صحيحاً");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    try {
+      await onSubmit({ amount: value, date, note: note || null });
+      onClose();
+    } catch (err) {
+      setError(err.payload?.conflict ? "تم تعديل هذا الدين من مكان آخر، أعد فتح الصفحة" : "تعذر حفظ الدين");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="modal-field"><label>المسلخ</label><input value={party.name} disabled /></div>
+      <div className="modal-field"><label>مبلغ الدين ({currency})</label><input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required /></div>
+      <div className="modal-field"><label>التاريخ</label><input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></div>
+      <div className="modal-field"><label>ملاحظة</label><input value={note} onChange={(e) => setNote(e.target.value)} placeholder="سبب الدين (اختياري)" /></div>
+      {error && <p className="modal-error">{error}</p>}
+      <div className="modal-actions">
+        <button type="button" className="btn-outline" onClick={onClose}>إلغاء</button>
+        <button type="submit" className="btn-primary" disabled={saving}>{saving ? "جارٍ الحفظ..." : "حفظ الدين"}</button>
+      </div>
+    </form>
+  );
+}
+
+function PaymentForm({ party, initial, onClose, onSubmit, currency }) {
+  const [amount, setAmount] = useState(initial?.amount ? String(initial.amount) : "");
+  const [date, setDate] = useState(initial?.date || new Date().toISOString().slice(0, 10));
+  const [method, setMethod] = useState(initial?.method || "نقدي");
+  const [note, setNote] = useState(initial?.note || "");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const value = Number(amount);
+    if (!value || value <= 0) return setError("أدخل مبلغاً صحيحاً");
+    setSaving(true);
+    try {
+      await onSubmit({ amount: value, date, method, note: note || null });
+      onClose();
+    } catch (err) {
+      setError(err.payload?.conflict ? "تم تعديل هذه الدفعة من مكان آخر" : "تعذر حفظ الدفعة");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return <form onSubmit={handleSubmit}>
+    <div className="modal-field"><label>المسلخ</label><input value={party.name} disabled /></div>
+    <div className="modal-field"><label>مبلغ الدفعة ({currency})</label><div className="package-add-row"><input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required /><button type="button" className="btn-outline" onClick={() => setAmount(String(initial?.loanAmount || 0))}>سداد قيمة الدين</button></div></div>
+    <div className="modal-field"><label>التاريخ</label><input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></div>
+    <div className="modal-field"><label>طريقة الدفع</label><input value={method} onChange={(e) => setMethod(e.target.value)} required /></div>
+    <div className="modal-field"><label>ملاحظة</label><input value={note} onChange={(e) => setNote(e.target.value)} /></div>
+    {error && <p className="modal-error">{error}</p>}
+    <div className="modal-actions"><button type="button" className="btn-outline" onClick={onClose}>إلغاء</button><button type="submit" className="btn-primary" disabled={saving}>{saving ? "جارٍ الحفظ..." : "حفظ الدفعة"}</button></div>
+  </form>;
+}
+
 function WeeklyStatementModal({ onClose, onSubmit, submitting }) {
   const today = new Date().toISOString().slice(0, 10);
   const weekAgo = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
@@ -251,14 +326,25 @@ export default function SlaughterhouseDetail() {
   const [statusFilter, setStatusFilter] = useState("الكل");
   const [dateFilter, setDateFilter] = useState("الكل");
   const [refQuery, setRefQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("invoices");
+  const [loans, setLoans] = useState([]);
+  const [editingLoan, setEditingLoan] = useState(null);
+  const [deletingLoan, setDeletingLoan] = useState(null);
+  const [payments, setPayments] = useState([]);
+  const [loanHistory, setLoanHistory] = useState([]);
+  const [editingPayment, setEditingPayment] = useState(null);
+  const [deletingPayment, setDeletingPayment] = useState(null);
 
   function reload() {
     setLoading(true);
-    Promise.all([slaughterhousesApi.getOne(id), salesInvoicesApi.list(), accountsSummaryApi.get()])
-      .then(([house, allInvoices, summary]) => {
+    Promise.all([slaughterhousesApi.getOne(id), salesInvoicesApi.list(), accountsSummaryApi.get(), loansApi.list(), paymentsApi.list(), loansApi.history("slaughterhouse", id)])
+      .then(([house, allInvoices, summary, allLoans, allPayments, allHistory]) => {
         setSlaughterhouse(house);
         setInvoices(allInvoices.filter((i) => i.slaughterhouse === house.name));
         setComputed(summary.slaughterhouses.find((s) => s.id === id) || null);
+        setLoans(allLoans.filter((loan) => loan.partyType === "slaughterhouse" && loan.partyId === id));
+        setPayments(allPayments.filter((payment) => payment.partyType === "slaughterhouse" && payment.partyId === id));
+        setLoanHistory(allHistory);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -336,6 +422,40 @@ export default function SlaughterhouseDetail() {
     reload();
   }
 
+  async function handleCreateLoan(body) {
+    await loansApi.create({ ...body, partyType: "slaughterhouse", partyId: slaughterhouse.id, partyName: slaughterhouse.name });
+    reload();
+  }
+
+  async function handleUpdateLoan(body) {
+    await loansApi.update(editingLoan.id, { ...body, _expectedVersion: editingLoan._version });
+    setEditingLoan(null);
+    reload();
+  }
+
+  async function handleDeleteLoan() {
+    await loansApi.remove(deletingLoan.id);
+    setDeletingLoan(null);
+    reload();
+  }
+
+  async function handleCreatePayment(body) {
+    await paymentsApi.create({ ...body, partyType: "slaughterhouse", partyId: slaughterhouse.id, partyName: slaughterhouse.name, ...(editingPayment?.loanId ? { loanId: editingPayment.loanId } : {}) });
+    reload();
+  }
+
+  async function handleUpdatePayment(body) {
+    await paymentsApi.update(editingPayment.id, { ...body, _expectedVersion: editingPayment._version });
+    setEditingPayment(null);
+    reload();
+  }
+
+  async function handleDeletePayment() {
+    await paymentsApi.remove(deletingPayment.id);
+    setDeletingPayment(null);
+    reload();
+  }
+
   if (loading) return <p className="state-message">جارٍ التحميل...</p>;
   if (error) return <p className="state-message state-message-error">{error}</p>;
   if (!slaughterhouse) return <p className="state-message">المسلخ غير موجود</p>;
@@ -383,7 +503,12 @@ export default function SlaughterhouseDetail() {
         <p>تتبع جميع عمليات البيع</p>
       </div>
 
-      <Card>
+      <div className="page-head-actions invoice-toggle-actions">
+        <button className={activeTab === "invoices" ? "btn-primary" : "btn-outline"} onClick={() => setActiveTab("invoices")}>سجلات الفواتير</button>
+        <button className={activeTab === "loans" ? "btn-primary" : "btn-outline"} onClick={() => setActiveTab("loans")}>سجلات الديون</button>
+      </div>
+
+      {activeTab === "invoices" && <Card>
         <div className="card-head">
           <div className="filters">
             <SelectWrap icon={<FilterIcon />} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
@@ -434,7 +559,35 @@ export default function SlaughterhouseDetail() {
             }}
           />
         )}
-      </Card>
+      </Card>}
+
+      {activeTab === "loans" && (
+        <Card>
+          <div className="card-head">
+            <div><div className="card-title">سجلات الديون</div><div className="card-sub">إدارة الديون المسجلة على المسلخ</div></div>
+            <div className="page-head-actions"><button className="btn-outline" onClick={() => setEditingLoan({ isNew: true })}>إضافة دين</button><button className="btn-primary" onClick={() => setEditingPayment({ isNew: true })}>تسجيل دفعة</button></div>
+          </div>
+          {loans.length === 0 && <p className="state-message">لا توجد ديون مسجلة لهذا المسلخ</p>}
+          {loans.length > 0 && <Table columns={["التاريخ", "المبلغ", "الملاحظة", "الإجراءات"]} rows={[...loans].sort((a, b) => b.date.localeCompare(a.date))} renderRow={(loan) => (
+            <>
+              <Td className="td-muted" dir="ltr">{loan.date}</Td>
+              <Td className="td-strong">{fmtMoney(loan.amount)}</Td>
+              <Td>{loan.note || "—"}</Td>
+              <Td><div className="row-actions"><button type="button" className="btn-outline" onClick={() => setEditingPayment({ isNew: true, loanId: loan.id, loanAmount: Math.max(0, loan.amount - payments.filter((payment) => payment.loanId === loan.id).reduce((sum, payment) => sum + payment.amount, 0)) })}>تسديد</button><IconButton label="تعديل" onClick={() => setEditingLoan(loan)}><EditIcon /></IconButton><IconButton label="حذف" tone="danger" onClick={() => setDeletingLoan(loan)}><TrashIcon /></IconButton></div></Td>
+            </>
+          )} />}
+          <p className="ledger-movements-title">سجل الدفعات والتعديلات</p>
+          <Table columns={["التاريخ", "العملية", "المبلغ", "التفاصيل", "الإجراءات"]} rows={[
+            ...payments.map((payment) => ({ ...payment, kind: "payment" })),
+            ...loanHistory.map((log) => ({ ...log, kind: "loan-change", date: log.timestamp?.slice(0, 10) })),
+          ].sort((a, b) => (b.createdAt || b.timestamp || b.date || "").localeCompare(a.createdAt || a.timestamp || a.date || ""))} renderRow={(entry) => {
+            if (entry.kind === "payment") return <><Td dir="ltr">{entry.date}</Td><Td>{entry.amount >= loans.reduce((sum, loan) => sum + loan.amount, 0) ? "دفعة كاملة" : "دفعة جزئية"}</Td><Td>{fmtMoney(entry.amount)}</Td><Td>{entry.method || entry.note || "—"}</Td><Td><div className="row-actions"><IconButton label="تعديل" onClick={() => setEditingPayment(entry)}><EditIcon /></IconButton><IconButton label="حذف" tone="danger" onClick={() => setDeletingPayment(entry)}><TrashIcon /></IconButton></div></Td></>;
+            const oldAmount = entry.oldValue?.amount;
+            const newAmount = entry.newValue?.amount;
+            return <><Td dir="ltr">{entry.date}</Td><Td>تعديل دين</Td><Td>{fmtMoney(newAmount ?? oldAmount ?? 0)}</Td><Td>{oldAmount !== undefined ? `من ${oldAmount} إلى ${newAmount}` : entry.action === "delete" ? "حذف الدين" : "إضافة الدين"}</Td><Td>—</Td></>;
+          }} />
+        </Card>
+      )}
 
       {showAdd && (
         <Modal title="إضافة طلبية جديدة" onClose={() => setShowAdd(false)}>
@@ -487,6 +640,13 @@ export default function SlaughterhouseDetail() {
           onCancel={() => setDeletingInvoice(null)}
         />
       )}
+
+      {editingLoan && <Modal title={editingLoan.isNew ? "إضافة دين" : "تعديل الدين"} subtitle={slaughterhouse.name} onClose={() => setEditingLoan(null)}>
+        <DebtForm party={slaughterhouse} initial={editingLoan.isNew ? null : editingLoan} currency={settings.currency} onClose={() => setEditingLoan(null)} onSubmit={editingLoan.isNew ? handleCreateLoan : handleUpdateLoan} />
+      </Modal>}
+      {deletingLoan && <ConfirmDeleteModal message={`سيتم حذف الدين بقيمة ${fmtMoney(deletingLoan.amount)} نهائياً.`} onConfirm={handleDeleteLoan} onCancel={() => setDeletingLoan(null)} />}
+      {editingPayment && <Modal title={editingPayment.loanId ? "تسديد الدين" : editingPayment.isNew ? "تسجيل دفعة" : "تعديل الدفعة"} subtitle={slaughterhouse.name} onClose={() => setEditingPayment(null)}><PaymentForm party={slaughterhouse} initial={editingPayment} currency={settings.currency} onClose={() => setEditingPayment(null)} onSubmit={editingPayment.isNew ? handleCreatePayment : handleUpdatePayment} /></Modal>}
+      {deletingPayment && <ConfirmDeleteModal message={`سيتم حذف الدفعة بقيمة ${fmtMoney(deletingPayment.amount)} نهائياً.`} onConfirm={handleDeletePayment} onCancel={() => setDeletingPayment(null)} />}
 
       {viewingInvoice && (
         <Modal title="معاينة الفاتورة" onClose={() => setViewingInvoice(null)}>

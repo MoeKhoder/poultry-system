@@ -181,7 +181,7 @@
 .reports-week-header,
 .reports-week-row {
   display: grid;
-  grid-template-columns: 0.9fr 0.6fr 1fr 1fr 1fr 1fr 1fr 0.8fr;
+  grid-template-columns: 0.9fr 0.6fr 1fr 1fr 1fr 1fr 1fr 0.8fr 1fr 1fr;
   gap: 10px;
   padding: 10px 4px;
   font-size: 14px;
