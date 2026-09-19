@@ -24,23 +24,24 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const { settings } = useSettings();
   const [form, setForm] = useState(initial);
   const [cages, setCages] = useState(
-    isEdit && initial.cages ? Array.from({ length: Number(initial.cages) }, () => Math.round((Number(initial.weightKg) || 0) / Number(initial.cages))) : [],
+    isEdit && initial.weights?.length > 0
+      ? initial.weights.map(Number)
+      : isEdit && initial.cages
+        ? Array.from(
+            { length: Number(initial.cages) },
+            () => (Number(initial.weightKg) || 0) / Number(initial.cages) + (Number(initial.cageWeight) || 0),
+          )
+        : [],
   );
   const [cageInput, setCageInput] = useState("");
   const [cageCountInput, setCageCountInput] = useState(isEdit && initial.cages ? String(initial.cages) : "");
   const [emptyCageWeight, setEmptyCageWeight] = useState(initial.cageWeight ? String(initial.cageWeight) : "8");
   const [discount, setDiscount] = useState(initial.discount ? String(initial.discount) : "0");
-  const [totalTouched, setTotalTouched] = useState(isEdit);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
   function set(field) {
     return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
-  }
-
-  function setTotal(e) {
-    setTotalTouched(true);
-    setForm((prev) => ({ ...prev, total: e.target.value }));
   }
 
   function addCage() {
@@ -61,7 +62,7 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const discountAmount = Number(discount) || 0;
   const rawTotal = Math.round(netWeight * kgPrice);
   const suggestedTotal = Math.max(0, rawTotal - discountAmount);
-  const total = totalTouched ? Number(form.total) || 0 : suggestedTotal;
+  const total = suggestedTotal;
   const paid = Number(form.paid) || 0;
   const remaining = Math.max(0, total - paid);
 
@@ -78,7 +79,17 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
     setSaving(true);
     setError("");
     try {
-      await onSubmit({ date: form.date, cages: cageCount, weightKg: netWeight, cageWeight: Number(emptyCageWeight) || 0, kgPrice, discount: discountAmount || null, total, paid });
+      await onSubmit({
+        date: form.date,
+        cages: cageCount,
+        weights: cages,
+        weightKg: netWeight,
+        cageWeight: Number(emptyCageWeight) || 0,
+        kgPrice,
+        discount: discountAmount || null,
+        total,
+        paid,
+      });
       onClose();
     } catch (err) {
       setError(err.payload?.conflict ? "تم تعديل هذا الطلب من مكان آخر، أعد المحاولة" : "تعذر الحفظ");
@@ -166,7 +177,7 @@ function PurchaseOrderForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
       <div className="field-row">
         <div className="modal-field">
           <label>المبلغ الاجمالي ({settings.currency})</label>
-          <input type="number" value={totalTouched ? form.total : suggestedTotal} onChange={setTotal} required />
+          <input type="number" value={total} readOnly />
         </div>
         <div className="modal-field">
           <label>المبلغ المدفوع ({settings.currency})</label>
@@ -367,8 +378,11 @@ export default function SupplierDetail() {
               code: editingOrder.code,
               date: editingOrder.date,
               cages: String(editingOrder.cages),
+              weights: editingOrder.weights || [],
               weightKg: String(editingOrder.weightKg),
+              cageWeight: String(editingOrder.cageWeight ?? 8),
               kgPrice: String(editingOrder.kgPrice),
+              discount: String(editingOrder.discount || 0),
               total: String(editingOrder.total),
               paid: String(editingOrder.paid || 0),
             }}
@@ -412,7 +426,7 @@ export default function SupplierDetail() {
               </div>
               <div className="detail-row">
                 <span>الوزن الإجمالي</span>
-                <span>{fmtWeight(viewingOrder.weightKg)}</span>
+                <span>{fmtWeight((viewingOrder.weightKg || 0) + (viewingOrder.cages || 0) * (viewingOrder.cageWeight ?? 8))}</span>
               </div>
               <div className="detail-row">
                 <span>سعر الكيلو</span>
