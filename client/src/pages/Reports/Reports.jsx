@@ -13,7 +13,7 @@ function statusForInvoice(total, paid) {
 }
 import { printReport } from "../../utils/printDocument";
 import { useCollection } from "../../api/useCollection";
-import { salesInvoicesApi, distributionTripsApi, expensesApi, purchaseOrdersApi, paymentsApi, loansApi } from "../../api/resources";
+import { salesInvoicesApi, expensesApi, purchaseOrdersApi, paymentsApi, loansApi } from "../../api/resources";
 import { useSettings } from "../../context/SettingsContext";
 import { purchaseCostForOrders } from "../../utils/purchaseCalc";
 import "./Reports.css";
@@ -42,11 +42,6 @@ function weekdayName(dateStr) {
 }
 
 
-function findRouteSupplier(invoice, trips) {
-  const match = trips.find((t) => t.date === invoice.date && t.slaughterhouse === invoice.slaughterhouse);
-  return match?.supplier || null;
-}
-
 function buildWeeks() {
   const weeks = [];
   for (let w = 0; w < 6; w++) {
@@ -59,9 +54,9 @@ function buildWeeks() {
   return weeks;
 }
 
-function monthsFromData(invoices, trips, expenses) {
+function monthsFromData(invoices, expenses, orders) {
   const set = new Set();
-  [...invoices, ...trips, ...expenses].forEach((r) => set.add(r.date.slice(0, 7)));
+  [...invoices, ...expenses, ...orders].forEach((r) => set.add(r.date.slice(0, 7)));
   return Array.from(set).sort();
 }
 
@@ -71,8 +66,7 @@ function monthLabel(ym) {
   return d.toLocaleDateString("ar", { month: "long", year: "numeric" });
 }
 
-function DailyReport({ invoices, trips, expenses, orders, payments, loans, today, settings, fmtMoney, fmtWeight, exportRef }) {
-  const todayTrips = trips.filter((t) => t.date === today);
+function DailyReport({ invoices, expenses, orders, payments, loans, today, settings, fmtMoney, fmtWeight, exportRef }) {
   const todayOrders = orders.filter((o) => o.date === today);
   const todayInvoices = invoices.filter((i) => i.date === today);
   const todayExpenses = expenses.filter((e) => e.date === today);
@@ -80,12 +74,12 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
   const todayPayments = payments.filter((p) => p.date === today && p.type !== "خصم");
 
   const cages = todayOrders.reduce((sum, o) => sum + (o.cages || 0), 0);
-  const weightKg = todayOrders.reduce((sum, o) => sum + (o.weightKg || 0), 0);
+  const purchaseWeightKg = todayOrders.reduce((sum, o) => sum + (o.weightKg || 0), 0);
+  const salesWeightKg = todayInvoices.reduce((sum, i) => sum + (i.weightKg || 0), 0);
   const sales = todayInvoices.reduce((sum, i) => sum + (i.total || 0), 0);
   const purchases = purchaseCostForOrders(orders, today, today);
-  const transportCost = todayTrips.reduce((sum, t) => sum + (t.transportCost || 0), 0);
   const expensesTotal = todayExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
-  const netProfit = sales - purchases - transportCost - expensesTotal;
+  const netProfit = sales - purchases - expensesTotal;
   const profitMargin = sales > 0 ? ((netProfit / sales) * 100).toFixed(1) : "0.0";
   const loansTotal = todayLoans.reduce((sum, loan) => sum + (loan.amount || 0), 0);
   const paymentsTotal = todayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
@@ -97,10 +91,10 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
       subtitle: today,
       summaryLines: [
         ["الأقفاص", cages],
-        ["الوزن", fmtWeight(weightKg)],
+        ["إجمالي الوزن المشترى", fmtWeight(purchaseWeightKg)],
+        ["إجمالي الوزن المباع", fmtWeight(salesWeightKg)],
         ["المشتريات", fmtMoney(purchases)],
         ["المبيعات", fmtMoney(sales)],
-        ["تكاليف النقل", fmtMoney(transportCost)],
         ["المصاريف", fmtMoney(expensesTotal)],
         ["صافي الربح", fmtMoney(netProfit)],
         ["هامش الربح", `${profitMargin}%`],
@@ -126,8 +120,12 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
             <p className="reports-banner-value">{cages}</p>
           </div>
           <div>
-            <p className="reports-banner-label">الوزن</p>
-            <p className="reports-banner-value">{fmtWeight(weightKg)}</p>
+            <p className="reports-banner-label">وزن المشتريات</p>
+            <p className="reports-banner-value">{fmtWeight(purchaseWeightKg)}</p>
+          </div>
+          <div>
+            <p className="reports-banner-label">وزن المبيعات</p>
+            <p className="reports-banner-value">{fmtWeight(salesWeightKg)}</p>
           </div>
           <div>
             <p className="reports-banner-label">المشتريات</p>
@@ -151,12 +149,16 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
               <span className="reports-summary-positive">{fmtMoney(sales)}</span>
             </div>
             <div className="reports-summary-row">
+              <span>إجمالي الوزن المباع</span>
+              <span>{fmtWeight(salesWeightKg)}</span>
+            </div>
+            <div className="reports-summary-row">
               <span>إجمالي المشتريات</span>
               <span className="td-negative">{fmtMoney(purchases)}</span>
             </div>
             <div className="reports-summary-row">
-              <span>تكاليف النقل</span>
-              <span className="td-negative">{fmtMoney(transportCost)}</span>
+              <span>إجمالي الوزن المشترى</span>
+              <span>{fmtWeight(purchaseWeightKg)}</span>
             </div>
             <div className="reports-summary-row">
               <span>المصاريف</span>
@@ -185,12 +187,10 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
           <h2 className="section-title">توزيع اليوم</h2>
           {todayInvoices.length === 0 && <p className="state-message">لا توجد فواتير اليوم</p>}
           <div className="reports-distribution-list">
-            {todayInvoices.slice(0, 6).map((inv) => {
-              const supplier = findRouteSupplier(inv, trips);
-              return (
+            {todayInvoices.slice(0, 6).map((inv) => (
                 <div key={inv.id} className="reports-distribution-row">
                   <div>
-                    <p className="reports-distribution-name">{supplier ? `${supplier} ← ${inv.slaughterhouse}` : inv.slaughterhouse}</p>
+                    <p className="reports-distribution-name">{inv.slaughterhouse}</p>
                     <p className="reports-distribution-cages">{inv.cages} قفص</p>
                   </div>
                   <div className="reports-distribution-amount">
@@ -198,8 +198,7 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
                     <StatusBadge status={statusForInvoice(inv.total, inv.paid || 0)} />
                   </div>
                 </div>
-              );
-            })}
+            ))}
           </div>
         </Card>
       </div>
@@ -219,33 +218,33 @@ function DailyReport({ invoices, trips, expenses, orders, payments, loans, today
   );
 }
 
-function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, settings, fmtMoney, exportRef }) {
+function WeeklyReport({ invoices, expenses, orders, payments, loans, settings, fmtMoney, fmtWeight, exportRef }) {
   const weeks = useMemo(buildWeeks, []);
   const [selectedWeek, setSelectedWeek] = useState(0);
   const week = weeks[selectedWeek];
 
   const rows = week.days.map((date) => {
-    const dayTrips = trips.filter((t) => t.date === date);
     const dayOrders = orders.filter((o) => o.date === date);
     const dayInvoices = invoices.filter((i) => i.date === date);
     const dayExpenses = expenses.filter((e) => e.date === date);
     const dayLoans = loans.filter((l) => l.date === date);
     const dayPayments = payments.filter((p) => p.date === date && p.type !== "خصم");
     const cages = dayOrders.reduce((sum, o) => sum + (o.cages || 0), 0);
+    const purchaseWeightKg = dayOrders.reduce((sum, o) => sum + (o.weightKg || 0), 0);
+    const salesWeightKg = dayInvoices.reduce((sum, i) => sum + (i.weightKg || 0), 0);
     const purchases = purchaseCostForOrders(orders, date, date);
     const sales = dayInvoices.reduce((sum, i) => sum + (i.total || 0), 0);
-    const transportCost = dayTrips.reduce((sum, t) => sum + (t.transportCost || 0), 0);
     const expensesTotal = dayExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
     return {
       date,
       dayName: weekdayName(date),
       cages,
+      purchaseWeightKg,
+      salesWeightKg,
       purchases,
       sales,
-      transportCost,
       expensesTotal,
-      profit: sales - purchases - transportCost - expensesTotal,
-      tripsCount: dayTrips.length,
+      profit: sales - purchases - expensesTotal,
       loans: dayLoans.reduce((sum, loan) => sum + (loan.amount || 0), 0),
       payments: dayPayments.reduce((sum, payment) => sum + (payment.amount || 0), 0),
     };
@@ -254,7 +253,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, sett
   const weekProfit = rows.reduce((sum, r) => sum + r.profit, 0);
   const weekPurchases = rows.reduce((sum, r) => sum + r.purchases, 0);
   const weekSales = rows.reduce((sum, r) => sum + r.sales, 0);
-  const weekTransport = rows.reduce((sum, r) => sum + r.transportCost, 0);
+  const weekPurchaseWeight = rows.reduce((sum, r) => sum + r.purchaseWeightKg, 0);
+  const weekSalesWeight = rows.reduce((sum, r) => sum + r.salesWeightKg, 0);
   const weekExpenses = rows.reduce((sum, r) => sum + r.expensesTotal, 0);
   const weekLoans = rows.reduce((sum, r) => sum + r.loans, 0);
   const weekPayments = rows.reduce((sum, r) => sum + r.payments, 0);
@@ -268,21 +268,22 @@ function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, sett
         ["صافي الربح الأسبوعي", fmtMoney(weekProfit)],
         ["إجمالي المشتريات", fmtMoney(weekPurchases)],
         ["إجمالي المبيعات", fmtMoney(weekSales)],
-        ["تكاليف النقل", fmtMoney(weekTransport)],
+        ["إجمالي وزن المبيعات", fmtWeight(weekSalesWeight)],
+        ["إجمالي وزن المشتريات", fmtWeight(weekPurchaseWeight)],
         ["المصاريف", fmtMoney(weekExpenses)],
         ["الديون المضافة", fmtMoney(weekLoans)],
         ["الدفعات المسجلة", fmtMoney(weekPayments)],
       ],
-      columns: ["اليوم", "الأقفاص", "المشتريات", "تكاليف النقل", "المصاريف", "المبيعات", "الربح", "الرحلات"],
+      columns: ["اليوم", "الأقفاص", "المشتريات", "وزن المشتريات", "المصاريف", "المبيعات", "وزن المبيعات", "الربح"],
       rows: rows.map((r) => [
         r.dayName,
         r.cages,
         fmtMoney(r.purchases),
-        fmtMoney(r.transportCost),
+        fmtWeight(r.purchaseWeightKg),
         fmtMoney(r.expensesTotal),
         fmtMoney(r.sales),
+        fmtWeight(r.salesWeightKg),
         fmtMoney(r.profit),
-        `${r.tripsCount} رحلات`,
       ]),
     });
   }
@@ -317,8 +318,12 @@ function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, sett
           <p className="reports-stat-value">{fmtMoney(weekSales)}</p>
         </Card>
         <Card>
-          <p className="reports-stat-label">تكاليف النقل</p>
-          <p className="reports-stat-value reports-stat-value-negative">{fmtMoney(weekTransport)}</p>
+          <p className="reports-stat-label">إجمالي أوزان المبيعات</p>
+          <p className="reports-stat-value">{fmtWeight(weekSalesWeight)}</p>
+        </Card>
+        <Card>
+          <p className="reports-stat-label">إجمالي أوزان المشتريات</p>
+          <p className="reports-stat-value">{fmtWeight(weekPurchaseWeight)}</p>
         </Card>
         <Card>
           <p className="reports-stat-label">المصاريف</p>
@@ -342,11 +347,11 @@ function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, sett
             <span>اليوم</span>
             <span>الأقفاص</span>
             <span>المشتريات</span>
-            <span>تكاليف النقل</span>
+            <span>وزن المشتريات</span>
             <span>المصاريف</span>
             <span>المبيعات</span>
+            <span>وزن المبيعات</span>
             <span>الربح</span>
-            <span>الرحلات</span>
             <span>الديون</span>
             <span>الدفعات</span>
           </div>
@@ -355,11 +360,11 @@ function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, sett
               <span className="td-muted">{r.dayName}</span>
               <span>{r.cages}</span>
               <span className="td-negative">{fmtMoney(r.purchases)}</span>
-              <span className="td-negative">{fmtMoney(r.transportCost)}</span>
+              <span>{fmtWeight(r.purchaseWeightKg)}</span>
               <span className="td-negative">{fmtMoney(r.expensesTotal)}</span>
               <span>{fmtMoney(r.sales)}</span>
+              <span>{fmtWeight(r.salesWeightKg)}</span>
               <span className={r.profit >= 0 ? "reports-summary-positive" : "td-negative"}>{fmtMoney(r.profit)}</span>
-              <span className="td-brand">{r.tripsCount} رحلات</span>
               <span className="td-negative">{fmtMoney(r.loans)}</span>
               <span className="reports-summary-positive">{fmtMoney(r.payments)}</span>
             </div>
@@ -371,8 +376,8 @@ function WeeklyReport({ invoices, trips, expenses, orders, payments, loans, sett
   );
 }
 
-function ProfitLossReport({ invoices, trips, expenses, orders, settings, fmtMoney, exportRef }) {
-  const months = useMemo(() => monthsFromData(invoices, trips, expenses), [invoices, trips, expenses]);
+function ProfitLossReport({ invoices, expenses, orders, settings, fmtMoney, exportRef }) {
+  const months = useMemo(() => monthsFromData(invoices, expenses, orders), [invoices, expenses, orders]);
   const defaultMonth = useMemo(() => {
     if (months.length === 0) return null;
     const counts = {};
@@ -409,18 +414,15 @@ function ProfitLossReport({ invoices, trips, expenses, orders, settings, fmtMone
   }
 
   const monthInvoices = invoices.filter((i) => i.date.startsWith(selectedMonth));
-  const monthTrips = trips.filter((t) => t.date.startsWith(selectedMonth));
   const monthExpenses = expenses.filter((e) => e.date.startsWith(selectedMonth));
 
   const poultrySales = monthInvoices.reduce((sum, i) => sum + (i.total || 0), 0);
-  const deliveryFees = monthTrips.reduce((sum, t) => sum + (t.transportCost || 0), 0);
-  const totalRevenue = poultrySales + deliveryFees;
+  const totalRevenue = poultrySales;
 
   const monthEndDate = `${selectedMonth}-31`;
   const purchaseCost = purchaseCostForOrders(orders, `${selectedMonth}-01`, monthEndDate);
-  const transportCost = monthTrips.reduce((sum, t) => sum + (t.transportCost || 0), 0);
   const otherExpenses = monthExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
-  const totalExpenses = purchaseCost + transportCost + otherExpenses;
+  const totalExpenses = purchaseCost + otherExpenses;
 
   const netProfit = totalRevenue - totalExpenses;
   const margin = totalRevenue > 0 ? ((netProfit / totalRevenue) * 100).toFixed(1) : "0.0";
@@ -431,10 +433,8 @@ function ProfitLossReport({ invoices, trips, expenses, orders, settings, fmtMone
       title: `تقرير الأرباح والخسائر — ${monthLabel(selectedMonth)}`,
       summaryLines: [
         ["مبيعات الدواجن", fmtMoney(poultrySales)],
-        ["رسوم التوصيل", fmtMoney(deliveryFees)],
         ["إجمالي الإيرادات", fmtMoney(totalRevenue)],
         ["تكلفة الشراء", fmtMoney(purchaseCost)],
-        ["تكاليف النقل", fmtMoney(transportCost)],
         ["المصاريف التشغيلية", fmtMoney(otherExpenses)],
         ["إجمالي المصروفات", fmtMoney(totalExpenses)],
         ["صافي الربح", fmtMoney(netProfit)],
@@ -468,10 +468,6 @@ function ProfitLossReport({ invoices, trips, expenses, orders, settings, fmtMone
               <span>مبيعات الدواجن</span>
               <span className="reports-summary-positive">{fmtMoney(poultrySales)}</span>
             </div>
-            <div className="reports-summary-row">
-              <span>رسوم التوصيل</span>
-              <span className="reports-summary-positive">{fmtMoney(deliveryFees)}</span>
-            </div>
             <div className="reports-summary-row reports-summary-divider">
               <span>إجمالي الإيرادات</span>
               <span className="reports-summary-positive">{fmtMoney(totalRevenue)}</span>
@@ -484,11 +480,7 @@ function ProfitLossReport({ invoices, trips, expenses, orders, settings, fmtMone
               <span className="td-negative">{fmtMoney(purchaseCost)}</span>
             </div>
             <div className="reports-summary-row">
-              <span>تكاليف النقل</span>
-              <span className="td-negative">{fmtMoney(transportCost)}</span>
-            </div>
-            <div className="reports-summary-row">
-              <span>المصاريف التشغيلية</span>
+              <span>المصاريf التشغيلية</span>
               <span className="td-negative">{fmtMoney(otherExpenses)}</span>
             </div>
             <div className="reports-summary-row reports-summary-divider">
@@ -528,14 +520,13 @@ function ProfitLossReport({ invoices, trips, expenses, orders, settings, fmtMone
 export default function Reports() {
   const [active, setActive] = useState("daily");
   const { items: invoices, loading: loadingInvoices } = useCollection(salesInvoicesApi);
-  const { items: trips, loading: loadingTrips } = useCollection(distributionTripsApi);
   const { items: expenses, loading: loadingExpenses } = useCollection(expensesApi);
   const { items: orders, loading: loadingOrders } = useCollection(purchaseOrdersApi);
   const { items: payments, loading: loadingPayments } = useCollection(paymentsApi);
   const { items: loans, loading: loadingLoans } = useCollection(loansApi);
   const { settings, fmtMoney, fmtWeight } = useSettings();
 
-  const loading = loadingInvoices || loadingTrips || loadingExpenses || loadingOrders || loadingPayments || loadingLoans;
+  const loading = loadingInvoices || loadingExpenses || loadingOrders || loadingPayments || loadingLoans;
   const today = todayString();
   const activeExportRef = useRef(null);
 
@@ -570,7 +561,6 @@ export default function Reports() {
           {active === "daily" && (
             <DailyReport
               invoices={invoices}
-              trips={trips}
               expenses={expenses}
               orders={orders}
               payments={payments}
@@ -583,10 +573,20 @@ export default function Reports() {
             />
           )}
           {active === "weekly" && (
-            <WeeklyReport invoices={invoices} trips={trips} expenses={expenses} orders={orders} payments={payments} loans={loans} settings={settings} fmtMoney={fmtMoney} exportRef={activeExportRef} />
+            <WeeklyReport
+              invoices={invoices}
+              expenses={expenses}
+              orders={orders}
+              payments={payments}
+              loans={loans}
+              settings={settings}
+              fmtMoney={fmtMoney}
+              fmtWeight={fmtWeight}
+              exportRef={activeExportRef}
+            />
           )}
           {active === "pl" && (
-            <ProfitLossReport invoices={invoices} trips={trips} expenses={expenses} orders={orders} settings={settings} fmtMoney={fmtMoney} exportRef={activeExportRef} />
+            <ProfitLossReport invoices={invoices} expenses={expenses} orders={orders} settings={settings} fmtMoney={fmtMoney} exportRef={activeExportRef} />
           )}
         </div>
       )}

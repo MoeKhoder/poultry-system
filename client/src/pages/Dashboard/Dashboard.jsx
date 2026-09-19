@@ -8,7 +8,7 @@ import { UsersIcon, ReceiptIcon, WalletIcon, TrendUpIcon, TrendDownIcon, Calenda
 import { useSettings } from "../../context/SettingsContext";
 import { purchaseCostForOrders } from "../../utils/purchaseCalc";
 import { useCollection } from "../../api/useCollection";
-import { suppliersApi, slaughterhousesApi, salesInvoicesApi, distributionTripsApi, purchaseOrdersApi, expensesApi, accountsSummaryApi } from "../../api/resources";
+import { suppliersApi, slaughterhousesApi, salesInvoicesApi, purchaseOrdersApi, expensesApi, accountsSummaryApi } from "../../api/resources";
 import "./Dashboard.css";
 
 const ARABIC_WEEKDAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
@@ -63,7 +63,6 @@ export default function Dashboard() {
   const { items: suppliers, loading: loadingSuppliers, reload: reloadSuppliers } = useCollection(suppliersApi);
   const { items: slaughterhouses, loading: loadingSlaughterhouses, reload: reloadSlaughterhouses } = useCollection(slaughterhousesApi);
   const { items: invoices, loading: loadingInvoices, reload: reloadInvoices } = useCollection(salesInvoicesApi);
-  const { items: trips, loading: loadingTrips, reload: reloadTrips } = useCollection(distributionTripsApi);
   const { items: purchaseOrders, loading: loadingOrders, reload: reloadOrders } = useCollection(purchaseOrdersApi);
   const { items: expenses, loading: loadingExpenses, reload: reloadExpenses } = useCollection(expensesApi);
   const { settings, fmtMoney, fmtWeight } = useSettings();
@@ -78,7 +77,6 @@ export default function Dashboard() {
       reloadSuppliers();
       reloadSlaughterhouses();
       reloadInvoices();
-      reloadTrips();
       reloadOrders();
       reloadExpenses();
       accountsSummaryApi.get().then(setSummary);
@@ -91,7 +89,7 @@ export default function Dashboard() {
     };
   }, [reloadSuppliers, reloadSlaughterhouses, reloadInvoices, reloadTrips, reloadOrders, reloadExpenses]);
 
-  const loading = loadingSuppliers || loadingSlaughterhouses || loadingInvoices || loadingTrips || loadingOrders || loadingExpenses;
+  const loading = loadingSuppliers || loadingSlaughterhouses || loadingInvoices || loadingOrders || loadingExpenses;
 
   const today = daysAgoString(0);
   const weekStart = daysAgoString(6);
@@ -113,7 +111,6 @@ export default function Dashboard() {
   const supplierDebt = summary.suppliers.reduce((sum, s) => sum + (s.remaining || 0), 0);
   const suppliersWithDebt = summary.suppliers.filter((s) => s.remaining > 0);
 
-  const tripsToday = trips.filter((t) => t.date === today);
 
   const uncollectedInvoices = invoices.filter((i) => (i.total || 0) - (i.paid || 0) > 0);
 
@@ -234,16 +231,6 @@ export default function Dashboard() {
                   <span className="badge badge-yellow">
                     <i className="badge-dot" />
                     متابعة
-                  </span>
-                </div>
-                <div className="dashboard-alert-row">
-                  <div>
-                    <b>رحلات مجدولة اليوم</b>
-                    <span>{tripsToday.length} رحلة</span>
-                  </div>
-                  <span className="badge badge-green">
-                    <i className="badge-dot" />
-                    جاهز
                   </span>
                 </div>
               </div>
