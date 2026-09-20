@@ -87,7 +87,7 @@ export default function Dashboard() {
       clearInterval(interval);
       window.removeEventListener("focus", reloadAll);
     };
-  }, [reloadSuppliers, reloadSlaughterhouses, reloadInvoices, reloadTrips, reloadOrders, reloadExpenses]);
+  }, [reloadSuppliers, reloadSlaughterhouses, reloadInvoices, reloadOrders, reloadExpenses]);
 
   const loading = loadingSuppliers || loadingSlaughterhouses || loadingInvoices || loadingOrders || loadingExpenses;
 
