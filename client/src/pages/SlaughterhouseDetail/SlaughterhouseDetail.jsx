@@ -10,6 +10,9 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Modal from "../../components/Modal/Modal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { printVoucher, printWeeklyVoucherStatement } from "../../utils/printDocument";
+import LoansRecordsCard from "../../components/LoansRecordsCard/LoansRecordsCard";
+import PartyPaymentForm from "../../components/PartyPaymentForm/PartyPaymentForm";
+import { loanRemaining, partyLoanTotals } from "../../utils/loanBalances";
 import { useSettings } from "../../context/SettingsContext";
 import { slaughterhousesApi, salesInvoicesApi, accountsSummaryApi, paymentsApi, loansApi } from "../../api/resources";
 import "./SlaughterhouseDetail.css";
@@ -18,6 +21,47 @@ function statusForInvoice(total, paid) {
   if (paid >= total && total > 0) return "مدفوع";
   if (paid > 0) return "جزئي";
   return "غير مدفوع";
+}
+
+function DebtForm({ party, initial, onClose, onSubmit, currency }) {
+  const [amount, setAmount] = useState(initial?.amount ? String(initial.amount) : "");
+  const [date, setDate] = useState(initial?.date || new Date().toISOString().slice(0, 10));
+  const [note, setNote] = useState(initial?.note || "");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const value = Number(amount);
+    if (!value || value <= 0) {
+      setError("أدخل مبلغاً صحيحاً");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    try {
+      await onSubmit({ amount: value, date, note: note || null });
+      onClose();
+    } catch (err) {
+      setError(err.payload?.conflict ? "تم تعديل هذا الدين من مكان آخر، أعد فتح الصفحة" : "تعذر حفظ الدين");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="modal-field"><label>المسلخ</label><input value={party.name} disabled /></div>
+      <div className="modal-field"><label>مبلغ الدين ({currency})</label><input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required /></div>
+      <div className="modal-field"><label>التاريخ</label><input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></div>
+      <div className="modal-field"><label>ملاحظة</label><input value={note} onChange={(e) => setNote(e.target.value)} placeholder="سبب الدين (اختياري)" /></div>
+      {error && <p className="modal-error">{error}</p>}
+      <div className="modal-actions">
+        <button type="button" className="btn-outline" onClick={onClose}>إلغاء</button>
+        <button type="submit" className="btn-primary" disabled={saving}>{saving ? "جارٍ الحفظ..." : "حفظ الدين"}</button>
+      </div>
+    </form>
+  );
 }
 
 function WeeklyStatementModal({ onClose, onSubmit, submitting }) {
@@ -59,23 +103,24 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const { settings } = useSettings();
   const [form, setForm] = useState(initial);
   const [cages, setCages] = useState(
-    isEdit && initial.cages ? Array.from({ length: Number(initial.cages) }, () => Math.round((Number(initial.weightKg) || 0) / Number(initial.cages))) : [],
+    isEdit && initial.weights?.length > 0
+      ? initial.weights.map(Number)
+      : isEdit && initial.cages
+        ? Array.from(
+            { length: Number(initial.cages) },
+            () => (Number(initial.weightKg) || 0) / Number(initial.cages) + (Number(initial.cageWeight) || 0),
+          )
+        : [],
   );
   const [cageInput, setCageInput] = useState("");
   const [cageCountInput, setCageCountInput] = useState(isEdit && initial.cages ? String(initial.cages) : "");
   const [emptyCageWeight, setEmptyCageWeight] = useState(initial.cageWeight ? String(initial.cageWeight) : "8");
   const [discount, setDiscount] = useState(initial.discount ? String(initial.discount) : "0");
-  const [totalTouched, setTotalTouched] = useState(isEdit);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
   function set(field) {
     return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
-  }
-
-  function setTotal(e) {
-    setTotalTouched(true);
-    setForm((prev) => ({ ...prev, total: e.target.value }));
   }
 
   function addCage() {
@@ -96,7 +141,7 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
   const discountAmount = Number(discount) || 0;
   const rawTotal = Math.round(netWeight * kgPrice);
   const suggestedTotal = Math.max(0, rawTotal - discountAmount);
-  const total = totalTouched ? Number(form.total) || 0 : suggestedTotal;
+  const total = suggestedTotal;
   const paid = Number(form.paid) || 0;
   const remaining = Math.max(0, total - paid);
 
@@ -113,7 +158,17 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
     setSaving(true);
     setError("");
     try {
-      await onSubmit({ date: form.date, cages: cageCount, weightKg: netWeight, cageWeight: Number(emptyCageWeight) || 0, kgPrice, discount: discountAmount || null, total, paid });
+      await onSubmit({
+        date: form.date,
+        cages: cageCount,
+        weights: cages,
+        weightKg: netWeight,
+        cageWeight: Number(emptyCageWeight) || 0,
+        kgPrice,
+        discount: discountAmount || null,
+        total,
+        paid,
+      });
       onClose();
     } catch (err) {
       setError(err.payload?.conflict ? "تم تعديل هذه الفاتورة من مكان آخر، أعد المحاولة" : "تعذر الحفظ");
@@ -201,7 +256,7 @@ function InvoiceForm({ initial, isEdit, nextRef, onClose, onSubmit }) {
       <div className="field-row">
         <div className="modal-field">
           <label>المبلغ الاجمالي ({settings.currency})</label>
-          <input type="number" value={totalTouched ? form.total : suggestedTotal} onChange={setTotal} required />
+          <input type="number" value={total} readOnly />
         </div>
         <div className="modal-field">
           <label>المبلغ المدفوع ({settings.currency})</label>
@@ -240,14 +295,25 @@ export default function SlaughterhouseDetail() {
   const [statusFilter, setStatusFilter] = useState("الكل");
   const [dateFilter, setDateFilter] = useState("الكل");
   const [refQuery, setRefQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("invoices");
+  const [loans, setLoans] = useState([]);
+  const [editingLoan, setEditingLoan] = useState(null);
+  const [deletingLoan, setDeletingLoan] = useState(null);
+  const [payments, setPayments] = useState([]);
+  const [loanHistory, setLoanHistory] = useState([]);
+  const [editingPayment, setEditingPayment] = useState(null);
+  const [deletingPayment, setDeletingPayment] = useState(null);
 
   function reload() {
     setLoading(true);
-    Promise.all([slaughterhousesApi.getOne(id), salesInvoicesApi.list(), accountsSummaryApi.get()])
-      .then(([house, allInvoices, summary]) => {
+    Promise.all([slaughterhousesApi.getOne(id), salesInvoicesApi.list(), accountsSummaryApi.get(), loansApi.list(), paymentsApi.list(), loansApi.history("slaughterhouse", id)])
+      .then(([house, allInvoices, summary, allLoans, allPayments, allHistory]) => {
         setSlaughterhouse(house);
         setInvoices(allInvoices.filter((i) => i.slaughterhouse === house.name));
         setComputed(summary.slaughterhouses.find((s) => s.id === id) || null);
+        setLoans(allLoans.filter((loan) => loan.partyType === "slaughterhouse" && loan.partyId === id));
+        setPayments(allPayments.filter((payment) => payment.partyType === "slaughterhouse" && payment.partyId === id));
+        setLoanHistory(allHistory);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -279,26 +345,40 @@ export default function SlaughterhouseDetail() {
       ]);
       const houseInvoices = allInvoicesForHouse.filter((i) => i.slaughterhouse === slaughterhouse.name);
       const periodInvoices = houseInvoices.filter((i) => i.date >= fromDate && i.date <= toDate);
+      const houseLoans = loans.filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id);
+      const housePayments = payments.filter((p) => p.partyType === "slaughterhouse" && p.partyId === slaughterhouse.id);
+      const periodLoans = houseLoans.filter((l) => l.date >= fromDate && l.date <= toDate);
+      const periodPayments = housePayments.filter((p) => p.date >= fromDate && p.date <= toDate);
 
       const priorInvoicesTotal = houseInvoices
         .filter((i) => i.date < fromDate)
         .reduce((sum, i) => sum + (i.total || 0), 0);
-      const loansTotal = loans
-        .filter((l) => l.partyType === "slaughterhouse" && l.partyId === slaughterhouse.id && l.date <= toDate)
+      const priorLoansTotal = houseLoans
+        .filter((l) => l.date < fromDate)
         .reduce((sum, l) => sum + (l.amount || 0), 0);
       const priorPaidOnInvoices = houseInvoices
         .filter((i) => i.date < fromDate)
         .reduce((sum, i) => sum + (i.paid || 0), 0);
-      const priorPaidViaLedger = payments
-        .filter((p) => p.partyType === "slaughterhouse" && p.partyId === slaughterhouse.id && p.date < fromDate)
+      const priorPaidViaLedger = housePayments
+        .filter((p) => p.date < fromDate)
         .reduce((sum, p) => sum + (p.amount || 0), 0);
-      const openingBalance = priorInvoicesTotal + loansTotal - priorPaidOnInvoices - priorPaidViaLedger;
+      const openingPaid = priorPaidOnInvoices + priorPaidViaLedger;
+      const openingBalance = priorInvoicesTotal + priorLoansTotal - priorPaidOnInvoices - priorPaidViaLedger;
+
+      const { outstanding: loansOutstanding } = partyLoanTotals(houseLoans, housePayments, "slaughterhouse", slaughterhouse.id);
 
       printWeeklyVoucherStatement({
         settings,
         party: slaughterhouse,
         invoices: periodInvoices,
+        loans: periodLoans,
+        allPartyLoans: houseLoans,
+        payments: periodPayments,
         openingBalance,
+        openingInvoiceBalance: priorInvoicesTotal,
+        openingLoanBalance: priorLoansTotal,
+        openingPaid,
+        loansOutstanding,
         fmtMoney,
         fmtWeight,
         existingWin: printWin,
@@ -322,6 +402,44 @@ export default function SlaughterhouseDetail() {
   async function handleDeleteInvoice() {
     await salesInvoicesApi.remove(deletingInvoice.id);
     setDeletingInvoice(null);
+    reload();
+  }
+
+  async function handleCreateLoan(body) {
+    await loansApi.create({ ...body, partyType: "slaughterhouse", partyId: slaughterhouse.id, partyName: slaughterhouse.name });
+    reload();
+  }
+
+  async function handleUpdateLoan(body) {
+    await loansApi.update(editingLoan.id, { ...body, _expectedVersion: editingLoan._version });
+    setEditingLoan(null);
+    reload();
+  }
+
+  async function handleDeleteLoan() {
+    await loansApi.remove(deletingLoan.id);
+    setDeletingLoan(null);
+    reload();
+  }
+
+  async function handleCreatePayment(body) {
+    await paymentsApi.create({ ...body, partyType: "slaughterhouse", partyId: slaughterhouse.id, partyName: slaughterhouse.name, ...(editingPayment?.loanId ? { loanId: editingPayment.loanId } : {}) });
+    reload();
+  }
+
+  async function handleUpdatePayment(body) {
+    await paymentsApi.update(editingPayment.id, {
+      ...body,
+      ...(editingPayment.loanId ? { loanId: editingPayment.loanId } : {}),
+      _expectedVersion: editingPayment._version,
+    });
+    setEditingPayment(null);
+    reload();
+  }
+
+  async function handleDeletePayment() {
+    await paymentsApi.remove(deletingPayment.id);
+    setDeletingPayment(null);
     reload();
   }
 
@@ -372,7 +490,12 @@ export default function SlaughterhouseDetail() {
         <p>تتبع جميع عمليات البيع</p>
       </div>
 
-      <Card>
+      <div className="page-head-actions invoice-toggle-actions">
+        <button className={activeTab === "invoices" ? "btn-primary" : "btn-outline"} onClick={() => setActiveTab("invoices")}>سجلات الفواتير</button>
+        <button className={activeTab === "loans" ? "btn-primary" : "btn-outline"} onClick={() => setActiveTab("loans")}>سجلات الديون</button>
+      </div>
+
+      {activeTab === "invoices" && <Card>
         <div className="card-head">
           <div className="filters">
             <SelectWrap icon={<FilterIcon />} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
@@ -423,7 +546,24 @@ export default function SlaughterhouseDetail() {
             }}
           />
         )}
-      </Card>
+      </Card>}
+
+      {activeTab === "loans" && (
+        <LoansRecordsCard
+          partyLabel="المسلخ"
+          loans={loans}
+          payments={payments}
+          loanHistory={loanHistory}
+          fmtMoney={fmtMoney}
+          onAddLoan={() => setEditingLoan({ isNew: true })}
+          onAddPayment={() => setEditingPayment({ isNew: true })}
+          onSettleLoan={(loan, remaining) => setEditingPayment({ isNew: true, loanId: loan.id, loanAmount: remaining })}
+          onEditLoan={(loan) => setEditingLoan(loan)}
+          onDeleteLoan={(loan) => setDeletingLoan(loan)}
+          onEditPayment={(entry) => setEditingPayment(entry)}
+          onDeletePayment={(entry) => setDeletingPayment(entry)}
+        />
+      )}
 
       {showAdd && (
         <Modal title="إضافة طلبية جديدة" onClose={() => setShowAdd(false)}>
@@ -454,8 +594,11 @@ export default function SlaughterhouseDetail() {
               invoiceNumber: editingInvoice.invoiceNumber,
               date: editingInvoice.date,
               cages: String(editingInvoice.cages),
+              weights: editingInvoice.weights || [],
               weightKg: String(editingInvoice.weightKg),
+              cageWeight: String(editingInvoice.cageWeight ?? 8),
               kgPrice: String(editingInvoice.weightKg ? (editingInvoice.total / editingInvoice.weightKg).toFixed(2) : 0),
+              discount: String(editingInvoice.discount || 0),
               total: String(editingInvoice.total),
               paid: String(editingInvoice.paid || 0),
             }}
@@ -473,6 +616,47 @@ export default function SlaughterhouseDetail() {
           onCancel={() => setDeletingInvoice(null)}
         />
       )}
+
+      {editingLoan && <Modal title={editingLoan.isNew ? "إضافة دين" : "تعديل الدين"} subtitle={slaughterhouse.name} onClose={() => setEditingLoan(null)}>
+        <DebtForm party={slaughterhouse} initial={editingLoan.isNew ? null : editingLoan} currency={settings.currency} onClose={() => setEditingLoan(null)} onSubmit={editingLoan.isNew ? handleCreateLoan : handleUpdateLoan} />
+      </Modal>}
+      {deletingLoan && (
+        <ConfirmDeleteModal
+          message={`سيتم حذف سجل الدين بقيمة ${fmtMoney(deletingLoan.amount)}. يُفضّل عدم الحذف بعد أي تسديد — الديون المسدّدة تُخفى تلقائياً من القائمة.`}
+          onConfirm={handleDeleteLoan}
+          onCancel={() => setDeletingLoan(null)}
+        />
+      )}
+      {editingPayment && (
+        <Modal
+          title={editingPayment.loanId ? "تسديد الدين" : editingPayment.isNew ? "تسجيل دفعة" : "تعديل الدفعة"}
+          subtitle={slaughterhouse.name}
+          onClose={() => setEditingPayment(null)}
+        >
+          <PartyPaymentForm
+            partyLabel="المسلخ"
+            partyName={slaughterhouse.name}
+            initial={
+              editingPayment.loanId && editingPayment.isNew
+                ? editingPayment
+                : editingPayment.loanId
+                  ? {
+                      ...editingPayment,
+                      loanAmount: loanRemaining(
+                        loans.find((l) => l.id === editingPayment.loanId) || { id: editingPayment.loanId, amount: 0 },
+                        payments,
+                        { excludePaymentId: editingPayment.id },
+                      ),
+                    }
+                  : editingPayment
+            }
+            currency={settings.currency}
+            onClose={() => setEditingPayment(null)}
+            onSubmit={editingPayment.isNew ? handleCreatePayment : handleUpdatePayment}
+          />
+        </Modal>
+      )}
+      {deletingPayment && <ConfirmDeleteModal message={`سيتم حذف الدفعة بقيمة ${fmtMoney(deletingPayment.amount)} نهائياً.`} onConfirm={handleDeletePayment} onCancel={() => setDeletingPayment(null)} />}
 
       {viewingInvoice && (
         <Modal title="معاينة الفاتورة" onClose={() => setViewingInvoice(null)}>
@@ -499,7 +683,7 @@ export default function SlaughterhouseDetail() {
               </div>
               <div className="detail-row">
                 <span>الوزن الإجمالي</span>
-                <span>{fmtWeight(viewingInvoice.weightKg)}</span>
+                <span>{fmtWeight((viewingInvoice.weightKg || 0) + (viewingInvoice.cages || 0) * (viewingInvoice.cageWeight ?? 8))}</span>
               </div>
               <div className="detail-row">
                 <span>المدفوع</span>

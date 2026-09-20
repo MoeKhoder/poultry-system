@@ -4,11 +4,11 @@ import PageHeader from "../../components/PageHeader/PageHeader";
 import Card from "../../components/Card/Card";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import { Table, Td } from "../../components/DataTable/DataTable";
-import { UsersIcon, ReceiptIcon, WalletIcon, TruckIcon, TrendUpIcon, TrendDownIcon, CalendarIcon } from "../../components/Icons/Icons";
+import { UsersIcon, ReceiptIcon, WalletIcon, TrendUpIcon, TrendDownIcon, CalendarIcon } from "../../components/Icons/Icons";
 import { useSettings } from "../../context/SettingsContext";
 import { purchaseCostForOrders } from "../../utils/purchaseCalc";
 import { useCollection } from "../../api/useCollection";
-import { suppliersApi, slaughterhousesApi, salesInvoicesApi, distributionTripsApi, purchaseOrdersApi, expensesApi, accountsSummaryApi } from "../../api/resources";
+import { suppliersApi, slaughterhousesApi, salesInvoicesApi, purchaseOrdersApi, expensesApi, accountsSummaryApi } from "../../api/resources";
 import "./Dashboard.css";
 
 const ARABIC_WEEKDAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
@@ -42,6 +42,12 @@ function trendPercent(today, yesterday) {
   return Math.round(((today - yesterday) / yesterday) * 100);
 }
 
+function sortByNewestCreated(a, b) {
+  const aTime = Date.parse(a.createdAt || a.date || "");
+  const bTime = Date.parse(b.createdAt || b.date || "");
+  return bTime - aTime;
+}
+
 function buildWeeklyChart(invoices, orders) {
   const days = [];
   for (let n = 6; n >= 0; n--) {
@@ -57,7 +63,6 @@ export default function Dashboard() {
   const { items: suppliers, loading: loadingSuppliers, reload: reloadSuppliers } = useCollection(suppliersApi);
   const { items: slaughterhouses, loading: loadingSlaughterhouses, reload: reloadSlaughterhouses } = useCollection(slaughterhousesApi);
   const { items: invoices, loading: loadingInvoices, reload: reloadInvoices } = useCollection(salesInvoicesApi);
-  const { items: trips, loading: loadingTrips, reload: reloadTrips } = useCollection(distributionTripsApi);
   const { items: purchaseOrders, loading: loadingOrders, reload: reloadOrders } = useCollection(purchaseOrdersApi);
   const { items: expenses, loading: loadingExpenses, reload: reloadExpenses } = useCollection(expensesApi);
   const { settings, fmtMoney, fmtWeight } = useSettings();
@@ -72,7 +77,6 @@ export default function Dashboard() {
       reloadSuppliers();
       reloadSlaughterhouses();
       reloadInvoices();
-      reloadTrips();
       reloadOrders();
       reloadExpenses();
       accountsSummaryApi.get().then(setSummary);
@@ -83,33 +87,37 @@ export default function Dashboard() {
       clearInterval(interval);
       window.removeEventListener("focus", reloadAll);
     };
-  }, [reloadSuppliers, reloadSlaughterhouses, reloadInvoices, reloadTrips, reloadOrders, reloadExpenses]);
+  }, [reloadSuppliers, reloadSlaughterhouses, reloadInvoices, reloadOrders, reloadExpenses]);
 
-  const loading = loadingSuppliers || loadingSlaughterhouses || loadingInvoices || loadingTrips || loadingOrders || loadingExpenses;
+  const loading = loadingSuppliers || loadingSlaughterhouses || loadingInvoices || loadingOrders || loadingExpenses;
 
   const today = daysAgoString(0);
-  const yesterday = daysAgoString(1);
+  const weekStart = daysAgoString(6);
+  const previousWeekStart = daysAgoString(13);
+  const previousWeekEnd = daysAgoString(7);
 
-  const purchasesToday = purchaseCostForOrders(purchaseOrders, today, today);
-  const purchasesYesterday = purchaseCostForOrders(purchaseOrders, yesterday, yesterday);
-  const purchasesTrend = trendPercent(purchasesToday, purchasesYesterday);
+  const purchasesThisWeek = purchaseCostForOrders(purchaseOrders, weekStart, today);
+  const purchasesPreviousWeek = purchaseCostForOrders(purchaseOrders, previousWeekStart, previousWeekEnd);
+  const purchasesTrend = trendPercent(purchasesThisWeek, purchasesPreviousWeek);
 
-  const salesToday = invoices.filter((i) => i.date === today).reduce((sum, i) => sum + (i.total || 0), 0);
-  const salesYesterday = invoices.filter((i) => i.date === yesterday).reduce((sum, i) => sum + (i.total || 0), 0);
-  const salesTrend = trendPercent(salesToday, salesYesterday);
+  const salesThisWeek = invoices
+    .filter((i) => i.date >= weekStart && i.date <= today)
+    .reduce((sum, i) => sum + (i.total || 0), 0);
+  const salesPreviousWeek = invoices
+    .filter((i) => i.date >= previousWeekStart && i.date <= previousWeekEnd)
+    .reduce((sum, i) => sum + (i.total || 0), 0);
+  const salesTrend = trendPercent(salesThisWeek, salesPreviousWeek);
 
   const supplierDebt = summary.suppliers.reduce((sum, s) => sum + (s.remaining || 0), 0);
   const suppliersWithDebt = summary.suppliers.filter((s) => s.remaining > 0);
 
-  const tripsToday = trips.filter((t) => t.date === today);
-  const tripsInProgress = tripsToday.filter((t) => t.status === "جارية").length;
 
   const uncollectedInvoices = invoices.filter((i) => (i.total || 0) - (i.paid || 0) > 0);
 
   const chartData = buildWeeklyChart(invoices, purchaseOrders);
 
-  const recentPurchases = [...purchaseOrders].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 6);
-  const recentSales = [...invoices].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 6);
+  const recentPurchases = [...purchaseOrders].sort(sortByNewestCreated).slice(0, 5);
+  const recentSales = [...invoices].sort(sortByNewestCreated).slice(0, 5);
 
   return (
     <div>
@@ -127,15 +135,15 @@ export default function Dashboard() {
 
       {!loading && (
         <>
-          <div className="page-grid page-grid-4">
+          <div className="page-grid page-grid-3">
             <div className="stat-card stat-card-layout">
               <div>
-                <p className="stat-card-label">مشتريات اليوم</p>
-                <p className="stat-card-value">{fmtMoney(purchasesToday)}</p>
+                <p className="stat-card-label">مشتريات الأسبوع</p>
+                <p className="stat-card-value">{fmtMoney(purchasesThisWeek)}</p>
                 {purchasesTrend !== null && (
                   <p className={`kpi-trend ${purchasesTrend >= 0 ? "kpi-trend-up" : "kpi-trend-down"}`}>
                     {purchasesTrend >= 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                    {Math.abs(purchasesTrend)}% عن أمس
+                    {Math.abs(purchasesTrend)}% عن الأسبوع الماضي
                   </p>
                 )}
               </div>
@@ -145,12 +153,12 @@ export default function Dashboard() {
             </div>
             <div className="stat-card stat-card-layout">
               <div>
-                <p className="stat-card-label">مبيعات اليوم</p>
-                <p className="stat-card-value">{fmtMoney(salesToday)}</p>
+                <p className="stat-card-label">مبيعات الأسبوع</p>
+                <p className="stat-card-value">{fmtMoney(salesThisWeek)}</p>
                 {salesTrend !== null && (
                   <p className={`kpi-trend ${salesTrend >= 0 ? "kpi-trend-up" : "kpi-trend-down"}`}>
                     {salesTrend >= 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                    {Math.abs(salesTrend)}% عن أمس
+                    {Math.abs(salesTrend)}% عن الأسبوع الماضي
                   </p>
                 )}
               </div>
@@ -166,18 +174,6 @@ export default function Dashboard() {
               </div>
               <div className="stat-card-icon">
                 <WalletIcon />
-              </div>
-            </div>
-            <div className="stat-card stat-card-layout">
-              <div>
-                <p className="stat-card-label">رحلات توزيع اليوم</p>
-                <p className="stat-card-value">{tripsToday.length}</p>
-                <p className="kpi-trend kpi-trend-up">
-                  <TrendUpIcon /> {tripsInProgress} قيد التنفيذ
-                </p>
-              </div>
-              <div className="stat-card-icon">
-                <TruckIcon />
               </div>
             </div>
           </div>
@@ -235,16 +231,6 @@ export default function Dashboard() {
                   <span className="badge badge-yellow">
                     <i className="badge-dot" />
                     متابعة
-                  </span>
-                </div>
-                <div className="dashboard-alert-row">
-                  <div>
-                    <b>رحلات مجدولة اليوم</b>
-                    <span>{tripsToday.length} رحلة</span>
-                  </div>
-                  <span className="badge badge-green">
-                    <i className="badge-dot" />
-                    جاهز
                   </span>
                 </div>
               </div>

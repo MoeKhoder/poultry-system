@@ -156,11 +156,7 @@ export default function DailyPricing() {
       <PageHeader
         title="سجل عمليات الشراء والبيع"
         subtitle="كل عملية شراء أو بيع فعلية، بسعرها وطرفها والإجمالي"
-        actions={
-          <button className="btn-outline" onClick={() => setShowAdd(true)}>
-            تحديث السعر المرجعي لليوم
-          </button>
-        }
+        
       />
 
       {loading && <p className="state-message">جارٍ التحميل...</p>}
@@ -193,11 +189,7 @@ export default function DailyPricing() {
         </Card>
       )}
 
-      {showAdd && (
-        <Modal title="تحديث السعر المرجعي لليوم" subtitle="يُستخدم كسعر افتراضي عند تسجيل عمليات جديدة" onClose={() => setShowAdd(false)}>
-          <AddPriceForm onClose={() => setShowAdd(false)} onCreate={create} />
-        </Modal>
-      )}
+     
     </div>
   );
 }

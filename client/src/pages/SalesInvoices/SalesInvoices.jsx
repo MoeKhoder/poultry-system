@@ -79,6 +79,7 @@ function AddInvoiceView({ slaughterhouses, kgPrice, settings, fmtMoney, onCreate
       await onCreate({
         slaughterhouse,
         date,
+        weights: cages,
         weightKg: netWeight,
         cages: cageCount,
         cageWeight: Number(emptyCageWeight) || 0,

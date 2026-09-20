@@ -11,9 +11,6 @@ import SlaughterhouseDetail from "../pages/SlaughterhouseDetail/SlaughterhouseDe
 import DailyPricing from "../pages/DailyPricing/DailyPricing";
 import PriceDetail from "../pages/PriceDetail/PriceDetail";
 import SalesInvoices from "../pages/SalesInvoices/SalesInvoices";
-import DistributionTrips from "../pages/DistributionTrips/DistributionTrips";
-import TripDetail from "../pages/TripDetail/TripDetail";
-import FleetManagement from "../pages/FleetManagement/FleetManagement";
 import Expenses from "../pages/Expenses/Expenses";
 import Accounts from "../pages/Accounts/Accounts";
 import Reports from "../pages/Reports/Reports";
@@ -53,9 +50,8 @@ function RoutesInner() {
         <Route path="/pricing" element={<DailyPricing />} />
         <Route path="/pricing/:id" element={<PriceDetail />} />
         <Route path="/invoices" element={<SalesInvoices />} />
-        <Route path="/trips" element={<DistributionTrips />} />
-        <Route path="/trips/:id" element={<TripDetail />} />
-        <Route path="/fleet" element={<FleetManagement />} />
+        <Route path="/trips/*" element={<Navigate to="/" replace />} />
+        <Route path="/fleet" element={<Navigate to="/" replace />} />
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/reports" element={<Reports />} />

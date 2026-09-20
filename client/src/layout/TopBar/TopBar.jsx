@@ -6,9 +6,6 @@ import {
   slaughterhousesApi,
   purchaseOrdersApi,
   salesInvoicesApi,
-  distributionTripsApi,
-  vehiclesApi,
-  driversApi,
   dailyPricingApi,
   expensesApi,
 } from "../../api/resources";
@@ -21,13 +18,10 @@ const ROUTE_LABELS = [
   { pattern: /^\/suppliers\/[^/]+$/, title: "كشف حساب المورد", parent: "الموردين" },
   { pattern: /^\/slaughterhouses$/, title: "المسالخ", parent: "الصفحة الرئيسية" },
   { pattern: /^\/slaughterhouses\/[^/]+$/, title: "كشف حساب المسلخ", parent: "المسالخ" },
-  { pattern: /^\/pricing$/, title: "إدارة الأسعار اليومية", parent: "الصفحة الرئيسية" },
-  { pattern: /^\/pricing\/[^/]+$/, title: "تفاصيل اليوم", parent: "إدارة الأسعار اليومية" },
+  { pattern: /^\/pricing$/, title: "سجل عمليات الشراء والبيع", parent: "الصفحة الرئيسية" },
+  { pattern: /^\/pricing\/[^/]+$/, title: "تفاصيل اليوم", parent: "سجل عمليات الشراء والبيع" },
   { pattern: /^\/invoices$/, title: "فواتير البيع", parent: "الصفحة الرئيسية" },
-  { pattern: /^\/trips$/, title: "رحلات التوزيع", parent: "الصفحة الرئيسية" },
-  { pattern: /^\/trips\/[^/]+$/, title: "تعديل بيانات الرحلة", parent: "رحلات التوزيع" },
   { pattern: /^\/expenses$/, title: "المصاريف", parent: "الصفحة الرئيسية" },
-  { pattern: /^\/fleet$/, title: "السيارات والسائقين", parent: "الصفحة الرئيسية" },
   { pattern: /^\/accounts$/, title: "الحسابات", parent: "الصفحة الرئيسية" },
   { pattern: /^\/reports$/, title: "التقارير", parent: "الصفحة الرئيسية" },
   { pattern: /^\/settings$/, title: "الإعدادات", parent: "الصفحة الرئيسية" },
@@ -39,7 +33,7 @@ function breadcrumbFor(pathname) {
   return match;
 }
 
-const EMPTY = { suppliers: [], slaughterhouses: [], purchaseOrders: [], salesInvoices: [], trips: [], vehicles: [], drivers: [], dailyPrices: [], expenses: [] };
+const EMPTY = { suppliers: [], slaughterhouses: [], purchaseOrders: [], salesInvoices: [], dailyPrices: [], expenses: [] };
 
 export default function TopBar() {
   const location = useLocation();
@@ -56,14 +50,11 @@ export default function TopBar() {
       slaughterhousesApi.list(),
       purchaseOrdersApi.list(),
       salesInvoicesApi.list(),
-      distributionTripsApi.list(),
-      vehiclesApi.list(),
-      driversApi.list(),
       dailyPricingApi.list(),
       expensesApi.list(),
     ])
-      .then(([suppliers, slaughterhouses, purchaseOrders, salesInvoices, trips, vehicles, drivers, dailyPrices, expenses]) => {
-        setData({ suppliers, slaughterhouses, purchaseOrders, salesInvoices, trips, vehicles, drivers, dailyPrices, expenses });
+      .then(([suppliers, slaughterhouses, purchaseOrders, salesInvoices, dailyPrices, expenses]) => {
+        setData({ suppliers, slaughterhouses, purchaseOrders, salesInvoices, dailyPrices, expenses });
       })
       .catch(() => {});
   }
@@ -115,24 +106,6 @@ export default function TopBar() {
           items: data.salesInvoices.filter((i) => i.invoiceNumber?.includes(q) || i.slaughterhouse?.includes(q)).slice(0, 3),
           label: (i) => `${i.invoiceNumber} — ${i.slaughterhouse}`,
           onSelect: (i) => goTo("/invoices", { viewInvoiceId: i.id }),
-        },
-        {
-          icon: "🚛",
-          items: data.trips.filter((t) => t.tripNumber?.includes(q) || t.driver?.includes(q) || t.supplier?.includes(q)).slice(0, 3),
-          label: (t) => `${t.tripNumber} — ${t.supplier} ← ${t.slaughterhouse}`,
-          onSelect: (t) => goTo(`/trips/${t.id}`),
-        },
-        {
-          icon: "🚙",
-          items: data.vehicles.filter((v) => v.plateNumber?.includes(q) || v.model?.includes(q)).slice(0, 3),
-          label: (v) => `${v.plateNumber} — ${v.model}`,
-          onSelect: () => goTo("/fleet", { tab: "السيارات" }),
-        },
-        {
-          icon: "👤",
-          items: data.drivers.filter((d) => d.name?.includes(q)).slice(0, 3),
-          label: (d) => d.name,
-          onSelect: () => goTo("/fleet", { tab: "السائقون" }),
         },
         {
           icon: "💲",

@@ -7,6 +7,9 @@ import ActionLink from "../../components/ActionLink/ActionLink";
 import Modal from "../../components/Modal/Modal";
 import Tabs from "../../components/Tabs/Tabs";
 import { printReport, printAccountStatement } from "../../utils/printDocument";
+import { formatLedgerBalance, paymentMovementLabel } from "../../utils/accountMovements";
+import { loanRemaining, partyOpenLoans } from "../../utils/loanBalances";
+import "../../components/LoansRecordsCard/LoansRecordsCard.css";
 import { accountsSummaryApi, paymentsApi, purchaseOrdersApi, salesInvoicesApi, loansApi } from "../../api/resources";
 import { useSettings } from "../../context/SettingsContext";
 import "./Accounts.css";
@@ -29,8 +32,21 @@ function PaymentForm({ row, currency, fmtMoney, onClose, onSubmit }) {
   const [method, setMethod] = useState("نقدي");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [note, setNote] = useState("");
+  const [loanId, setLoanId] = useState("");
+  const [openLoans, setOpenLoans] = useState([]);
+  const [allPayments, setAllPayments] = useState([]);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    Promise.all([loansApi.list(), paymentsApi.list()]).then(([loans, payments]) => {
+      setAllPayments(payments);
+      setOpenLoans(partyOpenLoans(loans, payments, row.partyType, row.id));
+    });
+  }, [row.id, row.partyType]);
+
+  const selectedLoan = openLoans.find((l) => l.id === loanId);
+  const selectedLoanRemaining = selectedLoan ? loanRemaining(selectedLoan, allPayments) : null;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -39,10 +55,14 @@ function PaymentForm({ row, currency, fmtMoney, onClose, onSubmit }) {
       setError("أدخل مبلغاً صحيحاً");
       return;
     }
+    if (loanId && selectedLoanRemaining != null && value > selectedLoanRemaining) {
+      setError("المبلغ يتجاوز المتبقي على الدين المختار");
+      return;
+    }
     setSaving(true);
     setError("");
     try {
-      await onSubmit({ amount: value, method, date, note: note || null });
+      await onSubmit({ amount: value, method, date, note: note || null, ...(loanId ? { loanId } : {}) });
       onClose();
     } catch {
       setError("تعذر تسجيل الدفعة");
@@ -60,9 +80,33 @@ function PaymentForm({ row, currency, fmtMoney, onClose, onSubmit }) {
         <label>المبلغ المتبقي الحالي ({currency})</label>
         <input value={fmtMoney(row.remaining)} disabled />
       </div>
+      {openLoans.length > 0 && (
+        <div className="modal-field">
+          <label>ربط الدفعة بدين (اختياري)</label>
+          <select value={loanId} onChange={(e) => setLoanId(e.target.value)}>
+            <option value="">دفعة على إجمالي الحساب</option>
+            {openLoans.map((loan) => (
+              <option key={loan.id} value={loan.id}>
+                {loan.date} — متبقي {fmtMoney(loanRemaining(loan, allPayments))}
+                {loan.note ? ` (${loan.note})` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+      {selectedLoan && (
+        <p className="loan-settle-hint">
+          تسديد مرتبط بهذا الدين. المتبقي: {fmtMoney(selectedLoanRemaining)} {currency}
+        </p>
+      )}
       <div className="modal-field">
         <label>مبلغ الدفعة ({currency})</label>
-        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+        <div className="package-add-row">
+          <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+          <button type="button" className="btn-outline" onClick={() => setAmount(String(loanId ? selectedLoanRemaining : row.remaining))}>
+            {loanId ? "سداد المتبقي" : "سداد كامل"}
+          </button>
+        </div>
       </div>
       <div className="modal-field">
         <label>طريقة الدفع</label>
@@ -159,7 +203,7 @@ function DeductionForm({ row, currency, fmtMoney, onClose, onSubmit }) {
   );
 }
 
-function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onPay }) {
+function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, fmtWeight, onClose, onPay }) {
   const [entries, setEntries] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -174,6 +218,9 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
           label: isSuppliers ? `فاتورة شراء ${r.code}` : `فاتورة بيع ${r.invoiceNumber}`,
           debit: r.total,
           credit: 0,
+          invoiceDebit: r.total,
+          loanDebit: 0,
+          weightKg: r.weightKg,
           createdAt: r.createdAt,
         }));
       const loanDebits = allLoans
@@ -183,6 +230,9 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
           label: l.note ? `دين — ${l.note}` : "دين",
           debit: l.amount,
           credit: 0,
+          invoiceDebit: 0,
+          loanDebit: l.amount,
+          weightKg: null,
           createdAt: l.createdAt,
         }));
       const paidAtPurchase = isSuppliers
@@ -193,6 +243,9 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
               label: `دفعة عند الشراء — ${r.code}`,
               debit: 0,
               credit: r.paid,
+              invoiceDebit: 0,
+              loanDebit: 0,
+              weightKg: null,
               createdAt: r.createdAt,
             }))
         : debitRecords
@@ -202,15 +255,22 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
               label: `دفعة عند البيع — ${r.invoiceNumber}`,
               debit: 0,
               credit: r.paid,
+              invoiceDebit: 0,
+              loanDebit: 0,
+              weightKg: null,
               createdAt: r.createdAt,
             }));
+      const partyLoans = allLoans.filter((l) => l.partyType === (isSuppliers ? "supplier" : "slaughterhouse") && l.partyId === row.id);
       const credits = allPayments
         .filter((p) => p.partyType === (isSuppliers ? "supplier" : "slaughterhouse") && p.partyId === row.id)
         .map((p) => ({
           date: p.date,
-          label: p.note ? `دفعة نقدية — ${p.note}` : "دفعة نقدية",
+          label: paymentMovementLabel(p, partyLoans.find((l) => l.id === p.loanId)),
           debit: 0,
           credit: p.amount,
+          invoiceDebit: 0,
+          loanDebit: 0,
+          weightKg: null,
           createdAt: p.createdAt,
         }));
       const chronological = [...debits, ...loanDebits, ...paidAtPurchase, ...credits].sort((a, b) => {
@@ -247,8 +307,12 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
             <p className="ledger-stat-value">{fmtMoney(row.paid)}</p>
           </div>
           <div className="ledger-stat ledger-stat-gray">
-            <p className="ledger-stat-label">{isSuppliers ? "إجمالي المشتريات" : "إجمالي المبيعات"}</p>
-            <p className="ledger-stat-value">{fmtMoney(row.total)}</p>
+            <p className="ledger-stat-label">الفواتير والعمليات</p>
+            <p className="ledger-stat-value">{fmtMoney(row.invoicesTotal)}</p>
+          </div>
+          <div className="ledger-stat ledger-stat-gray">
+            <p className="ledger-stat-label">الدين المتبقي</p>
+            <p className="ledger-stat-value">{fmtMoney(row.loansOutstanding ?? row.loansTotal)}</p>
           </div>
         </div>
 
@@ -272,9 +336,11 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
                 <tr>
                   <th>التاريخ</th>
                   <th>البيان</th>
-                  <th>مدين</th>
-                  <th>دائن</th>
-                  <th>الرصيد</th>
+                  <th>الوزن الصافي</th>
+                  <th>الفواتير والعمليات</th>
+                  <th>الدين المضاف</th>
+                  <th>المبالغ المدفوعة</th>
+                  <th>المتبقي</th>
                 </tr>
               </thead>
               <tbody>
@@ -282,10 +348,12 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
                   <tr key={idx}>
                     <td className="ledger-td-muted">{entry.date}</td>
                     <td>{entry.label}</td>
-                    <td className="ledger-td-debit">{entry.debit ? fmtMoney(entry.debit) : "—"}</td>
+                    <td dir="ltr">{entry.weightKg != null ? fmtWeight(entry.weightKg) : "—"}</td>
+                    <td className="ledger-td-debit">{entry.invoiceDebit ? fmtMoney(entry.invoiceDebit) : "—"}</td>
+                    <td className="ledger-td-debit">{entry.loanDebit ? fmtMoney(entry.loanDebit) : "—"}</td>
                     <td className="ledger-td-credit">{entry.credit ? fmtMoney(entry.credit) : "—"}</td>
                     <td className={entry.balance >= 0 ? "ledger-td-debit" : "ledger-td-credit"}>
-                      {fmtMoney(Math.abs(entry.balance))} ({entry.balance >= 0 ? "مدين" : "دائن"})
+                      {formatLedgerBalance(entry.balance, fmtMoney)}
                     </td>
                   </tr>
                 ))}
@@ -301,7 +369,7 @@ function AccountLedgerModal({ row, isSuppliers, settings, fmtMoney, onClose, onP
           <button
             type="button"
             className="btn-outline"
-            onClick={() => printAccountStatement({ settings, row, isSuppliers, entries: entries || [], fmtMoney })}
+            onClick={() => printAccountStatement({ settings, row, isSuppliers, entries: entries || [], fmtMoney, fmtWeight })}
           >
             🖨 طباعة
           </button>
@@ -319,7 +387,7 @@ export default function Accounts() {
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const { settings, fmtMoney } = useSettings();
+  const { settings, fmtMoney, fmtWeight } = useSettings();
   const [payingRow, setPayingRow] = useState(null);
   const [deductingRow, setDeductingRow] = useState(null);
   const [viewingRow, setViewingRow] = useState(null);
@@ -352,6 +420,9 @@ export default function Accounts() {
     partyType: isSuppliers ? "supplier" : "slaughterhouse",
     name: item.name,
     total: isSuppliers ? item.totalPurchases : item.totalSales,
+    invoicesTotal: item.invoicesTotal || 0,
+    loansTotal: item.loansTotal || 0,
+    loansOutstanding: item.loansOutstanding ?? item.loansTotal ?? 0,
     paid: item.paid,
     remaining: item.remaining,
   }));
@@ -369,12 +440,12 @@ export default function Accounts() {
       settings,
       title: isSuppliers ? "كشف حسابات الموردين" : "كشف حسابات المسالخ",
       subtitle: `${rows.length} سجل`,
-      columns: [nameLabel, totalLabel, "المدفوع", "المتبقي", "الحالة"],
-      rows: rows.map((r) => [r.name, fmtMoney(r.total), fmtMoney(r.paid), r.remaining > 0 ? fmtMoney(r.remaining) : "—", statusFor(r.paid, r.remaining)]),
+      columns: [nameLabel, "الفواتير والعمليات", "الدين المتبقي", "الإجمالي المستحق", "المدفوع", "المتبقي", "الحالة"],
+      rows: rows.map((r) => [r.name, fmtMoney(r.invoicesTotal), fmtMoney(r.loansOutstanding), fmtMoney(r.total), fmtMoney(r.paid), r.remaining > 0 ? fmtMoney(r.remaining) : "—", statusFor(r.paid, r.remaining)]),
     });
   }
 
-  async function handlePayment({ amount, method, date, note }) {
+  async function handlePayment({ amount, method, date, note, loanId }) {
     await paymentsApi.create({
       partyType: payingRow.partyType,
       partyId: payingRow.id,
@@ -383,6 +454,7 @@ export default function Accounts() {
       method,
       date,
       note,
+      ...(loanId ? { loanId } : {}),
     });
     reload();
     setViewingRow(null);
@@ -468,6 +540,7 @@ export default function Accounts() {
           isSuppliers={isSuppliers}
           settings={settings}
           fmtMoney={fmtMoney}
+          fmtWeight={fmtWeight}
           onClose={() => setViewingRow(null)}
           onPay={() => setPayingRow(viewingRow)}
         />

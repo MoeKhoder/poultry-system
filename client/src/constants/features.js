@@ -1,9 +1,8 @@
 export const FEATURES = [
   { key: "suppliers", label: "الموردين" },
   { key: "slaughterhouses", label: "المسالخ" },
-  { key: "dailyPricing", label: "إدارة الأسعار اليومية" },
+  { key: "dailyPricing", label: "سجل عمليات الشراء والبيع" },
   { key: "salesInvoices", label: "فواتير البيع" },
-  { key: "distributionTrips", label: "رحلات التوزيع" },
   { key: "expenses", label: "المصاريف" },
   { key: "accounts", label: "الحسابات" },
   { key: "reports", label: "التقارير" },
