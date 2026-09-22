@@ -2,6 +2,18 @@
   {
     "username": "admin",
     "role": "IT",
+    "action": "login",
+    "module": "auth",
+    "recordId": "c945db47-132f-4951-b36c-8c8eaeeb0dfc",
+    "oldValue": null,
+    "newValue": null,
+    "result": "success",
+    "ip": "::1",
+    "timestamp": "2026-09-22T12:05:07.863Z"
+  },
+  {
+    "username": "admin",
+    "role": "IT",
     "action": "create",
     "module": "loans",
     "recordId": "098dae6a-abb1-48cd-b075-fd181c51c8d8",
