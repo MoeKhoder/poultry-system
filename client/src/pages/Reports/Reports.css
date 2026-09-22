@@ -224,6 +224,18 @@
   outline: none;
 }
 
+.reports-week-dates {
+  justify-content: flex-start;
+}
+
+.reports-week-date-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-ink-500);
+}
+
 .reports-week-stats {
   margin-bottom: 16px;
 }

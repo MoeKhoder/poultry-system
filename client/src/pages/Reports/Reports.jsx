@@ -36,6 +36,22 @@ function daysAgoString(n) {
   return d.toISOString().slice(0, 10);
 }
 
+function addDaysString(dateStr, n) {
+  const d = new Date(`${dateStr}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+
+function dateRange(fromStr, toStr) {
+  const days = [];
+  let cursor = fromStr;
+  while (cursor <= toStr) {
+    days.push(cursor);
+    cursor = addDaysString(cursor, 1);
+  }
+  return days;
+}
+
 function weekdayName(dateStr) {
   const d = new Date(`${dateStr}T00:00:00Z`);
   return WEEKDAY_NAMES[d.getUTCDay()];
@@ -219,9 +235,23 @@ function DailyReport({ invoices, expenses, orders, payments, loans, today, setti
 }
 
 function WeeklyReport({ invoices, expenses, orders, payments, loans, settings, fmtMoney, fmtWeight, exportRef }) {
-  const weeks = useMemo(buildWeeks, []);
-  const [selectedWeek, setSelectedWeek] = useState(0);
-  const week = weeks[selectedWeek];
+  const [startDate, setStartDate] = useState(() => daysAgoString(6));
+  const [endDate, setEndDate] = useState(() => todayString());
+
+  function handleStartChange(value) {
+    setStartDate(value);
+    setEndDate(addDaysString(value, 6));
+  }
+
+  function handleEndChange(value) {
+    setEndDate(value);
+    setStartDate(addDaysString(value, -6));
+  }
+
+  const week = useMemo(
+    () => ({ label: `من ${startDate} إلى ${endDate}`, days: dateRange(startDate, endDate) }),
+    [startDate, endDate]
+  );
 
   const rows = week.days.map((date) => {
     const dayOrders = orders.filter((o) => o.date === date);
@@ -294,14 +324,15 @@ function WeeklyReport({ invoices, expenses, orders, payments, loans, settings, f
 
   return (
     <div>
-      <div className="reports-week-toolbar">
-        <select value={selectedWeek} onChange={(e) => setSelectedWeek(Number(e.target.value))} className="reports-week-select">
-          {weeks.map((w) => (
-            <option key={w.key} value={w.key}>
-              {w.label}
-            </option>
-          ))}
-        </select>
+      <div className="reports-week-toolbar reports-week-dates">
+        <label className="reports-week-date-field">
+          <span>من</span>
+          <input type="date" value={startDate} max={endDate} onChange={(e) => handleStartChange(e.target.value)} className="reports-week-select" />
+        </label>
+        <label className="reports-week-date-field">
+          <span>إلى</span>
+          <input type="date" value={endDate} min={startDate} onChange={(e) => handleEndChange(e.target.value)} className="reports-week-select" />
+        </label>
       </div>
 
       <div className="page-grid page-grid-3 reports-week-stats">
@@ -405,22 +436,14 @@ function ProfitLossReport({ invoices, expenses, orders, settings, fmtMoney, expo
       return { week: `الأسبوع ${idx + 1}`, profit: sales - purchases };
     });
 
-  if (!selectedMonth) {
-    return (
-      <Card>
-        <p className="state-message">لا توجد بيانات كافية لعرض تقرير الأرباح والخسائر</p>
-      </Card>
-    );
-  }
-
-  const monthInvoices = invoices.filter((i) => i.date.startsWith(selectedMonth));
-  const monthExpenses = expenses.filter((e) => e.date.startsWith(selectedMonth));
+  const monthInvoices = selectedMonth ? invoices.filter((i) => i.date.startsWith(selectedMonth)) : [];
+  const monthExpenses = selectedMonth ? expenses.filter((e) => e.date.startsWith(selectedMonth)) : [];
 
   const poultrySales = monthInvoices.reduce((sum, i) => sum + (i.total || 0), 0);
   const totalRevenue = poultrySales;
 
   const monthEndDate = `${selectedMonth}-31`;
-  const purchaseCost = purchaseCostForOrders(orders, `${selectedMonth}-01`, monthEndDate);
+  const purchaseCost = selectedMonth ? purchaseCostForOrders(orders, `${selectedMonth}-01`, monthEndDate) : 0;
   const otherExpenses = monthExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
   const totalExpenses = purchaseCost + otherExpenses;
 
@@ -428,6 +451,7 @@ function ProfitLossReport({ invoices, expenses, orders, settings, fmtMoney, expo
   const margin = totalRevenue > 0 ? ((netProfit / totalRevenue) * 100).toFixed(1) : "0.0";
 
   function handleExport() {
+    if (!selectedMonth) return;
     printReport({
       settings,
       title: `تقرير الأرباح والخسائر — ${monthLabel(selectedMonth)}`,
@@ -446,6 +470,14 @@ function ProfitLossReport({ invoices, expenses, orders, settings, fmtMoney, expo
   useEffect(() => {
     if (exportRef) exportRef.current = handleExport;
   });
+
+  if (!selectedMonth) {
+    return (
+      <Card>
+        <p className="state-message">لا توجد بيانات كافية لعرض تقرير الأرباح والخسائر</p>
+      </Card>
+    );
+  }
 
   return (
     <div>
